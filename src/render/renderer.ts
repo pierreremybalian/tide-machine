@@ -192,7 +192,7 @@ export async function createEngine(opts: EngineOptions): Promise<Engine | null> 
         // One still per stage at local = 0.5, held; transitions are plain crossfades.
         for (const e of [incoming, outgoing]) {
           if (!e?.scene) continue;
-          const key = `${e.id}:${e.target.width}x${e.target.height}`;
+          const key = `${e.id}:${e.target.width}x${e.target.height}:${e.scene.revision?.() ?? 0}`;
           if (e.heldKey === key) continue;
           globals.update(0.5, 0);
           e.scene.update(0.5, 0, 0);

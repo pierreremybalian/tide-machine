@@ -29,6 +29,11 @@ export interface BlockScene {
   dispose(): void;
   /** HTML labels anchored to 3D points; positions are refreshed in update(). */
   labels?: LabelSet;
+  /**
+   * Interactive scenes: a number that changes whenever the picture must be redrawn without scrolling. With reduced
+   * motion the engine otherwise holds one still frame per scene.
+   */
+  revision?(): number;
 }
 
 export type SceneFactory = () => BlockScene;

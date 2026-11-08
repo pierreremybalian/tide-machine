@@ -59,6 +59,8 @@ export interface CoastOptions {
   backdrop?: boolean;
   /** Same, by latitude/longitude and radius (km), gain 8. */
   focusLatLng?: { lat: number; lng: number; radius: number; gain?: number };
+  /** Overrides for the derived-field bake (the finale turns off the SF-specific salt-pond and levee detection). */
+  bake?: Partial<Omit<BakeOptions, 'bands'>>;
 }
 
 export interface Coast {
@@ -220,7 +222,7 @@ function buildGrid(src: CoastSource, ext: ReturnType<typeof worldExtent>, cells:
 export async function createCoast(ctx: RenderContext, opts: CoastOptions): Promise<Coast> {
   const src = opts.source ?? (await loadCoastSource(ctx.assets, opts.region ?? 'sf'));
   const waves = { ...DEFAULT_WAVES, ...opts.waves };
-  const bakeOpts = bakeOptionsFor(waves);
+  const bakeOpts = { ...bakeOptionsFor(waves), ...opts.bake };
   const bake = await bakeSource(src, bakeOpts);
   const hf = src.hf;
   const proj = projection(hf.bbox);
