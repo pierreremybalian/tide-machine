@@ -111,7 +111,7 @@ export function createCoastUniforms() {
     /** Wave clock (s), wrapped by the caller. */
     time: uniform(0),
     /** Significant wave height of each band before shoaling (m): swell, wind sea, chop. */
-    bandHeight: uniform(new Vector3(1.6, 0.45, 0.22)),
+    bandHeight: uniform(new Vector3(2.0, 0.45, 0.22)),
     /** Overall wave strength (0 = mirror calm). */
     waveStrength: uniform(1),
     /** 1 = terrain casts sun shadows. */
@@ -130,7 +130,7 @@ export function createCoastUniforms() {
     vignette: uniform(0.95),
     /** Sky ambient multiplier (water), and the land's sky fill (a dusk sky is dim; the land needs some fill). */
     ambient: uniform(1),
-    ambientLand: uniform(new Vector3(0.1, 0.12, 0.16)),
+    ambientLand: uniform(new Vector3(0.15, 0.18, 0.24)),
     /** Land albedo multiplier. */
     landGain: uniform(1),
     /** Debug view: 0 off, 1 wave travel times, 2 wave amplitude factors, 3 wet / depth / bathymetry. */
@@ -245,11 +245,11 @@ export function createCoastMaterial(inp: CoastMaterialInputs, u: CoastUniforms):
       // Bay Area ecology, restrained (no imagery): north-facing slopes hold oak woodland and chaparral (darker,
       // greener); south- and west-facing slopes are grassland, green in winter; valleys hold denser trees.
       const northness = clamp(gm.y.div(max(slope, 1e-3)), -1, 1).mul(smoothstep(0.03, 0.15, slope));
-      const grass = col(0.072, 0.082, 0.046);
-      const wood = col(0.03, 0.045, 0.028);
+      const grass = col(0.078, 0.088, 0.044);
+      const wood = col(0.03, 0.046, 0.027);
       // Plains and towns: a neutral grey with a fine grain (blocks, parks), so cities do not read as haze.
       const grain = mx_noise_float(vec3(pm.mul(1 / 95), 4.2)).mul(0.5).add(mx_noise_float(vec3(pm.mul(1 / 31), 8.4)).mul(0.3));
-      const lowland = col(0.052, 0.053, 0.05).mul(grain.mul(0.35).add(1));
+      const lowland = col(0.06, 0.056, 0.047).mul(grain.mul(0.35).add(1));
       const marsh = col(0.04, 0.048, 0.032); // tidal marsh and diked baylands
       const rock = col(0.1, 0.094, 0.083);
       // Patchy tree cover: clumps on shaded slopes and in hollows (AO), at 100–400 m scales.
@@ -271,7 +271,7 @@ export function createCoastMaterial(inp: CoastMaterialInputs, u: CoastUniforms):
       alb.assign(mix(alb, mud, inter));
       // Surf beaches (exposed to the ocean swell): sand from the low-tide line to the dunes.
       const surfExposure = texture(inp.amp as Texture, uvOf(we, xz)).x;
-      const beach = smoothstep(0.15, 0.6, surfExposure).mul(float(1).sub(smoothstep(3.0, 7.0, above))).mul(tidal);
+      const beach = smoothstep(0.15, 0.6, surfExposure.mul(u.bandHeight.x).div(1.2)).mul(float(1).sub(smoothstep(3.0, 7.0, above))).mul(tidal);
       alb.assign(mix(alb, col(0.2, 0.18, 0.145), beach));
       alb.mulAssign(n1.mul(0.25).add(1));
       alb.mulAssign(u.landGain);
@@ -295,7 +295,8 @@ export function createCoastMaterial(inp: CoastMaterialInputs, u: CoastUniforms):
       // Lighting: wrapped Lambert sun (soft terminator) in shadow-aware form, cool sky fill by AO, warm bounce.
       const wrapL = clamp(dot(N, S).add(0.15).div(1.15), 0, 1);
       const sunL = sunCol.mul(wrapL.mul(wrapL.mul(0.35).add(0.65))).mul(sunUp).mul(shadow.mul(0.92).add(0.08)).mul(ao.mul(0.3).add(0.7));
-      const skyL = ambLand.mul(N.y.mul(0.6).add(0.4)).mul(ao);
+      // Sky light is what valleys lose: AO weighs it more than the sun (multi-scale relief, no blur).
+      const skyL = ambLand.mul(N.y.mul(0.6).add(0.4)).mul(ao.mul(ao));
       const bounce = sunCol.mul(0.03).mul(float(1).sub(N.y)).mul(ao);
       const c = alb.mul(sunL.add(skyL).add(bounce)).toVar();
 
@@ -307,7 +308,8 @@ export function createCoastMaterial(inp: CoastMaterialInputs, u: CoastUniforms):
         const puddle = smoothstep(0.1, 0.5, wn).mul(recent);
         const Nw = normalize(mix(N, vec3(0, 1, 0), puddle.mul(0.8).add(0.2)));
         const NdV = max(dot(Nw, V), 1e-3);
-        const F = fresnel(NdV).mul(recent.mul(0.7).add(puddle.mul(0.3)));
+        // Wet mud is a rough, dark glaze; only puddles and rills mirror the sky.
+        const F = fresnel(NdV).mul(recent).mul(mix(float(0.2), float(0.9), puddle));
         const R = reflect(V.negate(), Nw);
         const Hh = normalize(V.add(S));
         const alpha = mix(float(0.22), float(0.05), puddle);
@@ -455,7 +457,9 @@ export function createCoastMaterial(inp: CoastMaterialInputs, u: CoastUniforms):
       const Fs = fresnel(VdH);
       const k = alpha.mul(0.5);
       const G = NdV.div(NdV.mul(float(1).sub(k)).add(k)).mul(NdL.div(NdL.mul(float(1).sub(k)).add(k)));
-      const spec = ggx(max(dot(N, Hh), 0.0), alpha).mul(Fs).mul(G).div(NdV.mul(4)).mul(sunUp);
+      const specRaw = ggx(max(dot(N, Hh), 0.0), alpha).mul(Fs).mul(G).div(NdV.mul(4)).mul(sunUp);
+      // Soft shoulder on the glitter so a broad, unresolved lobe does not flood the bloom (peak ≈ 6× the sun).
+      const spec = specRaw.div(specRaw.div(6).add(1));
 
       // Water body: Beer–Lambert along the refracted path to the bottom and back up, plus single scattering by
       // water and sediment. Three water types blended by turbidity: open coast (clear, blue), the Central Bay
@@ -469,7 +473,7 @@ export function createCoastMaterial(inp: CoastMaterialInputs, u: CoastUniforms):
       const tA = smoothstep(0.0, 0.5, turb);
       const tB = smoothstep(0.5, 1.0, turb);
       const sigma = mix(mix(col(0.45, 0.17, 0.15), col(0.75, 0.55, 0.55), tA), col(1.25, 1.0, 0.95), tB).mul(0.6);
-      const scatterAlb = mix(mix(col(0.003, 0.011, 0.017), col(0.017, 0.022, 0.019), tA), col(0.034, 0.034, 0.024), tB);
+      const scatterAlb = mix(mix(col(0.003, 0.011, 0.017), col(0.011, 0.02, 0.022), tA), col(0.026, 0.03, 0.021), tB);
       const bottomAlb = mix(col(0.15, 0.14, 0.11), col(0.05, 0.043, 0.034), tA); // sand outside, wet mud inside
       const cosT = sqrt(float(1).sub(float(1).sub(NdV.mul(NdV)).div(1.77)));
       const cosS = sqrt(float(1).sub(float(1).sub(S.y.mul(S.y)).div(1.77)));
@@ -496,7 +500,10 @@ export function createCoastMaterial(inp: CoastMaterialInputs, u: CoastUniforms):
       const swashBand = float(1).sub(smoothstep(0.0, Hmain.mul(0.35).add(0.015), depth));
       const swash = swashBand.mul(mix(float(0.15), crest.mul(0.4).add(0.6), resolved)).mul(smoothstep(0.05, 0.6, Hmain)).mul(0.7);
       const breakFoam = breaking.mul(lines);
-      const foam = clamp(max(breakFoam, swash).mul(bubbles), 0, 1).mul(u.foam);
+      // Muddy, sheltered flats take the waves' energy by friction before they break: little whitewater away from
+      // the open coast.
+      const exposure = mix(float(0.3), float(1), smoothstep(0.05, 0.5, ocean));
+      const foam = clamp(max(breakFoam, swash).mul(bubbles).mul(exposure), 0, 1).mul(u.foam);
       const foamCol = col(0.8, 0.82, 0.82).mul(irr);
       c.assign(mix(c, foamCol, foam.mul(0.85)));
       water.assign(c);

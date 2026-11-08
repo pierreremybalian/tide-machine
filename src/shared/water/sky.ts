@@ -2,8 +2,8 @@
 // The sky is never drawn as a background (backgrounds stay dark, HANDOFF art direction); it is what the water and
 // the wet flats reflect: a Rayleigh-like zenith-to-horizon gradient, warmed toward the sun, plus a Mie forward lobe.
 
-import { Color, Vector3 } from 'three/webgpu';
-import { abs, dot, exp, float, max, mix, normalize, pow, screenUV, smoothstep, uniform, vec3 } from 'three/tsl';
+import { Color, Mesh, MeshBasicNodeMaterial, PlaneGeometry, Vector3 } from 'three/webgpu';
+import { abs, attribute, dot, exp, float, max, mix, normalize, pow, screenUV, smoothstep, uniform, vec3, vec4 } from 'three/tsl';
 import type { Node } from 'three/webgpu';
 
 type V3 = Node<'vec3'>;
@@ -59,4 +59,21 @@ export function sunDirection(azimuthDeg: number, elevationDeg: number, out = new
   const az = (azimuthDeg * Math.PI) / 180;
   const el = (elevationDeg * Math.PI) / 180;
   return out.set(Math.cos(el) * Math.sin(az), Math.sin(el), -Math.cos(el) * Math.cos(az));
+}
+
+/**
+ * A full-screen quad at the far plane drawing the backdrop. Used instead of scene.backgroundNode, whose internal
+ * mesh is owned by the renderer and outlives the scene (the leak test counts it).
+ */
+export function createBackdropMesh(): Mesh {
+  const mat = new MeshBasicNodeMaterial();
+  const p = attribute('position', 'vec3');
+  // Clip space directly; z = w puts it on the far plane in both backends.
+  mat.vertexNode = vec4(p.x, p.y, 1, 1);
+  mat.colorNode = vec4(backdrop(), 1);
+  mat.depthWrite = false;
+  const m = new Mesh(new PlaneGeometry(2, 2), mat);
+  m.frustumCulled = false;
+  m.renderOrder = -1;
+  return m;
 }

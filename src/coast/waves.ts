@@ -145,6 +145,16 @@ export function bandField(g: WaveGrid, band: WaveBand, minDepth = 0.3, reachScal
   let reach: Float32Array | undefined;
   if (band.source === 'ocean') {
     reach = new Float32Array(n);
+    // Bottom friction: swell that crosses kilometres of shallow water (the Bar, the bay's shoals) loses energy.
+    // Dissipation rate ∝ h^−1.5 (e-folds over ≈ 10 km at 10 m, 1.6 km at 3 m, negligible offshore), integrated by
+    // fast marching from the same sources (the least-dissipative path ≈ the ray).
+    const rate = new Float32Array(n);
+    for (let i = 0; i < n; i++) rate[i] = water[i] ? 1 / ((3.2e-3 * (band.period / 11) ** 1.5) / Math.max(depth[i]!, 1) ** 1.5) : 0;
+    const zero = new Float64Array(n);
+    for (let i = 0; i < n; i++) zero[i] = Number.isFinite(init[i]!) ? 0 : Infinity;
+    const Dis = fastMarch({ nx, ny, dx, dy }, rate, zero);
+    const friction = new Float32Array(n);
+    for (let i = 0; i < n; i++) friction[i] = Number.isFinite(Dis[i]!) ? Math.exp(-Dis[i]!) : 0;
     // Shelter: excess of the shortest water path over the straight plane-wave path.
     const ones = new Float32Array(n);
     for (let i = 0; i < n; i++) ones[i] = water[i] ? 1 : 0;
@@ -154,7 +164,7 @@ export function bandField(g: WaveGrid, band: WaveBand, minDepth = 0.3, reachScal
         const c = j * nx + i;
         if (!Number.isFinite(D[c]!)) continue;
         const excess = Math.max(0, D[c]! - plane(i, j));
-        amp[c] = Math.exp(-excess / band.scale);
+        amp[c] = Math.exp(-excess / band.scale) * friction[c]!;
         reach[c] = Math.exp(-excess / reachScale);
       }
     // Carry the exposure a few cells inland so the renderer can tell surf beaches from sheltered mud.

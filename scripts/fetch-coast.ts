@@ -35,7 +35,9 @@ interface Region {
    * Rebuild the water's bathymetry from coarser tiles: at high zoom some regions carry hydro-flattened water
    * (a lidar water surface at ≈ 0 m NAVD88 in a tile patchwork) instead of soundings.
    */
-  rebuildWater?: { zoom: number; flat: number; ramp: number; minDepth: number };
+  rebuildWater?: { zoom: number; flat: number; flatSurface: number; ramp: number; minDepth: number; maxDepth: number; edgeDepth: number };
+  /** Cut narrow spikes (buildings left in the lidar) higher than this above a 5×5 morphological opening (m). */
+  despike?: number;
 }
 
 export const REGIONS: Region[] = [
@@ -60,7 +62,9 @@ export const REGIONS: Region[] = [
     // NY Harbor's 30 harmonic stations (Sandy Hook to Throgs Neck); the field uses those near the terrain box.
     stationBox: { south: 40.45, north: 40.95, west: -74.3, east: -73.7 },
     // Harbor water at z11–z13 is flattened to ≈ 0 m in a checkerboard of tiles; z10 keeps the soundings.
-    rebuildWater: { zoom: 10, flat: 0.15, ramp: 0.08, minDepth: 1.0 },
+    // Manhattan's shores are bulkheads: the rebuilt water starts ≈ 2.5 m deep at the wall.
+    rebuildWater: { zoom: 10, flat: 0.15, flatSurface: 1.0, ramp: 0.06, minDepth: 1.0, maxDepth: 15, edgeDepth: 2.5 },
+    despike: 4,
   },
 ];
 
@@ -165,8 +169,10 @@ function resample(m: Mosaic, nx: number, ny: number, bbox: BBox): Float32Array {
 }
 
 /**
- * Replace hydro-flattened water with coarse soundings: water = cells near 0 m connected to cells the coarse tiles
- * call water; depth = min(coarse depth, ramp × distance to shore), at least minDepth.
+ * Replace hydro-flattened water: water = cells near 0 m, or perfectly flat low surfaces (a river flattened at the
+ * lidar's water level), connected to cells the coarse tiles call water. Depth = the deeper of the coarse soundings
+ * and a synthetic shore profile (ramp × distance to shore, capped), because the coarse tiles are flattened too in
+ * the narrow rivers (the Hudson reads ≈ 0 m at z10 off Manhattan, where it is ≈ 15 m deep).
  */
 function rebuildWater(fine: Float32Array, coarse: Float32Array, nx: number, ny: number, cell: number, o: NonNullable<Region['rebuildWater']>): number {
   const n = nx * ny;
@@ -175,32 +181,111 @@ function rebuildWater(fine: Float32Array, coarse: Float32Array, nx: number, ny: 
   for (let i = 0; i < n; i++) if (fine[i]! < -40 && fine[i]! < coarse[i]! - 40) fine[i] = coarse[i]!;
   // Bridges and piers left in the lidar surface would cut rivers in two: where the coarse soundings say clearly
   // water, low structures (< 2 m) count as water too.
-  const cand = (i: number) => fine[i]! < o.flat || (coarse[i]! < -6 && fine[i]! < 2);
-  const stack: number[] = [];
+  const flatLow = new Uint8Array(n);
+  for (let y = 1; y < ny - 1; y++)
+    for (let x = 1; x < nx - 1; x++) {
+      const i = y * nx + x;
+      if (fine[i]! >= o.flatSurface) continue;
+      let lo = Infinity;
+      let hi = -Infinity;
+      for (let v = -1; v <= 1; v++)
+        for (let u = -1; u <= 1; u++) {
+          const h = fine[i + v * nx + u]!;
+          lo = Math.min(lo, h);
+          hi = Math.max(hi, h);
+        }
+      if (hi - lo < 0.03) flatLow[i] = 1;
+    }
+  const cand = (i: number) => fine[i]! < o.flat || flatLow[i] === 1 || (coarse[i]! < -6 && fine[i]! < 2);
+  // Smooth low surfaces (a river interpolated across by the lidar) may bridge short gaps between strict water.
+  const relaxed = (i: number) => {
+    if (fine[i]! >= 1.2) return false;
+    const x = i % nx;
+    const y = (i - x) / nx;
+    if (x < 1 || y < 1 || x >= nx - 1 || y >= ny - 1) return false;
+    let lo = Infinity;
+    let hi = -Infinity;
+    for (let v = -1; v <= 1; v++)
+      for (let u = -1; u <= 1; u++) {
+        const h = fine[i + v * nx + u]!;
+        lo = Math.min(lo, h);
+        hi = Math.max(hi, h);
+      }
+    return hi - lo < 0.4;
+  };
+  const N4 = [
+    [1, 0],
+    [-1, 0],
+    [0, 1],
+    [0, -1],
+  ] as const;
+  const flood = (seeds: number[]) => {
+    const stack = seeds;
+    while (stack.length) {
+      const i = stack.pop()!;
+      const x = i % nx;
+      const y = (i - x) / nx;
+      for (const [dx, dy] of N4) {
+        const u = x + dx;
+        const v = y + dy;
+        if (u < 0 || v < 0 || u >= nx || v >= ny) continue;
+        const k = v * nx + u;
+        if (!water[k] && cand(k)) {
+          water[k] = 1;
+          stack.push(k);
+        }
+      }
+    }
+  };
+  const seeds: number[] = [];
   for (let i = 0; i < n; i++)
     if (cand(i) && coarse[i]! < -2) {
       water[i] = 1;
-      stack.push(i);
+      seeds.push(i);
     }
-  while (stack.length) {
-    const i = stack.pop()!;
-    const x = i % nx;
-    const y = (i - x) / nx;
-    for (const [dx, dy] of [
-      [1, 0],
-      [-1, 0],
-      [0, 1],
-      [0, -1],
-    ] as const) {
-      const u = x + dx;
-      const v = y + dy;
-      if (u < 0 || v < 0 || u >= nx || v >= ny) continue;
-      const k = v * nx + u;
-      if (!water[k] && cand(k)) {
-        water[k] = 1;
-        stack.push(k);
+  flood(seeds);
+  // Bridge gaps: breadth-first through relaxed cells up to `gap` steps from water, then flood strictly again.
+  const gap = 14;
+  for (let round = 0; round < 3; round++) {
+    let frontier: number[] = [];
+    for (let i = 0; i < n; i++) if (water[i]) frontier.push(i);
+    const added: number[] = [];
+    for (let step = 0; step < gap && frontier.length; step++) {
+      const next: number[] = [];
+      for (const i of frontier) {
+        const x = i % nx;
+        const y = (i - x) / nx;
+        for (const [dx, dy] of N4) {
+          const u = x + dx;
+          const v = y + dy;
+          if (u < 0 || v < 0 || u >= nx || v >= ny) continue;
+          const k = v * nx + u;
+          if (!water[k] && relaxed(k)) {
+            water[k] = 2;
+            next.push(k);
+            added.push(k);
+          }
+        }
       }
+      frontier = next;
     }
+    // Keep only bridge cells that reach new strict water; the rest were dead ends on low land.
+    const before = water.reduce((a, w) => a + (w === 1 ? 1 : 0), 0);
+    const probe = added.filter((k) => {
+      const x = k % nx;
+      const y = (k - x) / nx;
+      return N4.some(([dx, dy]) => {
+        const u = x + dx;
+        const v = y + dy;
+        return u >= 0 && v >= 0 && u < nx && v < ny && !water[v * nx + u] && cand(v * nx + u);
+      });
+    });
+    for (const k of probe) water[k] = 1;
+    flood(probe);
+    const after = water.reduce((a, w) => a + (w === 1 ? 1 : 0), 0);
+    // Bridge cells stay water only where the strict flood continued beyond them.
+    for (const k of added) if (water[k] === 2) water[k] = after - before > probe.length ? 1 : 0;
+    if (after - before <= probe.length) break;
   }
   // Chamfer distance (cells) to the nearest dry cell.
   const dist = new Float32Array(n);
@@ -225,11 +310,41 @@ function rebuildWater(fine: Float32Array, coarse: Float32Array, nx: number, ny: 
   let count = 0;
   for (let i = 0; i < n; i++) {
     if (!water[i]) continue;
-    const depth = Math.min(o.ramp * dist[i]! * cell + o.minDepth * 0.5, Math.max(-coarse[i]!, o.minDepth));
+    const shore = Math.min(o.ramp * (dist[i]! - 0.5) * cell + o.edgeDepth, o.maxDepth);
+    const depth = Math.max(Math.min(-coarse[i]!, shore * 1.5), shore, o.minDepth);
     fine[i] = -depth;
     count++;
   }
   return count;
+}
+
+/** Lower cells that stand more than `limit` above the 5×5 opening (min then max filter): buildings, not hills. */
+function despike(h: Float32Array, nx: number, ny: number, limit: number): number {
+  const filt = (src: Float32Array, pick: (a: number, b: number) => number, init: number) => {
+    const tmp = new Float32Array(src.length);
+    const out = new Float32Array(src.length);
+    for (let y = 0; y < ny; y++)
+      for (let x = 0; x < nx; x++) {
+        let m = init;
+        for (let u = -2; u <= 2; u++) m = pick(m, src[y * nx + Math.min(nx - 1, Math.max(0, x + u))]!);
+        tmp[y * nx + x] = m;
+      }
+    for (let y = 0; y < ny; y++)
+      for (let x = 0; x < nx; x++) {
+        let m = init;
+        for (let v = -2; v <= 2; v++) m = pick(m, tmp[Math.min(ny - 1, Math.max(0, y + v)) * nx + x]!);
+        out[y * nx + x] = m;
+      }
+    return out;
+  };
+  const opened = filt(filt(h, Math.min, Infinity), Math.max, -Infinity);
+  let k = 0;
+  for (let i = 0; i < h.length; i++)
+    if (h[i]! > opened[i]! + limit) {
+      h[i] = opened[i]! + limit;
+      k++;
+    }
+  return k;
 }
 
 async function terrain(r: Region): Promise<void> {
@@ -242,6 +357,7 @@ async function terrain(r: Region): Promise<void> {
     const k = rebuildWater(out, coarse, nx, ny, (cell[0] + cell[1]) / 2, r.rebuildWater);
     console.log(`  rebuilt bathymetry under ${k} flattened water cells from z${r.rebuildWater.zoom}`);
   }
+  if (r.despike) console.log(`  cut ${despike(out, nx, ny, r.despike)} spike cells`);
   let min = Infinity;
   let max = -Infinity;
   for (const h of out) {

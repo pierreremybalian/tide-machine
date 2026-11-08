@@ -19,6 +19,7 @@ import {
   HalfFloatType,
   LinearFilter,
   Mesh,
+  MeshBasicNodeMaterial,
   NearestFilter,
   RGBAFormat,
   RGFormat,
@@ -31,7 +32,7 @@ import { gridPoints, type BakeOptions, type CoastBake } from '../../coast/bake.t
 import type { WaveBand } from '../../coast/waves.ts';
 import { bakeSource, loadCoastSource, type CoastSource } from './data.ts';
 import { createCoastMaterial, createCoastUniforms, type CoastUniforms, type Extent } from './material.ts';
-import { createSkyUniforms, sunDirection, type SkyUniforms } from './sky.ts';
+import { createBackdropMesh, createSkyUniforms, sunDirection, type SkyUniforms } from './sky.ts';
 
 export interface CoastWaves {
   /** Direction the swell travels toward (degrees from north) and its period (s). */
@@ -54,6 +55,8 @@ export interface CoastOptions {
   meshCells?: number;
   /** Concentrate mesh vertices around a point (km): density × (1 + gain) within ≈ radius. */
   focus?: { x: number; z: number; radius: number; gain: number };
+  /** Draw the dark backdrop behind the coast (default true; the material fades its edges into it). */
+  backdrop?: boolean;
   /** Same, by latitude/longitude and radius (km), gain 8. */
   focusLatLng?: { lat: number; lng: number; radius: number; gain?: number };
 }
@@ -90,7 +93,7 @@ const DEFAULT_WAVES: CoastWaves = { swellToward: 100, swellPeriod: 11, windTowar
 /** Bake options shared by every coast (cache key: keep stable). */
 export function bakeOptionsFor(w: CoastWaves): BakeOptions {
   const bands: WaveBand[] = [
-    { period: w.swellPeriod, toward: w.swellToward, source: 'ocean', scale: 2500 },
+    { period: w.swellPeriod, toward: w.swellToward, source: 'ocean', scale: 1800 },
     { period: 4.5, toward: w.windToward - 5, source: 'shore', scale: 9000 },
     { period: 2.4, toward: w.windToward, source: 'shore', scale: 1500 },
   ];
@@ -300,6 +303,8 @@ export async function createCoast(ctx: RenderContext, opts: CoastOptions): Promi
   mesh.frustumCulled = false;
   const object = new Group();
   object.add(mesh);
+  const backdropMesh = opts.backdrop === false ? null : createBackdropMesh();
+  if (backdropMesh) object.add(backdropMesh);
 
   const HISTORY_H = 3;
   const HISTORY_STEPS = 6;
@@ -357,6 +362,10 @@ export async function createCoast(ctx: RenderContext, opts: CoastOptions): Promi
     dispose() {
       geometry.dispose();
       material.dispose();
+      if (backdropMesh) {
+        backdropMesh.geometry.dispose();
+        (backdropMesh.material as MeshBasicNodeMaterial).dispose();
+      }
       terrainTex.dispose();
       classTex.dispose();
       levelTex.dispose();
