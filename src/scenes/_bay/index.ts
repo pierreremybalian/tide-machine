@@ -10,8 +10,8 @@ const params = {
   /** local 0 → 2026-12-23 04:00 PST, the start of two days of king tides (SF range 2.76 m). */
   startMs: Date.UTC(2026, 11, 23, 12, 0),
   spanHours: 48,
-  /** Fixed early-afternoon winter light (degrees) unless &sun=real. */
-  sun: { azimuth: 238, elevation: 27 },
+  /** Fixed mid-afternoon winter light (degrees) unless &sun=real. */
+  sun: { azimuth: 250, elevation: 20 },
 };
 
 export default () =>
