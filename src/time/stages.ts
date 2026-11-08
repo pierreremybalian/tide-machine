@@ -4,7 +4,7 @@
 import { clamp } from '../physics/interp.ts';
 
 export type TransitionKind = 'dissolve' | 'zoom' | 'stretch';
-export type Status = 'measured' | 'established' | 'argument' | 'open' | 'metaphor';
+export type Status = 'measured' | 'established' | 'historical' | 'simplified' | 'modelled' | 'metaphor';
 
 export interface Stage {
   id: string;
@@ -21,19 +21,19 @@ const DEFAULT_SPAN = 0.12;
 type Row = [id: string, status: Status, weight: number, transition: TransitionKind];
 
 const ROWS: Row[] = [
-  ['flow', 'metaphor', 5, 'dissolve'],
-  ['stack', 'established', 6, 'dissolve'],
-  ['light', 'measured', 6, 'dissolve'],
-  ['clocks', 'measured', 8, 'zoom'],
-  ['ages', 'established', 6, 'dissolve'],
-  ['whose', 'established', 8, 'dissolve'],
-  ['shutter', 'metaphor', 6, 'dissolve'],
-  ['andromeda', 'argument', 9, 'zoom'],
-  ['eternal', 'argument', 6, 'dissolve'],
-  ['you', 'measured', 7, 'zoom'],
-  ['curved', 'measured', 8, 'dissolve'],
-  ['rivals', 'open', 8, 'dissolve'],
-  ['whole', 'measured', 6, 'zoom'],
+  ['breathe', 'measured', 6, 'dissolve'],
+  ['moon', 'simplified', 7, 'zoom'],
+  ['wave', 'measured', 7, 'dissolve'],
+  ['bay', 'measured', 8, 'zoom'],
+  ['sun', 'measured', 6, 'dissolve'],
+  ['rhythms', 'established', 6, 'dissolve'],
+  ['apart', 'measured', 7, 'dissolve'],
+  ['adds', 'historical', 8, 'zoom'],
+  ['gears', 'measured', 6, 'dissolve'],
+  ['brass', 'historical', 6, 'dissolve'],
+  ['crank', 'measured', 8, 'dissolve'],
+  ['sandy', 'measured', 7, 'zoom'],
+  ['anywhere', 'measured', 6, 'dissolve'],
 ];
 
 export const STAGES: readonly Stage[] = ROWS.map(([id, status, scrollWeight, transitionIn]) => ({

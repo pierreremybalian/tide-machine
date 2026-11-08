@@ -1,7 +1,7 @@
 // NOAA's 37 standard tidal constituents: equilibrium arguments (extended Doodson numbers on the spanning set
 // τ, s, h, p, N, p′, 90°), node factors f and phase corrections u (Schureman 1958, SP-98). Pure.
 
-import { D2R, R2D, SPEED, type Astro } from './astro.ts';
+import { D2R, SPEED, type Astro } from './astro.ts';
 
 /** Coefficients on [τ, s, h, p, N, p′, 90°]. */
 export type Coef = readonly [number, number, number, number, number, number, number];

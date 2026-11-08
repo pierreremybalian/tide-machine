@@ -1,45 +1,58 @@
 // Site-wide copy and SEO.
 export const SITE = {
-  name: 'Block Universe',
-  url: 'https://block-universe.balian.dev',
-  title: 'Block Universe — Is the future already there? A guided 3D explanation',
+  name: 'Tide Machine',
+  url: 'https://tide-machine.balian.dev',
+  title: 'Tide Machine — How the tides work, and the brass computer that predicted them',
   description:
-    'Relativity says there is no single “now”. Scroll through 13 stages, built from tested physics, to see why many physicists think past, present and future all exist, and why others disagree.',
+    'Watch the tide sweep into San Francisco Bay, see why the Moon and Sun make it, then build Kelvin’s tide-predicting machine and use it on any coast on Earth. Every water level is computed from real NOAA data.',
   ogImage: '/og.png',
-  ogImageAlt: 'Block Universe: two glowing slices of “now” cutting a glass block of spacetime at different angles.',
-  themeColor: '#020205',
+  ogImageAlt: 'Tide Machine: San Francisco Bay at low tide beside a brass machine of pulleys drawing the tide curve.',
+  themeColor: '#020306',
   author: 'Balian Design',
   /** Google Analytics 4 (the balian.dev property). Loaded in production builds only. */
   gaId: 'G-MXMS8L0Z1H',
-  /** Companion piece. */
+  /** Companion pieces. */
   cosmicHistory: 'https://cosmic-history.balian.dev',
+  blockUniverse: 'https://block-universe.balian.dev',
 };
 
 export const STATUS_LABEL = {
   measured: 'Measured',
   established: 'Established',
-  argument: 'Argument',
-  open: 'Open question',
+  historical: 'Historical',
+  simplified: 'Simplified',
+  modelled: 'Modeled',
   metaphor: 'Metaphor',
 } as const;
 
 export const STATUS_HELP = {
-  measured: 'The effect shown has been measured directly, usually many times, with clocks or particles.',
-  established: 'Follows from relativity, which has passed every test so far. Not disputed among physicists.',
-  argument: 'A philosophical conclusion drawn from the physics. The premises are stated; you can reject one.',
-  open: 'Contested. Physicists and philosophers disagree, and no experiment has decided it.',
-  metaphor: 'A picture to help intuition. It does not claim anything literal about the world.',
+  measured: 'Water levels, constants and records come from tide gauges; predictions are computed from them and checked against NOAA’s.',
+  established: 'Standard physics of the tides, not in dispute.',
+  historical: 'Documented history of the tide-predicting machines.',
+  simplified: 'A schematic model that is right in kind but leaves out detail, such as the idealized bulges.',
+  modelled: 'From a global ocean tide model where no gauge exists; good at sea, coarser inside bays and estuaries.',
+  metaphor: 'A picture to help intuition; it claims nothing literal.',
 } as const;
 
 export const CREDITS: { label: string; text: string; url?: string }[] = [
   {
-    label: 'Relativity',
-    text: 'Every tilt, tick and offset on screen is computed in your browser from special and general relativity (Lorentz transformations, proper time, weak-field clock rates, Schwarzschild geometry). Units and constants: CODATA 2018, IERS, IAU 2015.',
+    label: 'Tide data',
+    text: 'NOAA Center for Operational Oceanographic Products and Services (CO-OPS): harmonic constants, datums, observations and official predictions. US government work, public domain.',
+    url: 'https://tidesandcurrents.noaa.gov/',
   },
   {
-    label: 'Cosmology',
-    text: 'Our past light cone uses flat ΛCDM with Planck 2018 parameters (H₀ = 67.4, Ωm = 0.315), the same model as Cosmic History.',
-    url: 'https://arxiv.org/abs/1807.06209',
+    label: 'Global tide model',
+    text: 'EOT20, Hart-Davis et al. 2021, Earth System Science Data 13, 3869. CC BY 4.0.',
+    url: 'https://doi.org/10.17882/79489',
+  },
+  {
+    label: 'Terrain and bathymetry',
+    text: 'AWS Open Data Terrain Tiles (Mapzen/Tilezen), compiled from NOAA Coastal Relief Model, ETOPO1, GEBCO, SRTM and others.',
+    url: 'https://registry.opendata.aws/terrain-tiles/',
+  },
+  {
+    label: 'Method',
+    text: 'Harmonic prediction after Schureman (1958), Manual of Harmonic Analysis and Prediction of Tides, US Coast and Geodetic Survey Special Publication 98.',
   },
   {
     label: 'Rendering',

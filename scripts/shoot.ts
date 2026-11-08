@@ -14,7 +14,7 @@ const opt = (k: string, d?: string) => {
   return i >= 0 ? (args[i + 1] ?? '') : d;
 };
 const flag = (k: string) => args.includes(`--${k}`);
-const base = opt('base', 'http://localhost:4350')!;
+const base = opt('base', 'http://localhost:4360')!;
 const width = Number(opt('width', '1280'));
 const height = Number(opt('height', '720'));
 const webgl = flag('webgl');

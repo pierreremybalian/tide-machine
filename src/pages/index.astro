@@ -9,8 +9,6 @@ import { VH_PER_WEIGHT } from '../scroll/driver.ts';
 import { HERO_END, MIN_DWELL_SVH, captionSchedule } from '../story/schedule.ts';
 import { STATUS_HELP, STATUS_LABEL, CREDITS, SITE } from '../data/site.ts';
 import { supHtml } from '../lib/sup.ts';
-import experiments from '../../public/data/experiments.json';
-import positions from '../../public/data/positions.json';
 
 const entries = await getCollection('stages');
 const byId = new Map(entries.map((e) => [e.data.id, e]));
@@ -63,12 +61,12 @@ const titles = chapters.map((ch) => ch.data.title);
 
   <header class="hero" data-hero>
     <p class="hero-kicker">
-      <span>{CHAPTERS.length} stages</span><span>Relativity</span><span>Philosophy of time</span>
+      <span>{CHAPTERS.length} stages</span><span>Tides</span><span>Analog computing</span><span>Live data</span>
     </p>
     <h1>{SITE.name}</h1>
     <p class="hero-lede">
-      Is the future already there? Relativity says there is no single “now”. Scroll, and we’ll build the argument that
-      past, present and future all exist, one tested step at a time, then ask whether it holds.
+      Why does the sea rise and fall twice a day, and how did a brass machine of pulleys learn to predict it years ahead?
+      Scroll through San Francisco Bay, the Moon and the gears, then try it on any coast on Earth.
     </p>
     <p class="hero-hint" aria-hidden="true"><span></span>Scroll to begin</p>
     <p class="hero-keys">
@@ -105,8 +103,9 @@ const titles = chapters.map((ch) => ch.data.title);
     <div class="credits-inner">
       <h2 id="credits-h">About this explanation</h2>
       <p class="lede">
-        Every tilt, tick and offset on screen is computed in your browser from relativity. Where we exaggerate a speed, a
-        distance or a rate to make it visible, the stage says so, and the numbers in the corner are always the real ones.
+        Every water level on screen is computed in your browser from tide-gauge constants, with the same sum the brass machines
+        performed, and checked against NOAA’s official predictions. Where we exaggerate heights or speed up time to make them
+        visible, the stage says so; the numbers in the corner are always the real ones.
       </p>
       <h3>Stage by stage: the longer story and how we know</h3>
       <div class="stages">
@@ -144,52 +143,6 @@ const titles = chapters.map((ch) => ch.data.title);
           ))
         }
       </div>
-      <h3>What has been measured</h3>
-      <ul class="evidence">
-        {
-          [...experiments]
-            .sort((a, b) => a.year - b.year)
-            .map((e) => (
-              <li>
-                <p class="ev-head">
-                  <span class="ev-year">{e.year}</span>
-                  <span class="ev-name">{e.name}</span>
-                </p>
-                <p class="ev-tested">{e.tested}</p>
-                <p class="ev-result" set:html={supHtml(e.result)} />
-                <p class="ev-src">
-                  {e.sources.map((s, k) => (
-                    <>
-                      {k > 0 && ' · '}
-                      <a href={s.url} rel="noopener" target="_blank">
-                        {s.label}
-                      </a>
-                    </>
-                  ))}
-                </p>
-              </li>
-            ))
-        }
-      </ul>
-      <h3>Who argued what</h3>
-      <ul class="evidence positions">
-        {positions.map((p) => (
-          <li data-camp={p.camp}>
-            <p class="ev-head">
-              <span class="ev-year">{p.year}</span>
-              <span class="ev-name">{p.who}</span>
-            </p>
-            <p class="ev-tested">{p.claim}</p>
-            <p class="ev-src">
-              {p.sources.map((s) => (
-                <a href={s.url} rel="noopener" target="_blank">
-                  {s.label}
-                </a>
-              ))}
-            </p>
-          </li>
-        ))}
-      </ul>
       <h3>How sure are we?</h3>
       <dl class="acc">
         {(Object.keys(STATUS_LABEL) as (keyof typeof STATUS_LABEL)[]).map((k) => (
@@ -217,14 +170,14 @@ const titles = chapters.map((ch) => ch.data.title);
       </ul>
       <p class="fine">
         Keyboard: ↑ ↓ / Page Up / Page Down step through the story one caption at a time; Home and End jump to the start and the
-        end. Rendering quality adapts to your device automatically. A companion piece, <a href={SITE.cosmicHistory}>Cosmic History</a>,
-        follows the universe from the Big Bang to today.
+        end. Rendering quality adapts to your device automatically. Companion pieces: <a href={SITE.cosmicHistory}>Cosmic History</a> and
+        <a href={SITE.blockUniverse}>Block Universe</a>.
       </p>
     </div>
   </footer>
 
   <noscript>
-    <p class="noscript">This explanation draws spacetime with WebGPU or WebGL and needs JavaScript. The story text above still reads in order.</p>
+    <p class="noscript">This explanation draws the bay and the machine with WebGPU or WebGL and needs JavaScript. The story text above still reads in order.</p>
   </noscript>
 </Base>
 

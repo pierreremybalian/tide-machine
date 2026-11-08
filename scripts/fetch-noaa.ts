@@ -2,7 +2,7 @@
 //   node scripts/fetch-noaa.ts [--only 9414290,8518750] [--year 2026]
 // Writes: stations/index.json, stations/<id>.json (harmonic constants + datums), validation/<id>-<month>.json
 // (NOAA's official hourly predictions, for tests and the finale overlay), sf-week.json, sf-year.json, sandy.json.
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { writeFileSync } from 'node:fs';
 
 const API = 'https://api.tidesandcurrents.noaa.gov/api/prod/datagetter';
 const MD = 'https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations';
@@ -43,7 +43,11 @@ export const PORTS: [id: string, label: string][] = [
   ['1612340', 'Honolulu, HI'],
 ];
 
-async function json(url: string): Promise<any> {
+// NOAA's JSON is untyped at this boundary; fields are read by name and validated by the data tests.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type Json = any;
+
+async function json(url: string): Promise<Json> {
   for (let attempt = 0; attempt < 3; attempt++) {
     const r = await fetch(url);
     if (r.ok) return r.json();
@@ -64,7 +68,7 @@ for (const [id, label] of PORTS) {
   if (only && !only.includes(id)) continue;
   try {
     const meta = (await json(`${MD}/${id}.json`)).stations[0];
-    const harcon = (await json(`${MD}/${id}/harcon.json?units=metric`)).HarmonicConstituents as any[];
+    const harcon = (await json(`${MD}/${id}/harcon.json?units=metric`)).HarmonicConstituents as Json[];
     const datums = (await json(`${MD}/${id}/datums.json?units=metric`)).datums as { name: string; value: number }[];
     const d = Object.fromEntries(datums.map((x) => [x.name, x.value]));
     if (!harcon?.length || d.MSL === undefined || d.MLLW === undefined) throw new Error('missing harcon or datums');
@@ -107,7 +111,7 @@ if (!only || only.includes('sf')) {
   const wk = await get('water_level', '9414290', `${year - 1}0601`, `${year - 1}0607`);
   writeFileSync(
     out('sf-week.json'),
-    JSON.stringify({ station: '9414290', start: `${year - 1}-06-01T00:00Z`, stepMinutes: 6, unit: 'mm', datum: 'MLLW', values: wk.data.map((r: any) => (r.v === '' ? null : Math.round(Number(r.v) * 1000))) }),
+    JSON.stringify({ station: '9414290', start: `${year - 1}-06-01T00:00Z`, stepMinutes: 6, unit: 'mm', datum: 'MLLW', values: wk.data.map((r: Json) => (r.v === '' ? null : Math.round(Number(r.v) * 1000))) }),
   );
   const yr: (number | null)[] = [];
   for (let m = 0; m < 12; m++) {
@@ -132,8 +136,8 @@ if (!only || only.includes('sandy')) {
       stepMinutes: 6,
       unit: 'mm',
       datum: 'MLLW',
-      observed: obs.data.map((r: any) => (r.v === '' ? null : Math.round(Number(r.v) * 1000))),
-      predicted: pre.predictions.map((r: any) => Math.round(Number(r.v) * 1000)),
+      observed: obs.data.map((r: Json) => (r.v === '' ? null : Math.round(Number(r.v) * 1000))),
+      predicted: pre.predictions.map((r: Json) => Math.round(Number(r.v) * 1000)),
     }),
   );
   console.log(`sandy: ${obs.data.length} observed, ${pre.predictions.length} predicted`);

@@ -60,8 +60,8 @@ export function analyse(values: readonly (number | null)[], startMs: number, ste
       row[2 + 2 * k] = f * Math.sin(ph);
     });
     for (let p = 0; p < n; p++) {
-      b[p] += row[p]! * h;
-      for (let q = 0; q <= p; q++) A[p * n + q] += row[p]! * row[q]!;
+      b[p] = b[p]! + row[p]! * h;
+      for (let q = 0; q <= p; q++) A[p * n + q] = A[p * n + q]! + row[p]! * row[q]!;
     }
   });
   for (let p = 0; p < n; p++) for (let q = p + 1; q < n; q++) A[p * n + q] = A[q * n + p]!;

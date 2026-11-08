@@ -10,7 +10,7 @@ const opt = (k: string, d?: string) => {
   const i = args.indexOf(`--${k}`);
   return i >= 0 ? args[i + 1] : d;
 };
-const base = opt('base', 'http://localhost:4350')!;
+const base = opt('base', 'http://localhost:4360')!;
 const only = opt('only')?.split(',');
 const webgl = args.includes('--webgl');
 /** Where in each chapter the still is taken (most representative frame). */

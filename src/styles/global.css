@@ -25,9 +25,15 @@
   /* How sure are we (HANDOFF §13). */
   --color-st-measured: #7cf2c1;
   --color-st-established: #8fd0ff;
-  --color-st-argument: #ffb3c7;
-  --color-st-open: #ffe08a;
+  --color-st-historical: #f2c27a;
+  --color-st-simplified: #ffb3c7;
+  --color-st-modelled: #9fb7ff;
   --color-st-metaphor: #c9a8ff;
+
+  /* Tide palette. */
+  --color-brass: #e6b866;
+  --color-sea: #4fb8d8;
+  --color-foam: #eaf6fb;
 
   --font-serif: 'Newsreader Variable', 'Iowan Old Style', Georgia, serif;
   --font-sans: 'Inter Tight Variable', ui-sans-serif, system-ui, sans-serif;
@@ -46,11 +52,14 @@
 [data-st='established'] {
   --st: var(--color-st-established);
 }
-[data-st='argument'] {
-  --st: var(--color-st-argument);
+[data-st='historical'] {
+  --st: var(--color-st-historical);
 }
-[data-st='open'] {
-  --st: var(--color-st-open);
+[data-st='simplified'] {
+  --st: var(--color-st-simplified);
+}
+[data-st='modelled'] {
+  --st: var(--color-st-modelled);
 }
 [data-st='metaphor'] {
   --st: var(--color-st-metaphor);
