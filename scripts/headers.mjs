@@ -22,9 +22,10 @@ const csp = [
   `script-src 'self' https://static.cloudflareinsights.com https://*.googletagmanager.com ${[...hashes].join(' ')}`,
   "worker-src 'self' blob:",
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob: https://*.google-analytics.com https://*.googletagmanager.com",
+  "img-src 'self' data: blob: https://*.google-analytics.com https://*.googletagmanager.com https://s3.amazonaws.com",
   "font-src 'self'",
-  "connect-src 'self' https://cloudflareinsights.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com",
+  // The finale reads NOAA's live tide API and AWS Open Data terrain tiles (both CORS-open).
+  "connect-src 'self' https://cloudflareinsights.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://api.tidesandcurrents.noaa.gov https://s3.amazonaws.com",
   "frame-src 'none'",
   "object-src 'none'",
   "base-uri 'self'",
