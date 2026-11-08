@@ -1,0 +1,104 @@
+---
+// Many rhythms (stage 6): NOAA's ten largest constituents at San Francisco, with the speed-derived period, the
+// measured height and the Greenwich phase lag. Shown as the spectrum pulls back at the end of the stage.
+import { cm, hmPeriod, LINES } from '../../script/rhythms.ts';
+const rows = LINES.slice(0, 10);
+const tone = (f: string) =>
+  f === 'semidiurnal' ? 'b' : f === 'diurnal' ? 'a' : f === 'long' ? 'light' : 'plain';
+---
+
+<section class="card rhythms" data-card="rhythms">
+  <h3>
+    San Francisco <span>NOAA 9414290 · top 10 of 37</span>
+  </h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Rhythm</th>
+        <th>Period</th>
+        <th>Height</th>
+        <th>Phase</th>
+      </tr>
+    </thead>
+    <tbody>
+      {rows.map((l) => (
+        <tr data-tone={tone(l.family)}>
+          <td class="n">{l.label}</td>
+          <td>{hmPeriod(l.period)}</td>
+          <td>{cm(l.H)}</td>
+          <td>{l.kappa.toFixed(1)}°</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+  <p class="legend">Period from astronomy; height and phase measured.</p>
+</section>
+
+<script>
+  import { rhythmsState } from '../../script/rhythms.ts';
+  import { onStage, showCard } from '../card.ts';
+  const card = document.querySelector<HTMLElement>('[data-card="rhythms"]')!;
+  onStage((s) => {
+    const on = s.stageId === 'rhythms';
+    showCard(card, on && rhythmsState(s.local).table > 0.5);
+  });
+</script>
+
+<style>
+  table {
+    width: 100%;
+    margin-top: 0.55rem;
+    border-collapse: collapse;
+    font-family: var(--font-mono);
+    font-size: 0.64rem;
+    font-variant-numeric: tabular-nums;
+  }
+  th {
+    text-align: right;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: 0.55rem;
+    color: var(--color-mute);
+    padding-bottom: 0.3rem;
+  }
+  th:first-child,
+  td.n {
+    text-align: left;
+  }
+  td {
+    text-align: right;
+    padding: 0.12rem 0;
+    color: var(--color-fog);
+  }
+  td.n {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 0.72rem;
+    color: var(--tone);
+  }
+  tr[data-tone='b'] {
+    --tone: var(--color-obs-b);
+  }
+  tr[data-tone='a'] {
+    --tone: var(--color-obs-a);
+  }
+  tr[data-tone='light'] {
+    --tone: var(--color-light);
+  }
+  tr[data-tone='plain'] {
+    --tone: var(--color-paper);
+  }
+  .legend {
+    margin-top: 0.45rem;
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.04em;
+    color: var(--color-mute);
+  }
+  @media (max-width: 767px) {
+    tbody tr:nth-child(n + 8) {
+      display: none;
+    }
+  }
+</style>
