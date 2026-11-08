@@ -1,0 +1,105 @@
+---
+// Taking the tide apart (stage 7): our least-squares fit to one year of San Francisco readings (2025) beside NOAA's
+// published constants for the eight largest rhythms. Every number comes from src/script/apart.ts (tested against a
+// fresh analyse() of public/data/sf-year.json) and src/script/rhythms.ts (NOAA's table).
+import { fitOf, FIT_RMS, ROWS } from '../../script/apart.ts';
+import { lineByName, sfConstant } from '../../script/rhythms.ts';
+const rows = ROWS.map((n) => ({ l: lineByName(n), ours: fitOf(n), noaa: sfConstant(n) }));
+const tone = (f: string) => (f === 'semidiurnal' ? 'b' : f === 'diurnal' ? 'a' : 'plain');
+---
+
+<section class="card apart" data-card="apart">
+  <h3>
+    Our fit vs NOAA <span>San Francisco</span>
+  </h3>
+  <table>
+    <thead>
+      <tr>
+        <th></th>
+        <th colspan="2">2025, our fit</th>
+        <th colspan="2">NOAA</th>
+      </tr>
+    </thead>
+    <tbody>
+      {rows.map(({ l, ours, noaa }) => (
+        <tr data-tone={tone(l.family)}>
+          <td class="n">{l.label}</td>
+          <td>{ours.H.toFixed(3)} m</td>
+          <td>{ours.kappa.toFixed(1)}°</td>
+          <td class="noaa">{noaa.H.toFixed(3)} m</td>
+          <td class="noaa">{noaa.kappa.toFixed(1)}°</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+  <p class="legend">
+    Left over after 31 rhythms: {(FIT_RMS * 100).toFixed(1)} cm RMS. NOAA averages five yearly fits.
+  </p>
+</section>
+
+<script>
+  import { apartState } from '../../script/apart.ts';
+  import { onStage, showCard } from '../card.ts';
+  const card = document.querySelector<HTMLElement>('[data-card="apart"]')!;
+  onStage((s) => {
+    const on = s.stageId === 'apart';
+    showCard(card, on && apartState(s.local).table > 0.5);
+  });
+</script>
+
+<style>
+  table {
+    width: 100%;
+    margin-top: 0.55rem;
+    border-collapse: collapse;
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    font-variant-numeric: tabular-nums;
+  }
+  th {
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: 0.52rem;
+    color: var(--color-mute);
+    padding-bottom: 0.3rem;
+    text-align: right;
+  }
+  td {
+    text-align: right;
+    padding: 0.11rem 0 0.11rem 0.4rem;
+    color: var(--color-fog);
+  }
+  td.n {
+    text-align: left;
+    padding-left: 0;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 0.7rem;
+    color: var(--tone);
+  }
+  td.noaa {
+    color: var(--color-mute);
+  }
+  tr[data-tone='b'] {
+    --tone: var(--color-obs-b);
+  }
+  tr[data-tone='a'] {
+    --tone: var(--color-obs-a);
+  }
+  tr[data-tone='plain'] {
+    --tone: var(--color-paper);
+  }
+  .legend {
+    margin-top: 0.45rem;
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.04em;
+    color: var(--color-mute);
+  }
+  @media (max-width: 767px) {
+    tbody tr:nth-child(n + 6) {
+      display: none;
+    }
+  }
+</style>
