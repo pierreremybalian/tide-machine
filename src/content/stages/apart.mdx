@@ -1,13 +1,39 @@
 ---
 id: apart
-title: "Taking the tide apart"
-kicker: "Harmonic analysis"
-summary: "Fit a year of measurements with those rhythms and each one comes out with its own height and timing. Those numbers are all you need to predict the tide."
-beats: []
-howWeKnow: "To be written."
+title: 'Taking the tide apart'
+kicker: 'Harmonic analysis'
+summary: 'Fit a year of measurements with those rhythms and each one comes out with its own height and timing. Those numbers are all you need to predict the tide.'
+beats:
+  - local: 0.13
+    text: 'This is every hourly reading from NOAA’s San Francisco gauge in 2025: 8,760 numbers. The fast flicker is the daily tide; the slow swelling is the two-week beat of the last stages.'
+  - local: 0.26
+    text: 'Up close, December: two tides a day, unequal, swelling and shrinking. All the rhythms of the last stage are in this tangle, mixed together.'
+  - local: 0.37
+    text: 'Each rhythm’s speed is known in advance. What is unknown is how high it stands here and when it peaks. So try a wave of each speed against the whole year, all 31 at once, and keep the heights and timings that leave the smallest error. This is the harmonic analysis Kelvin set up in 1867, done today by least squares.'
+  - local: 0.47
+    text: 'Each rhythm comes out as an arm. Its length is the height, its angle sets the timing, and it turns at its own speed. Unwound, each arm is a wave: M2, then K1 and O1 from the Moon’s tilt, S2 from the Sun, N2 from the Moon’s ellipse.'
+  - local: 0.57
+    text: 'Our fit lands on NOAA’s published values. M2 comes out at 0.568 m and 209.2°; NOAA’s is 0.576 m and 208.2°. NOAA averages five yearly fits, and one year’s weather moves ours by about a centimeter.'
+  - local: 0.66
+    text: 'Add the 31 waves back together and the sum lies on the record.'
+  - local: 0.77
+    text: 'Almost. What is left is weather. Wind and air pressure push the bay up and down by 7 cm in a typical hour of 2025, and on December 24 the water stood 47 cm above the tide.'
+  - local: 0.9
+    text: 'Those 63 numbers, a mean level and a height and timing for each rhythm, are San Francisco’s tide. With them it can be worked out for any hour, past or future, by adding waves. The next stage builds a machine that adds.'
+howWeKnow: 'The record is NOAA’s verified hourly water level at station 9414290 for 2025. The fit uses the rhythms NOAA uses for San Francisco, 31 of them once the seasonal Sa and Ssa are left out (one year cannot separate them from that year’s weather), with node corrections for the 18.6-year cycle of the Moon’s orbit (src/tides/analysis.ts). A test reruns the fit on the data file and checks every number shown. NOAA’s published constants are a vector average of five yearly analyses, with Sa and Ssa from twenty years.'
 sources:
-  - label: "NOAA Tides and Currents"
-    url: "https://tidesandcurrents.noaa.gov/"
+  - label: 'NOAA CO-OPS, San Francisco, CA (9414290): water levels and station information'
+    url: 'https://tidesandcurrents.noaa.gov/stationhome.html?id=9414290'
+  - label: 'NOAA CO-OPS, harmonic constituents for San Francisco, CA (9414290)'
+    url: 'https://tidesandcurrents.noaa.gov/harcon.html?id=9414290'
+  - label: 'Parker 2007, Tidal Analysis and Prediction, NOAA Special Publication NOS CO-OPS 3 (ch. 4, harmonic analysis by least squares)'
+    url: 'https://tidesandcurrents.noaa.gov/publications/Tidal_Analysis_and_Predictions.pdf'
+  - label: 'NOAA Ocean Service, Tides and Water Levels: Monitoring the Tides'
+    url: 'https://oceanservice.noaa.gov/education/tutorial_tides/tides09_monitor.html'
 ---
 
-To be written.
+William Thomson, later Lord Kelvin, proposed in 1867 to the British Association that tide records be analysed into a set of simple harmonic waves whose speeds are known from astronomy. The method needs no theory of how the ocean moves. It only asks, for each speed, how big a wave of that speed is in the record and where its crests fall. Done by hand, with tables and long multiplications, a year of hourly readings took weeks. Here it takes a tenth of a second.
+
+Each wave is fitted as two unknowns, the amounts of a cosine and a sine of its speed, which together give its height and its phase. With 31 rhythms and the mean level that is 63 unknowns, chosen together so that the sum misses the 8,760 readings by as little as possible in the least-squares sense. Rhythms with nearly equal speeds, like K1 and P1, can only be told apart because a year is long enough for them to drift through a full cycle against each other.
+
+What is left over is not noise in the measurement. It is the water the stars did not put there: wind setting up the bay, low pressure lifting the sea, rain running out of the rivers, and the seasons, which a single year cannot pin down. That residual is why tide tables come with a warning, and it returns in stage 12, where a storm made it the biggest part of the water.
