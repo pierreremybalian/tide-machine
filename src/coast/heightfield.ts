@@ -257,7 +257,7 @@ export function ambientOcclusion(hf: Heightfield, exaggeration = 1, radii = [2, 
   for (const r of radii) {
     const blur = boxBlur(land, hf.nx, hf.ny, r);
     const scale = exaggeration / (r * cell);
-    for (let i = 0; i < ao.length; i++) ao[i] += Math.max(0, blur[i]! - land[i]!) * scale;
+    for (let i = 0; i < ao.length; i++) ao[i] = ao[i]! + Math.max(0, blur[i]! - land[i]!) * scale;
   }
   for (let i = 0; i < ao.length; i++) ao[i] = 1 / (1 + 2.2 * ao[i]!);
   return ao;

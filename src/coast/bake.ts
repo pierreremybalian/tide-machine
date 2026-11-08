@@ -3,7 +3,7 @@
 // occlusion, the coarse grid of the tide field with water-path detours, and the wave bands' travel times.
 
 import { ambientOcclusion, cellMetres, projection, type BBox, type Heightfield } from './heightfield.ts';
-import { tidalDomain, type TidalOptions } from './wetdry.ts';
+import { KIND_DIKED, KIND_POND, signedDistance, tidalDomain, type TidalOptions } from './wetdry.ts';
 import { createTideField, detourGrid, fillLevels, type BayStation, type DetourGrid } from './tidefield.ts';
 import { bandField, type WaveBand } from './waves.ts';
 
@@ -30,11 +30,14 @@ export interface CoastBake {
   /** Full resolution. Spill height (m), Infinity where never tidal. */
   spill: Float32Array;
   kind: Uint8Array;
+  /** Signed distances (cells, ±4, positive inside) to salt ponds and to diked land, for smooth class edges. */
+  pondSdf: Float32Array;
+  dikedSdf: Float32Array;
   ao: Float32Array;
   /** Tide-field grid (coarse). */
   field: CoarseGrid & { meanLevel: Float32Array };
   detour: DetourGrid;
-  wave: CoarseGrid & { dx: number; dy: number; T: Float32Array[]; amp: Float32Array[]; bands: WaveBand[] };
+  wave: CoarseGrid & { dx: number; dy: number; T: Float32Array[]; amp: Float32Array[]; bands: WaveBand[]; reach: Float32Array };
   /** Milliseconds per step, for the perf notes. */
   timings: Record<string, number>;
 }
@@ -90,6 +93,8 @@ export function bakeCoast(hf: Heightfield, stations: BayStation[], o: BakeOption
     t = now;
   };
   const { spill, kind } = tidalDomain(hf.data, hf.nx, hf.ny, o.tidal);
+  const pondSdf = signedDistance((i) => kind[i] === KIND_POND, hf.nx, hf.ny);
+  const dikedSdf = signedDistance((i) => kind[i] === KIND_DIKED || kind[i] === KIND_POND, hf.nx, hf.ny);
   lap('tidal');
   const ao = ambientOcclusion(hf, o.aoExaggeration ?? 2.5);
   lap('ao');
@@ -130,19 +135,23 @@ export function bakeCoast(hf: Heightfield, stations: BayStation[], o: BakeOption
   const grid = { nx: wg.nx, ny: wg.ny, dx: cx * wd, dy: cy * wd, depth, water };
   const T: Float32Array[] = [];
   const amp: Float32Array[] = [];
+  let reach: Float32Array = new Float32Array(wg.nx * wg.ny);
   for (const b of o.bands) {
     const f = bandField(grid, b);
     T.push(f.T);
     amp.push(f.amp);
+    if (f.reach) reach = f.reach;
     lap(`band ${b.period}s`);
   }
   return {
     spill,
     kind,
+    pondSdf,
+    dikedSdf,
     ao,
     field: { ...fg, meanLevel },
     detour,
-    wave: { ...wg, dx: grid.dx, dy: grid.dy, T, amp, bands: o.bands },
+    wave: { ...wg, dx: grid.dx, dy: grid.dy, T, amp, bands: o.bands, reach },
     timings,
   };
 }

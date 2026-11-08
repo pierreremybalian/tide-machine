@@ -38,6 +38,8 @@ export interface WaveBandField {
   T: Float32Array;
   /** Amplitude factor 0–1 (shelter or fetch growth). */
   amp: Float32Array;
+  /** Ocean bands only: marine reach 0–1, exp(−excess path / reachScale): how directly the cell sees the open sea. */
+  reach?: Float32Array;
 }
 
 /** Unit vector (x east, z south) of a compass bearing. */
@@ -88,7 +90,7 @@ export function fetchMap(g: WaveGrid, toward: number, edgeFetch: number): Float3
 }
 
 /** Travel times and amplitude factors for one band. */
-export function bandField(g: WaveGrid, band: WaveBand, minDepth = 0.3): WaveBandField {
+export function bandField(g: WaveGrid, band: WaveBand, minDepth = 0.3, reachScale = 12000): WaveBandField {
   const { nx, ny, dx, dy, depth, water } = g;
   const n = nx * ny;
   const omega = (2 * Math.PI) / band.period;
@@ -119,11 +121,30 @@ export function bandField(g: WaveGrid, band: WaveBand, minDepth = 0.3): WaveBand
       unit[c] = plane(i, j);
     }
   const T64 = fastMarch({ nx, ny, dx, dy }, speed, init);
+  // Continue the travel time two cells onto land (after the march, so it opens no shortcut across a spit): the
+  // renderer interpolates bilinearly and needs valid corners right up to the waterline.
+  const slow = phaseSpeed(omega, minDepth);
+  for (let pass = 0; pass < 2; pass++) {
+    const prev = Float64Array.from(T64);
+    for (let j = 0; j < ny; j++)
+      for (let i = 0; i < nx; i++) {
+        const c = j * nx + i;
+        if (Number.isFinite(prev[c]!)) continue;
+        let m = Infinity;
+        if (i > 0) m = Math.min(m, prev[c - 1]! + dx / slow);
+        if (i < nx - 1) m = Math.min(m, prev[c + 1]! + dx / slow);
+        if (j > 0) m = Math.min(m, prev[c - nx]! + dy / slow);
+        if (j < ny - 1) m = Math.min(m, prev[c + nx]! + dy / slow);
+        T64[c] = m;
+      }
+  }
   const T = new Float32Array(n);
   for (let i = 0; i < n; i++) T[i] = Number.isFinite(T64[i]!) ? T64[i]! : -1;
 
   const amp = new Float32Array(n);
+  let reach: Float32Array | undefined;
   if (band.source === 'ocean') {
+    reach = new Float32Array(n);
     // Shelter: excess of the shortest water path over the straight plane-wave path.
     const ones = new Float32Array(n);
     for (let i = 0; i < n; i++) ones[i] = water[i] ? 1 : 0;
@@ -134,10 +155,37 @@ export function bandField(g: WaveGrid, band: WaveBand, minDepth = 0.3): WaveBand
         if (!Number.isFinite(D[c]!)) continue;
         const excess = Math.max(0, D[c]! - plane(i, j));
         amp[c] = Math.exp(-excess / band.scale);
+        reach[c] = Math.exp(-excess / reachScale);
       }
+    // Carry the exposure a few cells inland so the renderer can tell surf beaches from sheltered mud.
+    for (let pass = 0; pass < 4; pass++)
+      for (let j = 0; j < ny; j++)
+        for (let i = 0; i < nx; i++) {
+          const c = j * nx + i;
+          if (water[c]) continue;
+          let m = amp[c]!;
+          if (i > 0) m = Math.max(m, amp[c - 1]! * 0.85);
+          if (i < nx - 1) m = Math.max(m, amp[c + 1]! * 0.85);
+          if (j > 0) m = Math.max(m, amp[c - nx]! * 0.85);
+          if (j < ny - 1) m = Math.max(m, amp[c + nx]! * 0.85);
+          amp[c] = m;
+        }
   } else {
     const F = fetchMap(g, band.toward, band.scale * 4);
     for (let i = 0; i < n; i++) amp[i] = water[i] ? Math.tanh(Math.sqrt(F[i]! / band.scale)) : 0;
+    // Two cells onto land, like T, so the filtered amplitude does not dip at the waterline.
+    for (let pass = 0; pass < 2; pass++)
+      for (let j = 0; j < ny; j++)
+        for (let i = 0; i < nx; i++) {
+          const c = j * nx + i;
+          if (water[c]) continue;
+          let m = amp[c]!;
+          if (i > 0) m = Math.max(m, amp[c - 1]!);
+          if (i < nx - 1) m = Math.max(m, amp[c + 1]!);
+          if (j > 0) m = Math.max(m, amp[c - nx]!);
+          if (j < ny - 1) m = Math.max(m, amp[c + nx]!);
+          amp[c] = m;
+        }
   }
-  return { band, T, amp };
+  return { band, T, amp, reach };
 }

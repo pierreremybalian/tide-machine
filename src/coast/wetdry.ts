@@ -136,9 +136,10 @@ export interface TidalOptions extends SpillOptions {
   leveeRaise?: number;
   /** Levees are looked for between these heights (m). */
   leveeBand?: [number, number];
-  /** Max 3×3 range (m) for a flat pond cell, and the minimum pond size (cells). */
+  /** Max 3×3 range (m) for a flat pond cell, the minimum pond size (cells) and the height band ponds sit in (m). */
   pondFlatness?: number;
   pondMinCells?: number;
+  pondBand?: [number, number];
   /** Depth below the spill height (m) that marks a diked depression, and the sill level it must exceed. */
   depression?: number;
   depressionSill?: number;
@@ -178,7 +179,8 @@ export function tidalDomain(h: Float32Array, nx: number, ny: number, o: TidalOpt
   const raise = o.leveeRaise ?? 1;
   const [b0, b1] = o.leveeBand ?? [0.5, 6];
   const flatTol = o.pondFlatness ?? 0.015;
-  const pondMin = o.pondMinCells ?? 20;
+  const pondMin = o.pondMinCells ?? 24;
+  const [p0, p1] = o.pondBand ?? [-0.5, 3.5];
   const dep = o.depression ?? 0.3;
   const sill = o.depressionSill ?? -0.5;
 
@@ -194,7 +196,7 @@ export function tidalDomain(h: Float32Array, nx: number, ny: number, o: TidalOpt
     for (let i = 1; i < nx - 1; i++) {
       const c = j * nx + i;
       const hv = h[c]!;
-      if (hv < -0.5 || hv > 20) continue;
+      if (hv < p0 || hv > p1) continue;
       let lo = Infinity;
       let hi = -Infinity;
       for (let v = -1; v <= 1; v++)
@@ -235,6 +237,51 @@ export function tidalDomain(h: Float32Array, nx: number, ny: number, o: TidalOpt
   const spill = spillHeights(hc, nx, ny, o);
   for (let i = 0; i < n; i++) if (kind[i] || spill[i]! >= 1e4) spill[i] = Infinity;
   return { spill, kind };
+}
+
+/**
+ * Signed distance (cells, clamped to ±maxDist) to the edge of a mask: positive inside. Chamfer 3-4 transform; the
+ * renderer thresholds it at 0 so class boundaries (ponds, diked land) are smooth curves, not texel staircases.
+ */
+export function signedDistance(mask: (i: number) => boolean, nx: number, ny: number, maxDist = 4): Float32Array {
+  const n = nx * ny;
+  const inside = new Uint8Array(n);
+  for (let i = 0; i < n; i++) inside[i] = mask(i) ? 1 : 0;
+  const out = new Float32Array(n);
+  for (const side of [1, 0]) {
+    const d = new Float32Array(n);
+    for (let i = 0; i < n; i++) d[i] = inside[i] === side ? 1e6 : 0;
+    const D = Math.SQRT2;
+    for (let y = 0; y < ny; y++)
+      for (let x = 0; x < nx; x++) {
+        const i = y * nx + x;
+        let v = d[i]!;
+        if (v === 0) continue;
+        if (x > 0) v = Math.min(v, d[i - 1]! + 1);
+        if (y > 0) {
+          v = Math.min(v, d[i - nx]! + 1);
+          if (x > 0) v = Math.min(v, d[i - nx - 1]! + D);
+          if (x < nx - 1) v = Math.min(v, d[i - nx + 1]! + D);
+        }
+        d[i] = v;
+      }
+    for (let y = ny - 1; y >= 0; y--)
+      for (let x = nx - 1; x >= 0; x--) {
+        const i = y * nx + x;
+        let v = d[i]!;
+        if (v === 0) continue;
+        if (x < nx - 1) v = Math.min(v, d[i + 1]! + 1);
+        if (y < ny - 1) {
+          v = Math.min(v, d[i + nx]! + 1);
+          if (x < nx - 1) v = Math.min(v, d[i + nx + 1]! + D);
+          if (x > 0) v = Math.min(v, d[i + nx - 1]! + D);
+        }
+        d[i] = v;
+      }
+    // Distances are to the nearest cell of the other class; shift by ½ so the edge sits between cells.
+    for (let i = 0; i < n; i++) if (inside[i] === side) out[i] = side ? Math.min(d[i]! - 0.5, maxDist) : -Math.min(d[i]! - 0.5, maxDist);
+  }
+  return out;
 }
 
 /** Water depth (m) where wet, 0 where dry. */
