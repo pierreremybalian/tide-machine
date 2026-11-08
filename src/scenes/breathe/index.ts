@@ -52,9 +52,10 @@ const SHOTS: ShotKey[] = [
   [1.0, { lat: 37.77, lng: -122.37, az: 0.14, el: 1.0, dist: 96 }],
 ];
 
+// The page's hero title covers this stage's first ~17 %: no place labels under it.
 const PLACES = [
-  { id: 'gate', text: 'Golden Gate', lat: 37.8105, lng: -122.4776, on: [0.04, 0.42] },
-  { id: 'sf', text: 'San Francisco', lat: 37.765, lng: -122.43, on: [0.04, 0.2] },
+  { id: 'gate', text: 'Golden Gate', lat: 37.8105, lng: -122.4776, on: [0.16, 0.42] },
+  { id: 'sf', text: 'San Francisco', lat: 37.765, lng: -122.43, on: [0.16, 0.27] },
   { id: 'pacific', text: 'Pacific Ocean', lat: 37.7, lng: -122.65, on: [0.84, 1.01] },
   { id: 'south', text: 'South Bay', lat: 37.6, lng: -122.2, on: [0.84, 1.01] },
   { id: 'flats', text: 'tidal flats', lat: 37.488, lng: -122.07, on: [0.5, 0.78] },
