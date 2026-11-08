@@ -30,10 +30,10 @@ export default () =>
     cameras: {
       overview: { lat: 37.79, lng: -122.3, az: 0.3, el: 0.92, dist: 112 },
       hero: { lat: 37.8, lng: -122.4, az: 1.2, el: 0.42, dist: 46 },
-      gate: { lat: 37.812, lng: -122.49, az: 2.2, el: 0.42, dist: 9 },
-      beach: { lat: 37.755, lng: -122.512, az: -1.05, el: 0.33, dist: 3.2 },
+      gate: { lat: 37.812, lng: -122.49, az: 2.2, el: 0.42, dist: 9, exag: 2 },
+      beach: { lat: 37.755, lng: -122.512, az: -1.05, el: 0.33, dist: 3.2, exag: 2 },
       south: { lat: 37.53, lng: -122.12, az: 0.1, el: 0.62, dist: 30 },
-      flats: { lat: 37.585, lng: -122.16, az: 0.9, el: 0.38, dist: 6 },
+      flats: { lat: 37.585, lng: -122.16, az: 0.9, el: 0.38, dist: 6, exag: 2 },
       pablo: { lat: 38.06, lng: -122.37, az: 0.6, el: 0.6, dist: 26 },
       suisun: { lat: 38.07, lng: -122.03, az: 0.3, el: 0.62, dist: 26 },
     },

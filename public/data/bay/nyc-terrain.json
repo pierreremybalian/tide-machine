@@ -17,6 +17,6 @@
  "verticalDatum": "NAVD88 on land (USGS 3DEP/NED); bathymetry as compiled by the tile sources (NOAA CRM, ≈ mean sea level), see DECISIONS.md",
  "zoom": 13,
  "source": "AWS Open Data terrain tiles (Terrarium), https://registry.opendata.aws/terrain-tiles/",
- "min": -38.1,
+ "min": -37.3,
  "max": 111.9
 }

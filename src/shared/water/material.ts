@@ -236,7 +236,8 @@ export function createCoastMaterial(inp: CoastMaterialInputs, u: CoastUniforms):
         const n0 = nb(vec2(0, 0));
         const ddx = nb(vec2(e / 90, 0)).sub(n0).div(e);
         const ddz = nb(vec2(0, e / 90)).sub(n0).div(e);
-        const amp = float(1).sub(smoothstep(cx * 0.15, cx * 0.6, footprint)).mul(smoothstep(0.02, 0.2, length(g3)).mul(0.7).add(0.3)).mul(2.2);
+        // Little on the flats (mud is smooth; exaggeration would turn noise into speckle), more on slopes.
+        const amp = float(1).sub(smoothstep(cx * 0.15, cx * 0.6, footprint)).mul(smoothstep(0.01, 0.15, length(g3)).mul(0.88).add(0.12)).mul(2.2);
         gm.addAssign(vec2(ddx, ddz).mul(amp));
       });
       const N = normalize(vec3(gm.x.mul(u.exaggeration).negate(), 1, gm.y.mul(u.exaggeration).negate()));
@@ -296,7 +297,7 @@ export function createCoastMaterial(inp: CoastMaterialInputs, u: CoastUniforms):
       const wrapL = clamp(dot(N, S).add(0.15).div(1.15), 0, 1);
       const sunL = sunCol.mul(wrapL.mul(wrapL.mul(0.35).add(0.65))).mul(sunUp).mul(shadow.mul(0.92).add(0.08)).mul(ao.mul(0.3).add(0.7));
       // Sky light is what valleys lose: AO weighs it more than the sun (multi-scale relief, no blur).
-      const skyL = ambLand.mul(N.y.mul(0.6).add(0.4)).mul(ao.mul(ao));
+      const skyL = ambLand.mul(N.y.mul(0.6).add(0.4)).mul(mix(float(0.3), float(1), ao.mul(ao)));
       const bounce = sunCol.mul(0.03).mul(float(1).sub(N.y)).mul(ao);
       const c = alb.mul(sunL.add(skyL).add(bounce)).toVar();
 

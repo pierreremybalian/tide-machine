@@ -20,6 +20,8 @@ export interface LabCamera {
   /** km. */
   dist: number;
   fov?: number;
+  /** Vertical exaggeration for this view (default: the lab's). */
+  exag?: number;
 }
 
 export interface CoastLabConfig {
@@ -85,7 +87,7 @@ export function createCoastLab(cfg: CoastLabConfig): BlockScene {
     labels,
     async init(ctx: RenderContext) {
       renderer = ctx.renderer;
-      const exag = Number(q.get('exag') ?? cfg.exaggeration);
+      const exag = Number(q.get('exag') ?? cam.exag ?? cfg.exaggeration);
       let sun = cfg.sun;
       if (sunMode && sunMode !== 'real') {
         const [az, el] = sunMode.split(',').map(Number);

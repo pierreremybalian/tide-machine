@@ -318,7 +318,7 @@ function rebuildWater(fine: Float32Array, coarse: Float32Array, nx: number, ny: 
   return count;
 }
 
-/** Lower cells that stand more than `limit` above the 5×5 opening (min then max filter): buildings, not hills. */
+/** Cut cells standing more than `limit` above the 5×5 opening (buildings, not hills), lift land pits likewise. */
 function despike(h: Float32Array, nx: number, ny: number, limit: number): number {
   const filt = (src: Float32Array, pick: (a: number, b: number) => number, init: number) => {
     const tmp = new Float32Array(src.length);
@@ -342,6 +342,14 @@ function despike(h: Float32Array, nx: number, ny: number, limit: number): number
   for (let i = 0; i < h.length; i++)
     if (h[i]! > opened[i]! + limit) {
       h[i] = opened[i]! + limit;
+      k++;
+    }
+  // And the converse on land: pits (voids where buildings were removed, interpolated low) are lifted to within
+  // `limit` of the 5 × 5 closing. Open water (closing ≤ 1.5 m) is left alone; channels narrower than ≈ 140 m fill.
+  const closed = filt(filt(h, Math.max, -Infinity), Math.min, Infinity);
+  for (let i = 0; i < h.length; i++)
+    if (closed[i]! > 1.5 && h[i]! < closed[i]! - limit) {
+      h[i] = closed[i]! - limit;
       k++;
     }
   return k;

@@ -33,7 +33,7 @@ export default () =>
     edgeFade: 1.5,
     cameras: {
       overview: { lat: 40.695, lng: -74.02, az: 0.25, el: 0.85, dist: 24 },
-      battery: { lat: 40.703, lng: -74.016, az: 0.75, el: 0.45, dist: 3.6 },
+      battery: { lat: 40.703, lng: -74.016, az: 0.75, el: 0.45, dist: 3.6, exag: 2 },
       eastriver: { lat: 40.715, lng: -73.975, az: 1.35, el: 0.5, dist: 4.5 },
       hudson: { lat: 40.73, lng: -74.02, az: -1.2, el: 0.4, dist: 6 },
     },
