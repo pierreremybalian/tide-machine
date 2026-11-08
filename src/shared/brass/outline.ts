@@ -118,8 +118,8 @@ export function createOutline(renderer: WebGPURenderer, scene: Scene, camera: Ca
     // Background: a faint vertical gradient.
     const bg = mix(vec3(bottom[0], bottom[1], bottom[2]), vec3(top[0], top[1], top[2]), p.y);
     const fill = tOut.sample(p).rgb;
-    const hotCol = mix(lineColour, vec3(1.0, 0.86, 0.6), hotK.min(1));
-    const lineC = hotCol.mul(e).mul(lineK).mul(gain).mul(float(1).add(hotK.mul(1.4)));
+    const hotCol = mix(lineColour, vec3(1.0, 0.8, 0.5), hotK.min(1).mul(0.6));
+    const lineC = hotCol.mul(e).mul(lineK).mul(gain).mul(float(1).add(hotK.mul(0.45)));
     return vec4(mix(bg, fill, cov).add(lineC), 1);
   })();
 

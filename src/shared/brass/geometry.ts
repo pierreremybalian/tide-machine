@@ -271,6 +271,8 @@ export interface GearSpec {
   /** Hub radius (a boss on both faces); 0 for none. */
   hub?: number;
   part?: number;
+  /** Points per flank multiplier (quality tier detail: 0.5 low, 1 medium, 1.5 high). */
+  detail?: number;
 }
 
 /** Pitch radius of a gear. */
@@ -280,12 +282,12 @@ export const pitchRadius = (teeth: number, module: number) => (teeth * module) /
  * The tooth outline of an involute spur gear, counter-clockwise, tooth 0 centred on +x. Addendum 1 m, dedendum
  * 1.25 m. Points per flank fall with tooth count so a 200-tooth wheel stays light.
  */
-export function gearProfile(teeth: number, module: number, pressure = (20 * Math.PI) / 180): V2[] {
+export function gearProfile(teeth: number, module: number, pressure = (20 * Math.PI) / 180, detail = 1): V2[] {
   const rp = pitchRadius(teeth, module);
   const rb = rp * Math.cos(pressure);
   const ra = rp + module;
   const rf = Math.max(rp - 1.25 * module, module * 0.5);
-  const flank = teeth > 90 ? 2 : teeth > 40 ? 3 : 5;
+  const flank = Math.max(1, Math.round((teeth > 90 ? 2 : teeth > 40 ? 3 : 5) * detail));
   // Half-angle of the tooth at radius r.
   const half = (r: number) => Math.PI / (2 * teeth) + inv(pressure) - (r > rb ? inv(Math.acos(rb / r)) : 0);
   const r0 = Math.max(rf, rb);
@@ -315,7 +317,7 @@ export function gearProfile(teeth: number, module: number, pressure = (20 * Math
 /** An involute spur gear about z, centred on z = 0; large wheels get spoked windows and every wheel a hub. */
 export function gear(s: GearSpec): GeoBuilder {
   const part = s.part ?? 0;
-  const prof = gearProfile(s.teeth, s.module, s.pressure);
+  const prof = gearProfile(s.teeth, s.module, s.pressure, s.detail);
   const rp = pitchRadius(s.teeth, s.module);
   const rim = rp - 1.25 * s.module - Math.max(s.module * 2.5, rp * 0.12);
   const hub = s.hub ?? Math.max(rp * 0.22, s.module * 3);

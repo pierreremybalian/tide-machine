@@ -24,7 +24,7 @@ import type { StationConstants } from '../../tides/predict.ts';
 import type { RenderContext } from '../../scenes/types.ts';
 import { box, circle, cylinder, extrude, gear, GeoBuilder, revolve, rod, roundRect, type V2 } from './geometry.ts';
 import { createBrassMaterial, createHot, type BrassMaterial, type BrassStyle } from './material.ts';
-import { createGlowLine, createPaperTrace, type GlowLine, type PaperLine, type PaperTrace } from './lines.ts';
+import { createGlowLine, createGlowPoints, createPaperTrace, type GlowLine, type PaperLine, type PaperTrace } from './lines.ts';
 
 export interface MachineConfig {
   machine: MachineId;
@@ -76,8 +76,8 @@ export interface BrassMachine {
   update(machineTimeMs: number): void;
   /** Highlight up to four part ids (others −1). */
   setHot(a?: number, b?: number, c?: number, d?: number): void;
-  /** Brightness of the wire and of the trace (HDR multipliers). */
-  setGlow(wire: number, trace: number): void;
+  /** Brightness of the wire, the trace and the crank pins (HDR multipliers). */
+  setGlow(wire: number, trace: number, pins?: number): void;
   dispose(): void;
 }
 
@@ -95,6 +95,7 @@ type StyleName = keyof typeof STYLES;
 const WIRE_COLOUR = [1.0, 0.86, 0.62] as const;
 const TRACE_COLOUR = [1.0, 0.8, 0.45] as const;
 const RULING = [0.32, 0.2, 0.08] as const;
+const PIN_COLOUR = [1.0, 0.72, 0.36] as const;
 const ARC_STEPS = 10;
 const WORM_TEETH = 12; // effective pitch diameter of a single-start worm, in teeth (for spacing only)
 
@@ -112,12 +113,13 @@ interface Train {
   idlerMesh: Mesh | null;
 }
 
-export function createMachine(_ctx: RenderContext, config: MachineConfig): BrassMachine {
+export function createMachine(ctx: RenderContext, config: MachineConfig): BrassMachine {
   const span = config.span ?? 7 * 86400e3;
   const model = createMachineModel(config.station, config.machine, { t0: config.t0, scale: config.scale ?? 0.4, penOffset: config.penOffset ?? 2.6 });
   const state = createMachineState(model);
   const r = model.cranks[0]!.radius;
   const n = model.cranks.length;
+  const detail = ctx.quality?.detail ?? 1;
 
   const hot = createHot();
   const mats = {} as Record<StyleName, BrassMaterial>;
@@ -307,7 +309,7 @@ export function createMachine(_ctx: RenderContext, config: MachineConfig): Brass
       const b = new GeoBuilder();
       if (k > 0) {
         const t = pairs[k - 1]![1];
-        b.append(gear({ teeth: t, module, width, part: aid }), at(0, 0, zStage(k - 1)));
+        b.append(gear({ teeth: t, module, width, part: aid, detail }), at(0, 0, zStage(k - 1)));
       }
       if (k < ns) {
         const t = pairs[k]![0];
@@ -319,7 +321,7 @@ export function createMachine(_ctx: RenderContext, config: MachineConfig): Brass
           for (let j = -3; j <= 3; j++) w.append(revolve([[0, 0.006], [wr, 0.004], [wr, -0.004], [0, -0.006]], 16, aid), at(0, 0, j * module * 2));
           w.append(cylinder(wr * 0.6, -len / 2, len / 2, 12, aid));
           b.append(w, new Matrix4().makeRotationY(Math.PI / 2).setPosition(0, 0, zStage(k)));
-        } else b.append(gear({ teeth: t, module, width, part: aid }), at(0, 0, zStage(k)));
+        } else b.append(gear({ teeth: t, module, width, part: aid, detail }), at(0, 0, zStage(k)));
       }
       if (k === ns) {
         // The crank's own gear turns with the disc: merge it into the disc.
@@ -338,7 +340,7 @@ export function createMachine(_ctx: RenderContext, config: MachineConfig): Brass
     if (idler) {
       const iid = id();
       ids.push(iid);
-      idlerMesh = mesh(gear({ teeth: idler, module, width, part: iid }), 'gear');
+      idlerMesh = mesh(gear({ teeth: idler, module, width, part: iid, detail }), 'gear');
       idlerMesh.position.set(ck.x, idlerY, zStage(0));
       stat.shaft.append(cylinder(0.014, Z.shaft, zStage(0) + 0.03, 10, id()), at(ck.x, idlerY, 0));
     }
@@ -547,6 +549,9 @@ export function createMachine(_ctx: RenderContext, config: MachineConfig): Brass
   const maxPts = 2 + model.path.length * (ARC_STEPS + 3);
   const wire: GlowLine = createGlowLine(maxPts, WIRE_COLOUR, { width: 0.005, intensity: 1.35 });
   overlay.add(wire.mesh);
+  // Crank pins glow: each circles at its constituent's speed, at a radius set by its amplitude.
+  const pins = createGlowPoints(n, PIN_COLOUR, { radius: 0.05, intensity: 2.2 });
+  overlay.add(pins.mesh);
 
   // ── Bounds ─────────────────────────────────────────────────────────────────────────────────────────────────────
   const min = new Vector3(bx0, baseTop - 0.26, -1.0);
@@ -615,6 +620,8 @@ export function createMachine(_ctx: RenderContext, config: MachineConfig): Brass
         const px = ck.x - ck.row * state.throw[i]! * Math.sin(th);
         const py = crankYs[i]! + ck.row * state.throw[i]! * Math.cos(th);
         blocks[i]!.position.set(px, py, 0);
+        // Brightness by amplitude, so the terms that matter read first (a floor keeps every pin visible).
+        pins.set(i, px, py, Z.yoke + 0.02, 0.5 + 0.5 * Math.min(1, state.throw[i]! / (0.6 * maxThrow)));
         // Gears: the crank's own wheel turns with the disc; work back up the train, meshing tooth to gap.
         const tr = trains[i]!;
         const ns = tr.pairs.length;
@@ -656,18 +663,21 @@ export function createMachine(_ctx: RenderContext, config: MachineConfig): Brass
       }
       wire.set(p++, state.penX, state.penY + 0.02, 0);
       wire.commit(p);
+      pins.commit();
     },
     setHot(a = -1, b = -1, c = -1, d = -1) {
       hot.value.set(a, b, c, d);
     },
-    setGlow(w, t) {
+    setGlow(w, t, p = 2.2) {
       wire.intensity.value = w;
       trace.intensity.value = t;
+      pins.intensity.value = p;
     },
     dispose() {
       for (const g of geos) g.dispose();
       for (const k of Object.keys(mats) as StyleName[]) mats[k].dispose();
       wire.dispose();
+      pins.dispose();
       trace.dispose();
       solids.clear();
       overlay.clear();

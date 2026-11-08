@@ -111,6 +111,80 @@ export function createGlowLine(maxPoints: number, colour: RGB, opts: { width?: n
   };
 }
 
+// ── Glowing points (crank pins) ────────────────────────────────────────────────────────────────────────────────
+
+export interface GlowPoints {
+  mesh: Mesh;
+  /** Move point i (world) with brightness b. */
+  set(i: number, x: number, y: number, z: number, b?: number): void;
+  commit(): void;
+  intensity: FloatU;
+  dispose(): void;
+}
+
+/** Camera-facing glowing dots, updated in place. Radius in world units with a floor in screen space. */
+export function createGlowPoints(count: number, colour: RGB, opts: { radius?: number; intensity?: number } = {}): GlowPoints {
+  const centre = new Float32Array(count * 4 * 4);
+  const corner = new Float32Array(count * 4 * 2);
+  const index = new Uint32Array(count * 6);
+  for (let i = 0; i < count; i++) {
+    corner.set([-1, -1, 1, -1, 1, 1, -1, 1], i * 8);
+    index.set([i * 4, i * 4 + 1, i * 4 + 2, i * 4, i * 4 + 2, i * 4 + 3], i * 6);
+  }
+  const geo = new BufferGeometry();
+  const aCentre = new BufferAttribute(centre, 4);
+  // A plain vec3 position keeps three's bookkeeping happy; the shader reads the centres from aCentre.
+  geo.setAttribute('position', new Float32BufferAttribute(new Float32Array(count * 4 * 3), 3));
+  geo.setAttribute('aCentre', aCentre);
+  geo.setAttribute('aCorner', new Float32BufferAttribute(corner, 2));
+  geo.setIndex(new Uint32BufferAttribute(index, 1));
+  const intensity = uniform(opts.intensity ?? 1.4);
+  const radius = opts.radius ?? 0.03;
+  const c4 = attribute<'vec4'>('aCentre', 'vec4');
+  const c = c4.xyz;
+  const k = attribute<'vec2'>('aCorner', 'vec2');
+  const toCam = normalize(cameraPosition.sub(c));
+  const right = normalize(cross(vec3(0, 1, 0), toCam).add(vec3(1e-6, 0, 0)));
+  const up = cross(toCam, right);
+  const rad = max(float(radius), cameraPosition.sub(c).length().mul(0.0065));
+  // The corner must reach the fragment interpolated, and be squared there (squared per vertex it is 2 everywhere).
+  const kf = vertexStage(k) as unknown as Node<'vec2'>;
+  const d2 = kf.dot(kf);
+  const glow = exp(d2.mul(-7)).add(exp(d2.mul(-2.2)).mul(0.3)).mul(float(1).sub(smoothstep(0.85, 1, d2)));
+  const mat = new MeshBasicNodeMaterial({ transparent: true, depthWrite: false, depthTest: false, blending: AdditiveBlending, side: DoubleSide });
+  mat.positionNode = c.add(right.mul(k.x).mul(rad)).add(up.mul(k.y).mul(rad));
+  const b = vertexStage(c4.w) as unknown as Node<'float'>;
+  mat.colorNode = Fn(() => {
+    If(glow.mul(b).lessThan(0.004), () => {
+      Discard();
+    });
+    return vec4(vec3(colour[0], colour[1], colour[2]).mul(glow).mul(b).mul(intensity), 1);
+  })();
+  const mesh = new Mesh(geo, mat);
+  mesh.frustumCulled = false;
+  mesh.renderOrder = 11;
+  return {
+    mesh,
+    intensity,
+    set(i, x, y, z, br = 1) {
+      for (let v = 0; v < 4; v++) {
+        const o = (i * 4 + v) * 4;
+        centre[o] = x;
+        centre[o + 1] = y;
+        centre[o + 2] = z;
+        centre[o + 3] = br;
+      }
+    },
+    commit() {
+      aCentre.needsUpdate = true;
+    },
+    dispose() {
+      geo.dispose();
+      mat.dispose();
+    },
+  };
+}
+
 // ── The trace on the paper band ────────────────────────────────────────────────────────────────────────────────
 
 /** A polyline on the paper: s = distance along the band (machine units), y = height. */

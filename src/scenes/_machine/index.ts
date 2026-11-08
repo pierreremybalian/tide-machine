@@ -21,8 +21,9 @@ const params = {
   az: { kelvin: 0.3, obb: 0.62 },
   swing: 0.36,
   el: 0.14,
-  /** How much of the frame the machine may fill (NDC half-extents). */
+  /** How much of the frame the machine may fill (NDC half-extents); portrait crops to the cranks' end and the paper. */
   fill: { x: 0.94, y: 0.86 },
+  fillPortrait: { kelvin: { x: 1.75, y: 0.7 }, obb: { x: 2.6, y: 0.7 } },
 };
 
 const LABELS = [
@@ -33,6 +34,7 @@ const LABELS = [
   { id: 'pen', text: 'the pen draws the tide', tone: 'plain', side: 'right' },
 ] as const;
 type LabelId = (typeof LABELS)[number]['id'];
+const flip = (side: string) => (side === 'left' ? 'right' : side === 'right' ? 'left' : side) as 'left' | 'right' | 'above';
 
 export default function makeMachineScene(): BlockScene {
   let renderer: WebGPURenderer;
@@ -46,10 +48,9 @@ export default function makeMachineScene(): BlockScene {
   let L = {} as Record<LabelId, number>;
   /** First label index of the per-pulley constituent names. */
   let names = 0;
-  /** The first crank of each row: the lower one's degree circle carries the phase label, the upper one's train the
-   * gear label (both at the left, clear of the record). */
-  let firstLower = 0;
-  let firstUpper = 0;
+  /** Cranks whose degree circle and train carry the phase and gear labels: the first of each row in landscape (at
+   * the left, clear of the record), the last but one in portrait (the end that stays in frame). */
+  const pick = { landscape: { lower: 0, upper: 0 }, portrait: { lower: 0, upper: 0 } };
   let dist = 10;
   const v = new Vector3();
   const pa = new Vector3();
@@ -73,15 +74,24 @@ export default function makeMachineScene(): BlockScene {
       scene.add(machine.solids);
       overlay.add(machine.overlay);
       // Fixed labels, then one small name per pulley (shown where the pulleys are big enough on screen).
+      // Each fixed label also exists on the other side, shown instead when the text would run off screen.
       labels = new LabelSet([
         ...LABELS.map((l) => ({ ...l })),
+        ...LABELS.map((l) => ({ ...l, id: `${l.id}~`, side: flip(l.side) })),
         ...machine.model.cranks.map((c) => ({ id: `n${c.index}`, text: c.name, tone: 'mute' as const, side: 'center' as const, size: 'sm' as const })),
       ]);
       self.labels = labels;
       L = Object.fromEntries(LABELS.map((l) => [l.id, labels.index(l.id)])) as Record<LabelId, number>;
-      names = LABELS.length;
-      firstLower = machine.model.cranks.find((c) => c.row < 0)!.index;
-      firstUpper = machine.model.cranks.find((c) => c.row > 0)!.index;
+      names = LABELS.length * 2;
+      // The featured crank (largest throw) and its chain glow a little hotter: the labels point at it.
+      const fp = machine.crankParts[machine.featured]!;
+      machine.setHot(fp[0], fp[1], fp[2]);
+      const cr = machine.model.cranks;
+      pick.landscape.lower = cr.find((c) => c.row < 0)!.index;
+      pick.landscape.upper = cr.find((c) => c.row > 0)!.index;
+      // In portrait the phase label moves up to the last upper crank, away from the throw label below.
+      pick.portrait.lower = cr.filter((c) => c.row > 0).at(-1)!.index;
+      pick.portrait.upper = cr.filter((c) => c.row > 0).at(-2)!.index;
       outline = createOutline(renderer, scene, rig.camera, { resolutionScale: ctx.quality.renderScale });
       self.update(0.5, 0, 0);
       await renderer.compileAsync(overlay, rig.camera);
@@ -94,9 +104,12 @@ export default function makeMachineScene(): BlockScene {
       const b = machine.bounds;
       const cam = rig.camera;
       const portrait = cam.aspect < 1;
-      const az = params.az[config] * (portrait ? 1.7 : 1) + params.swing * (local - 0.5);
+      const az = (portrait ? Math.min(0.75, params.az[config] * 2.4) : params.az[config]) + params.swing * (local - 0.5);
+      const fill = portrait ? params.fillPortrait[config] : params.fill;
+      // Portrait: centre on where the wire leaves the last pulley for the paper.
+      const tx = portrait ? machine.locate('run', machine.model.cranks.length - 1, v).x : b.centre.x;
       for (let it = 0; it < 4; it++) {
-        rig.apply({ az, el: params.el, dist: dist / rig.fit(), tx: b.centre.x, tt: b.centre.y, ty: b.centre.z }, elapsed);
+        rig.apply({ az, el: params.el, dist: dist / rig.fit(), tx, tt: b.centre.y, ty: b.centre.z }, elapsed);
         cam.updateMatrixWorld();
         let mx = 0;
         let my = 0;
@@ -105,21 +118,31 @@ export default function makeMachineScene(): BlockScene {
           mx = Math.max(mx, Math.abs(corner.x));
           my = Math.max(my, Math.abs(corner.y));
         }
-        const k = Math.max(mx / params.fill.x, my / params.fill.y);
+        const k = Math.max(mx / fill.x, my / fill.y);
         if (Math.abs(k - 1) < 0.01) break;
         dist *= k;
       }
 
       const m = machine;
       const f = m.featured;
-      const put = (id: LabelId, p: Vector3) => labels.place(L[id], p.x, p.y, p.z, cam, 1);
+      const cssW = typeof window === 'undefined' ? 1280 : window.innerWidth;
+      const put = (id: LabelId, p: Vector3) => {
+        const i = L[id];
+        const spec = LABELS[i]!;
+        const px = ((pa.copy(p).project(cam).x + 1) / 2) * cssW;
+        const textW = spec.text.length * 6.6 + 14;
+        const off = spec.side === 'left' ? px - textW < 6 : spec.side === 'right' ? px + textW > cssW - 6 : false;
+        labels.place(off ? i + LABELS.length : i, p.x, p.y, p.z, cam, 1);
+        labels.hide(off ? i : i + LABELS.length);
+      };
       put('throw', m.locate('pin', f, v));
-      put('gear', m.locate('train', firstUpper, v).setX(v.x - m.discRadius - 0.08));
-      put('angle', m.locate('ring', firstLower, v));
-      put('wire', m.locate('anchor', 0, v).setY(v.y - 0.15));
+      const pk = portrait ? pick.portrait : pick.landscape;
+      put('gear', m.locate('train', pk.upper, v).setX(v.x - m.discRadius - 0.08));
+      put('angle', m.locate('ring', pk.lower, v));
+      if (portrait) put('wire', m.locate('run', pk.upper, v));
+      else put('wire', m.locate('anchor', 0, v).setY(v.y - 0.15));
       put('pen', m.locate('pen', 0, v));
       // Names inside the pulleys, faded out where a pulley is under ~24 px across.
-      const cssW = typeof window === 'undefined' ? 1280 : window.innerWidth;
       for (let i = 0; i < m.model.cranks.length; i++) {
         m.locate('pulley', i, v);
         pa.copy(v).project(cam);

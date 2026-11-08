@@ -50,7 +50,7 @@ export function createBrassMaterial(style: BrassStyle, hot: Vec4U): BrassMateria
     max(float(1).sub(abs(part.sub(hot.x)).min(1)), float(1).sub(abs(part.sub(hot.y)).min(1))),
     max(float(1).sub(abs(part.sub(hot.z)).min(1)), float(1).sub(abs(part.sub(hot.w)).min(1))),
   );
-  const shade = float(0.018).add(diffuse.mul(0.05)).add(rim.mul(0.06)).mul(fill).mul(float(1).add(hotHit.mul(1.5)));
+  const shade = float(0.018).add(diffuse.mul(0.05)).add(rim.mul(0.06)).mul(fill).mul(float(1).add(hotHit.mul(0.6)));
   const m = new MeshBasicNodeMaterial({ side: FrontSide });
   m.colorNode = vec4(vec3(t[0], t[1], t[2]).mul(shade), 1);
   m.mrtNode = mrt({ ident: vec4(part, line, hotHit, fill) as unknown as Node<'vec4'> });
