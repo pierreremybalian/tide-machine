@@ -3,11 +3,37 @@ id: crank
 title: "Turn the crank"
 kicker: "Machine and bay"
 summary: "Set the machine to San Francisco, turn the crank, and watch the pen and the water move together. Then compare with NOAA’s official prediction."
-beats: []
-howWeKnow: "To be written."
+beats:
+  - local: 0.13
+    text: "Old Brass Brains, set for San Francisco on New Year’s Day 2026. Beside it, the bay, with the water where 35 tide stations put it at the same moment."
+  - local: 0.22
+    time: "Day 1"
+    text: "Turn the crank. The pen rises and falls, and so does the water at the Golden Gate: the same number, one in brass, one in the bay."
+  - local: 0.38
+    time: "The week"
+    text: "These are the king tides of the new year. The range reaches 2.7 m, low water drops half a meter below chart datum, and the flats of the bay drain."
+  - local: 0.48
+    text: "The blue dots are NOAA’s official prediction for the same hours, computed today from the same constants."
+  - local: 0.62
+    text: "Over the week’s 169 hourly values, the machine and NOAA never differ by more than 2 cm. A century-old mechanism and a modern computer agree to the width of a finger."
+  - local: 0.8
+    text: "The machine never knew about this bay. It only knew 37 rhythms and how strongly each one moves the sea at Fort Point."
+howWeKnow: "The pen is computed from the mechanism itself: each of Old Brass Brains’ 37 cranks is set at the start of the week from NOAA’s San Francisco harmonic constants and turned by its own gear train (tooth counts from the 1915 description), and the wire is laid pulley by pulley. Over the week the pen stays within a millimeter of our harmonic prediction. NOAA’s official hourly predictions for station 9414290 were downloaded from its API; the largest difference is computed in the page, not typed in. Between hours, the NOAA readout is interpolated smoothly through its hourly values."
 sources:
-  - label: "NOAA Tides and Currents"
-    url: "https://tidesandcurrents.noaa.gov/"
+  - label: "NOAA CO-OPS: San Francisco 9414290, harmonic constants and predictions"
+    url: "https://tidesandcurrents.noaa.gov/stationhome.html?id=9414290"
+  - label: "US Coast and Geodetic Survey, Special Publication 32 (1915): Tide-Predicting Machine No. 2"
+    url: "https://archive.org/details/descriptionofusc00uscouoft"
+  - label: "NOAA: Tide Predicting Machine No. 2"
+    url: "https://tidesandcurrents.noaa.gov/predmach.html"
+  - label: "AWS Open Data terrain tiles (terrain and bathymetry)"
+    url: "https://registry.opendata.aws/terrain-tiles/"
 ---
 
-To be written.
+This is the payoff of the first half: the machine and the water side by side, driven by the same clock. Old Brass Brains is set exactly as its operators would have set it for a new port. Each crank’s throw is the amplitude of one constituent at San Francisco, each crank’s starting angle is that constituent’s phase for the first moment of the week, and the gear trains do the rest. Nothing on the machine knows about the Moon or the bay; it only adds 37 cosine waves with a wire.
+
+The bay on the right is built from real terrain and bathymetry. Its water is not the machine’s single number spread flat: 35 NOAA stations inside the bay each predict their own level, and the surface between them is interpolated along water paths. At Fort Point, where the pen’s station is, the two must agree, and they do.
+
+The blue dots come from NOAA’s computers, which still use the same harmonic method today, with more constituents for some ports. Over the week the machine and NOAA differ by 0.8 cm on average (root mean square) and 2.0 cm at most; across January and July 2026 our own predictor matches NOAA to 0.8 cm RMS at San Francisco. The remaining differences come from details of the method, such as when the slow node corrections are updated, not from the machine.
+
+Heights are above mean lower low water, the US chart datum. Relief and water are drawn three times taller than life, the light is a fixed winter afternoon, and a week of machine time passes across the scroll.

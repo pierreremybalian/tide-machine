@@ -1,0 +1,238 @@
+---
+// Turn the crank (stage 11): the machine's week against NOAA's official hourly prediction for San Francisco. The pen's
+// curve (amber) is drawn up to machine time; NOAA's hourly values (cyan dots) land on it; the strip below shows the
+// difference at each hour, ×10 so centimetres can be seen. Also the diptych's divider (vertical in landscape,
+// horizontal in portrait, matching src/scenes/crank).
+---
+
+<div class="crank-divider" data-crank-divider></div>
+<section class="card crank" data-card="crank">
+  <h3>Machine vs NOAA <span>SF · Jan 1–8 2026</span></h3>
+  <svg viewBox="0 0 320 132" data-crank-svg>
+    <g class="grid" data-grid></g>
+    <path class="pen" data-pen></path>
+    <g class="dots" data-dots></g>
+    <circle class="head" r="3" data-head></circle>
+    <g class="resid" data-resid-g>
+      <line class="zero" x1="0" x2="320" y1="118" y2="118"></line>
+      <text class="rl" x="2" y="129">pen − NOAA, ×10</text>
+      <path class="res" data-res></path>
+    </g>
+  </svg>
+  <p class="legend">
+    <span><i class="l-pen"></i>machine’s pen</span>
+    <span><i class="l-noaa"></i>NOAA official, hourly</span>
+    <span class="max" data-max></span>
+  </p>
+</section>
+
+<script>
+  import { CRANK_T0, HOUR_MS, MAX_DIFF, NOAA_WEEK, PEN_WEEK, WEEK_H, crankState } from '../../script/crank.ts';
+  import { onStage, showCard } from '../card.ts';
+
+  const NS = 'http://www.w3.org/2000/svg';
+  const card = document.querySelector<HTMLElement>('[data-card="crank"]')!;
+  const divider = document.querySelector<HTMLElement>('[data-crank-divider]')!;
+  const svg = card.querySelector<SVGSVGElement>('[data-crank-svg]')!;
+  const pen = svg.querySelector<SVGPathElement>('[data-pen]')!;
+  const head = svg.querySelector<SVGCircleElement>('[data-head]')!;
+  const res = svg.querySelector<SVGPathElement>('[data-res]')!;
+  const residG = svg.querySelector<SVGGElement>('[data-resid-g]')!;
+  const dotsG = svg.querySelector<SVGGElement>('[data-dots]')!;
+  const grid = svg.querySelector<SVGGElement>('[data-grid]')!;
+  const maxEl = card.querySelector<HTMLElement>('[data-max]')!;
+
+  // Scales: x over the week, y over the week's range (m above MLLW); the residual strip ×10 around y = 118.
+  let lo = Infinity;
+  let hi = -Infinity;
+  for (const v of NOAA_WEEK) {
+    lo = Math.min(lo, v);
+    hi = Math.max(hi, v);
+  }
+  lo -= 0.1;
+  hi += 0.1;
+  const X = (h: number) => 4 + (312 * h) / WEEK_H;
+  const Y = (m: number) => 8 + (92 * (hi - m)) / (hi - lo);
+  const R = (d: number) => 118 - (d * 10 * 92) / (hi - lo); // ten times the main chart's vertical scale
+  for (let d = 0; d <= 7; d++) {
+    const l = document.createElementNS(NS, 'line');
+    l.setAttribute('x1', X(d * 24).toFixed(1));
+    l.setAttribute('x2', X(d * 24).toFixed(1));
+    l.setAttribute('y1', '6');
+    l.setAttribute('y2', '128');
+    grid.appendChild(l);
+  }
+  for (const m of [0, 1, 2]) {
+    if (m < lo || m > hi) continue;
+    const l = document.createElementNS(NS, 'line');
+    l.setAttribute('x1', '0');
+    l.setAttribute('x2', '320');
+    l.setAttribute('y1', Y(m).toFixed(1));
+    l.setAttribute('y2', Y(m).toFixed(1));
+    l.setAttribute('class', 'h');
+    grid.appendChild(l);
+    const t = document.createElementNS(NS, 'text');
+    t.setAttribute('x', '316');
+    t.setAttribute('y', (Y(m) - 2).toFixed(1));
+    t.textContent = `${m} m`;
+    grid.appendChild(t);
+  }
+  const dots = Array.from(NOAA_WEEK, (v, h) => {
+    const c = document.createElementNS(NS, 'circle');
+    c.setAttribute('cx', X(h).toFixed(1));
+    c.setAttribute('cy', Y(v).toFixed(1));
+    c.setAttribute('r', '1.15');
+    dotsG.appendChild(c);
+    return c;
+  });
+  maxEl.textContent = `max difference ${(MAX_DIFF.m * 100).toFixed(1)} cm`;
+
+  let lastH = -1;
+  let portrait = matchMedia('(orientation: portrait)').matches;
+  matchMedia('(orientation: portrait)').addEventListener('change', (e) => (portrait = e.matches));
+  onStage((s) => {
+    const on = s.stageId === 'crank';
+    const st = crankState(on ? s.local : 0);
+    divider.style.opacity = on ? (st.split * 0.9).toFixed(3) : '0';
+    divider.classList.toggle('is-portrait', portrait);
+    showCard(card, on && st.split > 0.6);
+    if (!on) return;
+    const hNow = Math.max(0, Math.min(WEEK_H, (st.ms - CRANK_T0) / HOUR_MS));
+    card.style.setProperty('--noaa', st.noaaOn.toFixed(3));
+    residG.style.opacity = st.diffOn.toFixed(3);
+    maxEl.style.opacity = st.diffOn.toFixed(3);
+    if (Math.abs(hNow - lastH) < 0.05) return;
+    lastH = hNow;
+    // Pen: hourly samples up to the last full hour, then the head at machine time.
+    const n = Math.floor(hNow);
+    let d = `M${X(0).toFixed(1)},${Y(PEN_WEEK[0]!).toFixed(1)}`;
+    for (let h = 1; h <= n; h++) d += `L${X(h).toFixed(1)},${Y(PEN_WEEK[h]!).toFixed(1)}`;
+    const a = PEN_WEEK[n]!;
+    const b = PEN_WEEK[Math.min(WEEK_H, n + 1)]!;
+    const yNow = a + (b - a) * (hNow - n);
+    d += `L${X(hNow).toFixed(1)},${Y(yNow).toFixed(1)}`;
+    pen.setAttribute('d', d);
+    head.setAttribute('cx', X(hNow).toFixed(1));
+    head.setAttribute('cy', Y(yNow).toFixed(1));
+    dots.forEach((c, h) => c.classList.toggle('on', h <= hNow + 1e-6));
+    let r = '';
+    for (let h = 0; h <= n; h++) r += `${h ? 'L' : 'M'}${X(h).toFixed(1)},${R(PEN_WEEK[h]! - NOAA_WEEK[h]!).toFixed(1)}`;
+    res.setAttribute('d', r);
+  });
+</script>
+
+<style>
+  .crank-divider {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 1px;
+    background: linear-gradient(transparent, rgb(255 236 200 / 0.32) 12%, rgb(255 236 200 / 0.32) 88%, transparent);
+    opacity: 0;
+    pointer-events: none;
+  }
+  .crank-divider.is-portrait {
+    top: 47%;
+    bottom: auto;
+    left: 0;
+    right: 0;
+    width: auto;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgb(255 236 200 / 0.32) 12%, rgb(255 236 200 / 0.32) 88%, transparent);
+  }
+  svg {
+    display: block;
+    width: 100%;
+    margin-top: 0.55rem;
+    overflow: visible;
+  }
+  .grid :global(line) {
+    stroke: rgb(255 255 255 / 0.06);
+    stroke-width: 1;
+  }
+  .grid :global(line.h) {
+    stroke: rgb(255 255 255 / 0.1);
+    stroke-dasharray: 2 3;
+  }
+  .grid :global(text) {
+    font-family: var(--font-mono);
+    font-size: 7.5px;
+    text-anchor: end;
+    fill: var(--color-mute);
+  }
+  .pen {
+    fill: none;
+    stroke: var(--color-brass);
+    stroke-width: 1.3;
+    stroke-linejoin: round;
+    filter: drop-shadow(0 0 3px rgb(230 184 102 / 0.6));
+  }
+  .head {
+    fill: #fff1d6;
+    filter: drop-shadow(0 0 4px rgb(255 210 140 / 0.9));
+  }
+  .dots :global(circle) {
+    fill: var(--color-obs-b);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .dots :global(circle.on) {
+    opacity: calc(0.9 * var(--noaa, 0));
+  }
+  .resid {
+    opacity: 0;
+  }
+  .zero {
+    stroke: rgb(255 255 255 / 0.16);
+    stroke-width: 1;
+  }
+  .rl {
+    font-family: var(--font-mono);
+    font-size: 7px;
+    fill: var(--color-mute);
+  }
+  .res {
+    fill: none;
+    stroke: var(--color-obs-both);
+    stroke-width: 0.9;
+    opacity: 0.85;
+  }
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.2rem 0.9rem;
+    margin-top: 0.45rem;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.04em;
+    color: var(--color-mute);
+  }
+  .legend i {
+    display: inline-block;
+    width: 0.7rem;
+    height: 2px;
+    margin-right: 0.35rem;
+    vertical-align: middle;
+  }
+  .l-pen {
+    background: var(--color-brass);
+  }
+  .l-noaa {
+    height: 4px !important;
+    width: 4px !important;
+    border-radius: 50%;
+    background: var(--color-obs-b);
+  }
+  .max {
+    margin-left: auto;
+    color: var(--color-obs-both);
+    opacity: 0;
+  }
+  /* Phones: the dual clock carries the same numbers; the card would cover the bay. */
+  @media (max-width: 767px) and (orientation: portrait) {
+    .crank {
+      display: none;
+    }
+  }
+</style>
