@@ -1,0 +1,162 @@
+---
+// Along the chain (stage 10): Old Brass Brains' 37 pulleys in chain order, from the fixed end (Sa) to the pen (M2),
+// alternately under and over, with the one the camera is passing lit and named. Kelvin's ten are marked.
+import { OBB_37, KELVIN_1872 } from '../../tides/machine.ts';
+
+const kelvin = new Set(KELVIN_1872);
+const W = 320;
+const step = (W - 24) / (OBB_37.length - 1 + 1.2);
+// The front frame (the last six) stands a little apart from the rear.
+const xs = OBB_37.map((_, i) => 12 + step * (i + (i >= OBB_37.length - 6 ? 1.2 : 0)));
+---
+
+<section class="card brass" data-card="brass">
+  <h3>
+    Along the chain <span>fixed end → pen</span>
+  </h3>
+  <svg viewBox={`0 0 ${W} 46`} data-chain>
+    <polyline
+      class="chain"
+      points={xs.map((x, i) => `${x.toFixed(1)},${i % 2 === 0 ? 31 : 15}`).join(' ')}
+    ></polyline>
+    {OBB_37.map((name, i) => (
+      <circle
+        class:list={['p', { k: kelvin.has(name) }]}
+        data-i={i}
+        cx={xs[i]!.toFixed(1)}
+        cy={i % 2 === 0 ? 31 : 15}
+        r="3.2"
+      />
+    ))}
+    <text class="end" x="2" y="44">
+      Sa
+    </text>
+    <text class="end r" x={W - 2} y="44">
+      M2 · pen
+    </text>
+  </svg>
+  <p class="now">
+    <b data-name></b> <span data-period></span> <span class="of" data-of></span>
+  </p>
+  <p class="about" data-about></p>
+  <p class="legend">
+    <i></i>also on Kelvin’s machine
+  </p>
+</section>
+
+<script>
+  import { OBB_37 } from '../../tides/machine.ts';
+  import { BY_NAME } from '../../tides/constituents.ts';
+  import { brassState } from '../../script/brass.ts';
+  import { formatPeriod, periodHours, pretty } from '../../script/adds.ts';
+  import { onStage, showCard } from '../card.ts';
+
+  const card = document.querySelector<HTMLElement>('[data-card="brass"]')!;
+  const dots = [...card.querySelectorAll<SVGCircleElement>('circle.p')];
+  const name = card.querySelector<HTMLElement>('[data-name]')!;
+  const period = card.querySelector<HTMLElement>('[data-period]')!;
+  const of = card.querySelector<HTMLElement>('[data-of]')!;
+  const about = card.querySelector<HTMLElement>('[data-about]')!;
+  let shown = -1;
+
+  onStage((s) => {
+    const b = s.stageId === 'brass' ? brassState(s.local) : null;
+    showCard(card, !!b && b.labels.focus > 0.3);
+    if (!b || b.focus === shown) return;
+    dots[shown]?.classList.remove('on');
+    shown = b.focus;
+    dots[shown]?.classList.add('on');
+    const n = OBB_37[shown]!;
+    name.textContent = pretty(n);
+    period.textContent = formatPeriod(periodHours(n));
+    of.textContent = `${shown + 1} of 37`;
+    about.textContent = BY_NAME.get(n)!.about;
+  });
+</script>
+
+<style>
+  svg {
+    display: block;
+    width: 100%;
+    margin-top: 0.6rem;
+    overflow: visible;
+  }
+  .chain {
+    fill: none;
+    stroke: rgb(255 224 180 / 0.28);
+    stroke-width: 0.8;
+  }
+  .p {
+    fill: #0b0d16;
+    stroke: rgb(230 184 102 / 0.55);
+    stroke-width: 1;
+    transition:
+      fill 0.2s,
+      stroke 0.2s;
+  }
+  .p.k {
+    stroke: rgb(255 240 220 / 0.95);
+  }
+  .p.on {
+    fill: var(--color-glow);
+    stroke: var(--color-glow);
+  }
+  .end {
+    font-family: var(--font-mono);
+    font-size: 8px;
+    fill: var(--color-mute);
+  }
+  .end.r {
+    text-anchor: end;
+  }
+  .now {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    margin-top: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--color-mute);
+  }
+  .now b {
+    font-family: var(--font-serif);
+    font-size: 1.35rem;
+    font-weight: 400;
+    color: var(--color-paper);
+  }
+  .now .of {
+    margin-left: auto;
+  }
+  .about {
+    margin-top: 0.25rem;
+    min-height: 2.4em;
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    line-height: 1.35;
+    color: var(--color-fog);
+  }
+  .legend {
+    margin-top: 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.06em;
+    color: var(--color-mute);
+  }
+  .legend i {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    border: 1px solid rgb(255 240 220 / 0.95);
+  }
+  @media (max-width: 767px) {
+    section.card.brass {
+      top: 10.4rem;
+    }
+    .about {
+      min-height: 0;
+    }
+  }
+</style>
