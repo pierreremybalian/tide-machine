@@ -1,0 +1,618 @@
+---
+// The finale's interactive layer (stage 13, HANDOFF §10): the pointer and keyboard surface over the 3D view, the
+// search and suggested places, and the place card with the machine's slot. Unlike the HUD it is not aria-hidden:
+// it is a real tool. Inert until the reader reaches it (src/finale/ui/panel.ts).
+---
+
+<div class="finale" data-finale data-phase="globe" inert>
+  <div
+    class="layer"
+    data-layer
+    data-own-keys
+    tabindex="0"
+    role="application"
+    aria-roledescription="globe"
+    aria-label="Globe. Drag or use the arrow keys to turn it, plus and minus to zoom, Enter to choose the point at the center. On a coast, drag or use the arrow keys to look around; Escape goes back to the globe."
+  >
+  </div>
+
+  <section class="panel" data-panel aria-labelledby="fin-h">
+    <h2 id="fin-h" class="sr-only">Find the tide on any coast</h2>
+    <form role="search" data-form autocomplete="off">
+      <label for="fin-q" class="sr-only">Search a coastal place, or type latitude and longitude</label>
+      <input
+        id="fin-q"
+        type="search"
+        placeholder="Search a coast, or 38.70, -9.15"
+        role="combobox"
+        aria-expanded="false"
+        aria-controls="fin-results"
+        aria-autocomplete="list"
+        data-q
+        data-own-keys
+      />
+      <ul id="fin-results" class="results" role="listbox" aria-label="Places" data-results data-lenis-prevent hidden></ul>
+    </form>
+    <div class="intro-ui">
+      <p class="hint">Drag the globe and tap a coast, or try:</p>
+      <div class="chips" data-chips></div>
+      <p class="legend"><i class="dot-noaa"></i>NOAA station: measured <i class="dot-sea"></i>brighter sea: bigger tide</p>
+    </div>
+    <p class="status" role="status" aria-live="polite" data-status></p>
+    <div class="error" data-error hidden>
+      <p data-error-msg></p>
+      <div class="chips" data-error-list></div>
+    </div>
+  </section>
+
+  <section class="card" data-card aria-labelledby="fin-place" hidden>
+    <div class="scroller" data-scroller data-lenis-prevent>
+      <div class="sheet top">
+      <header>
+        <button type="button" class="back" data-back aria-label="Back to the globe">← Globe</button>
+        <span class="src" data-src-chip data-st="measured"><i></i><span data-src-label>Measured</span></span>
+      </header>
+      <h2 id="fin-place" data-place-name></h2>
+      <p class="sub" data-place-sub></p>
+      <p class="when" data-when></p>
+      <p class="now"><span class="lvl" data-now></span> <span class="trend" data-trend></span></p>
+      <p class="datum" data-datum></p>
+      <dl class="next">
+        <div><dt>Next high</dt><dd data-high></dd></div>
+        <div><dt>Next low</dt><dd data-low></dd></div>
+      </dl>
+      <svg class="day" viewBox="0 0 320 84" data-day role="img" aria-label="The tide from six hours ago to eighteen hours ahead, with highs and lows"></svg>
+      <div class="week">
+        <svg viewBox="0 0 320 46" data-week aria-hidden="true"></svg>
+        <label class="sr-only" for="fin-crank">Turn the crank: machine time through the week</label>
+        <input id="fin-crank" type="range" data-crank data-own-keys />
+        <button type="button" class="live" data-live hidden>Back to now</button>
+      </div>
+      <p class="crank-hint">Drag along the week to turn the crank: the water and the machine follow.</p>
+      </div>
+      <!-- The machine is drawn in the canvas behind this hole: nothing here may cover or blur it. -->
+      <figure class="machine">
+        <div class="slot" data-slot></div>
+      </figure>
+      <div class="sheet bot">
+      <p class="cap" data-slot-cap></p>
+      <p class="building" data-building></p>
+      <p class="observed" data-observed></p>
+      <p class="note" data-note></p>
+      <p class="note terrain" data-terrain></p>
+      <div class="actions">
+        <button type="button" data-share>Copy link</button>
+      </div>
+      <p class="sr-only" aria-live="polite" data-sr></p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+  import { initFinale } from './panel.ts';
+  initFinale(document.querySelector<HTMLElement>('[data-finale]')!);
+</script>
+
+<style>
+  .finale {
+    position: fixed;
+    inset: 0;
+    z-index: 16;
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 0.6s var(--ease-cosmic),
+      visibility 0s linear 0.6s;
+  }
+  :global(html.finale-on) .finale {
+    opacity: calc(1 - var(--end-fade, 0));
+    visibility: visible;
+    transition: opacity 0.6s var(--ease-cosmic);
+  }
+  :global(html.past-end) .finale {
+    visibility: hidden;
+  }
+  /* The tool takes the stage: captions step aside once the reader engages. */
+  :global(html.finale-on.finale-engaged .narration .caps) {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  .layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: auto;
+    cursor: grab;
+    touch-action: pan-y;
+    outline: none;
+  }
+  .layer:focus-visible {
+    box-shadow: inset 0 0 0 2px rgb(255 217 160 / 0.45);
+  }
+  button,
+  input {
+    font: inherit;
+    color: inherit;
+  }
+  .panel,
+  .card {
+    pointer-events: auto;
+  }
+  .panel {
+    position: absolute;
+    left: max(1.5rem, 6vw);
+    top: 4.4rem;
+    width: min(23rem, calc(100vw - 3rem));
+    display: grid;
+    gap: 0.7rem;
+  }
+  form {
+    position: relative;
+  }
+  input[type='search'] {
+    width: 100%;
+    padding: 0.7rem 0.95rem;
+    border-radius: 0.7rem;
+    border: 1px solid var(--color-line-strong);
+    background: rgb(6 8 16 / 0.72);
+    backdrop-filter: blur(10px);
+    font-size: 0.95rem;
+    color: var(--color-paper);
+  }
+  input[type='search']::placeholder {
+    color: var(--color-mute);
+  }
+  input[type='search']:focus {
+    outline: none;
+    border-color: rgb(255 217 160 / 0.6);
+    box-shadow: 0 0 0 3px rgb(255 217 160 / 0.12);
+  }
+  .results {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(100% + 0.3rem);
+    z-index: 2;
+    padding: 0.3rem;
+    border-radius: 0.7rem;
+    border: 1px solid var(--color-line);
+    background: rgb(6 8 16 / 0.94);
+    list-style: none;
+  }
+  .results :global(li) {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.45rem 0.6rem;
+    border-radius: 0.45rem;
+    cursor: pointer;
+    font-size: 0.88rem;
+  }
+  .results :global(li span) {
+    color: var(--color-mute);
+    font-size: 0.78rem;
+  }
+  .results :global(li[aria-selected='true']),
+  .results :global(li:hover) {
+    background: rgb(255 217 160 / 0.1);
+  }
+  .hint {
+    font-size: 0.8rem;
+    color: var(--color-fog);
+    text-shadow: 0 1px 12px rgb(0 0 0 / 0.9);
+  }
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin-top: 0.4rem;
+  }
+  .chips :global(.chip) {
+    padding: 0.32rem 0.65rem;
+    border-radius: 999px;
+    border: 1px solid var(--color-line-strong);
+    background: rgb(6 8 16 / 0.6);
+    font-size: 0.76rem;
+    color: var(--color-paper);
+    cursor: pointer;
+    transition:
+      border-color 0.2s ease,
+      background 0.2s ease;
+  }
+  .chips :global(.chip:hover),
+  .chips :global(.chip:focus-visible) {
+    border-color: rgb(255 217 160 / 0.7);
+    background: rgb(255 217 160 / 0.1);
+    outline: none;
+  }
+  .legend {
+    margin-top: 0.55rem;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.04em;
+    color: var(--color-mute);
+    text-shadow: 0 1px 10px rgb(0 0 0 / 0.9);
+  }
+  .legend i {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    margin: 0 0.35rem 0 0.1rem;
+    border-radius: 50%;
+    vertical-align: middle;
+  }
+  .legend .dot-noaa {
+    background: #ffa04a;
+    box-shadow: 0 0 6px #ffa04a;
+  }
+  .legend .dot-sea {
+    margin-left: 0.7rem;
+    background: #52cbff;
+    box-shadow: 0 0 6px #52cbff;
+  }
+  [data-phase='ready'] .intro-ui,
+  [data-phase='locating'] .intro-ui {
+    display: none;
+  }
+  .status {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    color: var(--color-glow);
+    text-shadow: 0 1px 12px rgb(0 0 0 / 0.9);
+  }
+  .status:empty {
+    display: none;
+  }
+  [data-phase='locating'] .status::before {
+    content: '';
+    display: inline-block;
+    width: 0.6rem;
+    height: 0.6rem;
+    margin-right: 0.5rem;
+    border-radius: 50%;
+    border: 1.5px solid var(--color-glow);
+    border-right-color: transparent;
+    vertical-align: -0.05rem;
+    animation: spin 0.9s linear infinite;
+  }
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  .error {
+    padding: 0.8rem 0.9rem;
+    border-radius: 0.7rem;
+    border: 1px solid rgb(255 179 199 / 0.35);
+    background: rgb(20 8 14 / 0.75);
+    font-size: 0.85rem;
+    line-height: 1.45;
+  }
+
+  /* ── The place card ── */
+  .card {
+    position: absolute;
+    right: max(1.25rem, 3vw);
+    top: 5.2rem;
+    bottom: 1rem;
+    width: 23rem;
+    display: flex;
+    flex-direction: column;
+  }
+  .sheet {
+    padding: 0.8rem 1rem 0.9rem;
+    border: 1px solid var(--color-line);
+    background: rgb(6 8 16 / 0.72);
+    backdrop-filter: blur(12px);
+  }
+  .sheet.top {
+    border-radius: 0.9rem 0.9rem 0 0;
+    border-bottom: 0;
+  }
+  .sheet.bot {
+    border-radius: 0 0 0.9rem 0.9rem;
+    border-top: 0;
+    padding-top: 0.5rem;
+  }
+  .card[hidden] {
+    display: none;
+  }
+  .scroller {
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+  }
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .back,
+  .live,
+  .actions button {
+    padding: 0.3rem 0.65rem;
+    border-radius: 999px;
+    border: 1px solid var(--color-line-strong);
+    background: rgb(255 255 255 / 0.03);
+    font-size: 0.74rem;
+    cursor: pointer;
+  }
+  .back:hover,
+  .live:hover,
+  .actions button:hover,
+  .back:focus-visible,
+  .live:focus-visible,
+  .actions button:focus-visible {
+    border-color: rgb(255 217 160 / 0.7);
+    outline: none;
+  }
+  .src {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.64rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--st);
+  }
+  .src i {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    box-shadow: 0 0 8px currentColor;
+  }
+  h2 {
+    margin-top: 0.5rem;
+    font-family: var(--font-serif);
+    font-weight: 380;
+    font-size: 1.5rem;
+    line-height: 1.1;
+    color: var(--color-paper);
+  }
+  .sub {
+    margin-top: 0.2rem;
+    font-size: 0.76rem;
+    color: var(--color-mute);
+  }
+  .when {
+    margin-top: 0.55rem;
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-glow);
+  }
+  .now {
+    margin-top: 0.15rem;
+    display: flex;
+    align-items: baseline;
+    gap: 0.7rem;
+  }
+  .lvl {
+    font-family: var(--font-serif);
+    font-size: 2.15rem;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-bowl);
+  }
+  .trend {
+    font-size: 0.85rem;
+    color: var(--color-fog);
+  }
+  .datum {
+    font-size: 0.7rem;
+    color: var(--color-mute);
+  }
+  .next {
+    margin-top: 0.6rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
+  }
+  .next dt {
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-mute);
+  }
+  .next dd {
+    margin-top: 0.15rem;
+    font-size: 0.86rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-paper);
+  }
+  svg {
+    display: block;
+    width: 100%;
+    overflow: visible;
+  }
+  .day {
+    margin-top: 0.55rem;
+  }
+  .day :global(.tick),
+  .week :global(.tick) {
+    stroke: rgb(255 255 255 / 0.07);
+  }
+  .day :global(.tick.mid) {
+    stroke: rgb(255 255 255 / 0.18);
+  }
+  .day :global(.zero) {
+    stroke: rgb(255 255 255 / 0.14);
+    stroke-dasharray: 2 3;
+  }
+  .day :global(.lab),
+  .week :global(.lab) {
+    font-family: var(--font-mono);
+    font-size: 7.5px;
+    text-anchor: middle;
+    fill: var(--color-mute);
+  }
+  .day :global(.ext) {
+    font-family: var(--font-mono);
+    font-size: 7px;
+    text-anchor: middle;
+    fill: var(--color-fog);
+  }
+  .day :global(.fill) {
+    fill: rgb(79 184 216 / 0.1);
+  }
+  .day :global(.curve),
+  .week :global(.curve) {
+    fill: none;
+    stroke: var(--color-sea);
+    stroke-width: 1.4;
+    stroke-linejoin: round;
+  }
+  .week :global(.curve) {
+    stroke: var(--color-brass);
+    stroke-width: 1;
+    opacity: 0.85;
+  }
+  .day :global(.hi),
+  .day :global(.lo) {
+    fill: var(--color-paper);
+  }
+  .day :global(.obs) {
+    fill: var(--color-st-measured);
+  }
+  :global(.finale) :global(.nowline) {
+    stroke: rgb(255 217 160 / 0.55);
+    stroke-width: 1;
+  }
+  .week :global(.crankline) {
+    stroke: rgb(255 217 160 / 0.9);
+    stroke-width: 1;
+  }
+  :global(.finale) :global(.head) {
+    fill: #fff1d6;
+    filter: drop-shadow(0 0 4px rgb(255 210 140 / 0.9));
+  }
+  .week {
+    position: relative;
+    margin-top: 0.5rem;
+  }
+  .week input[type='range'] {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    cursor: ew-resize;
+    touch-action: none;
+  }
+  .week:focus-within {
+    outline: 1px solid rgb(255 217 160 / 0.45);
+    outline-offset: 3px;
+    border-radius: 3px;
+  }
+  .live {
+    position: absolute;
+    right: 0;
+    top: -1.7rem;
+  }
+  .live[hidden] {
+    display: none;
+  }
+  .crank-hint {
+    margin-top: 0.3rem;
+    font-size: 0.66rem;
+    color: var(--color-mute);
+  }
+  .machine {
+    border-left: 1px solid var(--color-line);
+    border-right: 1px solid var(--color-line);
+  }
+  .slot {
+    aspect-ratio: 16 / 7;
+    box-shadow: inset 0 0 0 1px rgb(230 184 102 / 0.22);
+  }
+  .cap {
+    font-size: 0.68rem;
+    line-height: 1.4;
+    color: var(--color-mute);
+  }
+  .building,
+  .observed {
+    margin-top: 0.55rem;
+    font-size: 0.74rem;
+    line-height: 1.45;
+    color: var(--color-fog);
+  }
+  .building {
+    color: var(--color-glow);
+  }
+  .observed {
+    color: var(--color-st-measured);
+  }
+  .building:empty,
+  .observed:empty {
+    display: none;
+  }
+  .note {
+    margin-top: 0.6rem;
+    font-size: 0.68rem;
+    line-height: 1.5;
+    color: var(--color-mute);
+  }
+  .note.terrain {
+    margin-top: 0.35rem;
+  }
+  .actions {
+    margin-top: 0.75rem;
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  @media (max-width: 767px) {
+    .panel {
+      left: 1rem;
+      right: 1rem;
+      top: 5.6rem;
+      width: auto;
+    }
+    .legend {
+      display: none;
+    }
+    [data-phase='ready'] .panel {
+      display: none;
+    }
+    .card {
+      left: 0;
+      right: 0;
+      top: auto;
+      bottom: 0;
+      width: auto;
+      max-height: 54svh;
+    }
+    .sheet.top {
+      border-radius: 1rem 1rem 0 0;
+    }
+    .sheet.bot {
+      border-radius: 0;
+      border-bottom: 0;
+    }
+    h2 {
+      font-size: 1.35rem;
+    }
+    .lvl {
+      font-size: 2rem;
+    }
+  }
+</style>

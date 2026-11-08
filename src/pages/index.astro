@@ -4,6 +4,7 @@ import Base from '../layouts/Base.astro';
 import Renderer from '../render/Renderer.astro';
 import Narration, { type NarrationCaption } from '../story/Narration.astro';
 import Hud from '../hud/Hud.astro';
+import Finale from '../finale/ui/Finale.astro';
 import { STAGES as CHAPTERS, STAGE_STARTS as CHAPTER_STARTS } from '../time/stages.ts';
 import { VH_PER_WEIGHT } from '../scroll/driver.ts';
 import { HERO_END, MIN_DWELL_SVH, captionSchedule } from '../story/schedule.ts';
@@ -58,6 +59,7 @@ const titles = chapters.map((ch) => ch.data.title);
   <Renderer />
   <Narration captions={captions} titles={titles} />
   <Hud />
+  <Finale />
 
   <header class="hero" data-hero>
     <p class="hero-kicker">

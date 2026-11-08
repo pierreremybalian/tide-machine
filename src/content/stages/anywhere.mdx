@@ -3,11 +3,33 @@ id: anywhere
 title: "Any coast on Earth"
 kicker: "Your tide, now"
 summary: "Pick a coast. If NOAA has a gauge nearby, the machine uses its constants; anywhere else, a global ocean tide model. Here is the tide there, right now."
-beats: []
-howWeKnow: "To be written."
+beats:
+  - local: 0.16
+    text: "The amber points are NOAA’s 1,374 tide stations. Each has years of records, and so its own harmonic constants: there, the tide is measured."
+  - local: 0.28
+    text: "Everywhere else, satellites have measured the sea surface for three decades. The EOT20 model turns that into constants for every ocean on Earth. The brighter the sea, the bigger its twice-daily tide."
+  - local: 0.42
+    text: "Your turn. Drag the globe and tap a coast, search for a place, or pick one of the suggestions."
+howWeKnow: "Near a NOAA harmonic station (within 25 km), the page fetches that station’s constants and datums from NOAA’s API and predicts with the same code that matches NOAA’s official tables to under a centimeter at San Francisco. Where the station also has a live gauge, its last 30 hours of observations are overlaid. Everywhere else, the constants come from EOT20 (Hart-Davis et al. 2021), sampled at the point on its 1/8° grid: nine constituents, relative to mean sea level. Checked against NOAA at open-coast gauges, EOT20 is within a few centimeters; inside harbors and bays it is coarser, because a global grid cannot resolve them. Terrain and bathymetry are streamed live from the AWS terrain tiles around the point and shaded, not photographed."
 sources:
-  - label: "NOAA Tides and Currents"
-    url: "https://tidesandcurrents.noaa.gov/"
+  - label: "NOAA CO-OPS: harmonic constants, datums and water levels (API)"
+    url: "https://api.tidesandcurrents.noaa.gov/api/prod/"
+  - label: "Hart-Davis et al. 2021, EOT20: a global ocean tide model from multi-mission satellite altimetry, ESSD 13, 3869 (CC BY 4.0)"
+    url: "https://doi.org/10.5194/essd-13-3869-2021"
+  - label: "EOT20 data (SEANOE)"
+    url: "https://doi.org/10.17882/79489"
+  - label: "AWS Open Data: Terrain Tiles (Mapzen/Tilezen; USGS, NOAA, ETOPO1, GEBCO, SRTM and others)"
+    url: "https://registry.opendata.aws/terrain-tiles/"
+  - label: "Natural Earth: populated places and coastline (public domain)"
+    url: "https://www.naturalearthdata.com/"
 ---
 
-To be written.
+The finale is the machine’s promise kept: give it a port’s constants and it gives you the port’s tide. The only question is where the constants come from.
+
+In the United States and its territories, NOAA has analyzed long records at 1,374 harmonic stations. If you pick a point within 25 km of one, the page asks NOAA for that station’s constants and datums, predicts with the same code that drives every other water level on this site, and, where the station is also a real-time gauge, lays the last day of observed water over the prediction. Heights are then above mean lower low water, the datum of US tide tables, and the difference between gauge and prediction is the weather: wind, pressure and river flow that no harmonic sum can know.
+
+Everywhere else the constants come from EOT20, a global ocean tide model built at the Technical University of Munich from nearly thirty years of satellite altimetry. It gives nine constituents on a grid of 1/8° (about 14 km). On open coasts that is good to a few centimeters; inside bays, estuaries and harbors, where the tide is shaped by features smaller than the grid, it is coarser, sometimes by tens of centimeters and minutes of timing. Its heights are relative to mean sea level, because a global model has no chart datum. The chip at the top says which kind of number you are looking at: measured or modeled.
+
+The coast is built live around the point from public terrain tiles: about 24 km across, at the finest zoom that keeps the download to a few megabytes, with relief and water drawn two to four times taller than life (stated for each place). The light is the real Sun when it is up there and a fixed afternoon light when it is night. The waves are a default wind sea, because there is no live wind here. Old Brass Brains is set to the place’s constants and draws its week; drag along the week to turn its crank and the water moves with it.
+
+Times are shown in your own time zone. Share the address to send someone the same place.
