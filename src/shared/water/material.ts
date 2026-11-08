@@ -153,8 +153,8 @@ export function createCoastUniforms() {
     /** Waterline glow (0 off … 1): a thin luminous line where the tide meets the land, so a moving shore reads from afar. */
     shoreLine: uniform(0),
     shoreColor: uniform(new Vector3(0.55, 0.9, 1.2)),
-    surgeLine: uniform(new Vector3(1.6, 1.05, 0.45)),
-    surgeTint: uniform(new Vector3(0.55, 0.12, 0.06)),
+    surgeLine: uniform(new Vector3(0.95, 0.72, 0.36)),
+    surgeTint: uniform(new Vector3(0.25, 0.7, 1.0)),
     /** Mean pixel footprint hint for AA (set from the camera, m per px). */
     resolution: uniform(new Vector2(1280, 720)),
   };
@@ -557,9 +557,9 @@ export function createCoastMaterial(inp: CoastMaterialInputs, u: CoastUniforms):
     If(u.surgeMark.greaterThan(0.001), () => {
       const sp = s.sub(u.levelOffset);
       const wp = clamp(fwidth(sp), 1e-4, 0.5);
-      const line = float(1).sub(smoothstep(wp.mul(0.7), wp.mul(2.0), abs(sp))).mul(float(1).sub(diked));
+      const line = float(1).sub(smoothstep(wp.mul(0.4), wp.mul(1.4), abs(sp))).mul(float(1).sub(diked));
       const extra = wet.mul(float(1).sub(smoothstep(wp.negate(), wp, sp)));
-      surf.assign(mix(surf, surf.mul(0.6).add(u.surgeTint.mul(0.25)), extra.mul(u.surgeMark).mul(0.85)));
+      surf.assign(mix(surf, surf.mul(0.55).add(u.surgeTint.mul(0.06)), extra.mul(u.surgeMark)));
       surf.addAssign(u.surgeLine.mul(line).mul(u.surgeMark));
     });
     If(u.debug.greaterThan(0.5), () => {
