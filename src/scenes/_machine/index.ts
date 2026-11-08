@@ -94,7 +94,7 @@ export default function makeMachineScene(): BlockScene {
       pick.portrait.upper = cr.filter((c) => c.row > 0).at(-2)!.index;
       outline = createOutline(renderer, scene, rig.camera, { resolutionScale: ctx.quality.renderScale });
       self.update(0.5, 0, 0);
-      await renderer.compileAsync(overlay, rig.camera);
+      await outline.compile(overlay);
     },
     update(local: number, _dt: number, elapsed: number) {
       const ms = params.t0 + Math.min(1, Math.max(0, local)) * params.span;

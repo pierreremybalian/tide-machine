@@ -13,6 +13,7 @@
 
 import { Group, Matrix4, Mesh, Vector3, type BufferGeometry, type Object3D } from 'three/webgpu';
 import {
+  MACHINES,
   createMachineModel,
   createMachineState,
   machineAt,
@@ -33,7 +34,7 @@ export interface MachineConfig {
   t0: number;
   /** Length of the run drawn on the paper, ms (default one week). */
   span?: number;
-  /** Machine units of crank throw per metre of tide (default 0.4). */
+  /** Machine units of crank throw per metre of tide (default 0.4, less for big tides so pins stay on their discs). */
   scale?: number;
   /** How far the wire runs sideways over guides to the pen above the paper (machine units, default 2.6). */
   penOffset?: number;
@@ -115,7 +116,11 @@ interface Train {
 
 export function createMachine(ctx: RenderContext, config: MachineConfig): BrassMachine {
   const span = config.span ?? 7 * 86400e3;
-  const model = createMachineModel(config.station, config.machine, { t0: config.t0, scale: config.scale ?? 0.4, penOffset: config.penOffset ?? 2.6 });
+  // Scale: 0.4 machine units per metre, less where a big tide would throw a crank pin past its disc.
+  const names = new Set(MACHINES[config.machine].constituents);
+  const maxH = config.station.constituents.reduce((mx, k) => (names.has(k.name) ? Math.max(mx, k.amplitude) : mx), 0);
+  const scale = config.scale ?? Math.min(0.4, 0.23 / Math.max(maxH, 1e-6));
+  const model = createMachineModel(config.station, config.machine, { t0: config.t0, scale, penOffset: config.penOffset ?? 2.6 });
   const state = createMachineState(model);
   const r = model.cranks[0]!.radius;
   const n = model.cranks.length;

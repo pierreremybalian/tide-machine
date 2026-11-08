@@ -52,6 +52,8 @@ export interface Outline {
   /** Draw solids (via the G-buffer) and then the overlay scene into target. */
   render(target: RenderTarget | null, overlay?: Scene | null): void;
   setSize(width: number, height: number, dpr: number): void;
+  /** Compile the overlay ahead of the first frame (the G-buffer pipelines compile on first use). */
+  compile(overlay?: Scene | null): Promise<void>;
   readonly gain: FloatU;
   dispose(): void;
 }
@@ -142,6 +144,11 @@ export function createOutline(renderer: WebGPURenderer, scene: Scene, camera: Ca
         renderer.render(overlay, camera);
         renderer.autoClear = auto;
       }
+    },
+    async compile(overlay) {
+      // The overlay only. PassNode.compileAsync (three r186) builds the solids' pipelines without the MRT outputs
+      // and WebGPU rejects them, so the G-buffer pipelines compile on the first frame instead.
+      if (overlay) await renderer.compileAsync(overlay, camera);
     },
     setSize(width, height, dpr) {
       uTexel.value.set(1 / Math.max(1, width), 1 / Math.max(1, height));
