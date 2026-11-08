@@ -225,12 +225,13 @@ export const sun = registerStage('sun', {
     const s = sunState(local);
     const r = arms(s.hours, scratchArms);
     const rows: Readout[] = [];
-    if (s.m2 > 0.5)
+    const early = s.envelope < 0.5;
+    if (s.m2 > 0.5 && early)
       rows.push({ label: 'M2 · Moon', value: `${SF_M2.H.toFixed(2)} m · ${hm(PERIOD_M2_H)}`, tone: 'b' });
-    if (s.s2 > 0.5)
+    if (s.s2 > 0.5 && early)
       rows.push({ label: 'S2 · Sun', value: `${SF_S2.H.toFixed(2)} m · ${hm(PERIOD_S2_H)}`, tone: 'warm' });
     if (s.s2 > 0.5) rows.push({ label: 'M2 + S2', value: `${r.sum.toFixed(2)} m`, tone: 'both' });
-    if (s.envelope > 0.5 && s.sky < 0.5)
+    if (!early && s.sky < 0.5)
       rows.push({
         label: 'Spring to spring',
         value: `${(SPRING_NEAP_H / 24).toFixed(2)} days`,

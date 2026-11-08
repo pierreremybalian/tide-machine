@@ -115,6 +115,21 @@ export default function sunScene(): BlockScene {
       side: 'below' as const,
       size: 'sm' as const,
     })),
+    // Portrait: the chart runs down the screen (camera rolled), so time labels sit beside it.
+    ...days.map((d) => ({
+      id: `d${d}p`,
+      text: dateLabel(d * 24, false),
+      tone: 'mute' as const,
+      side: 'left' as const,
+      size: 'sm' as const,
+    })),
+    ...phases.map((e, i) => ({
+      id: `ph${i}p`,
+      text: PHASE_SHORT[e.kind as keyof typeof PHASE_SHORT],
+      tone: 'light' as const,
+      side: 'right' as const,
+      size: 'sm' as const,
+    })),
   ];
   const labels = new LabelSet(labelSpecs);
   const LB = Object.fromEntries(labelSpecs.map((s, i) => [s.id, i])) as Record<string, number>;
@@ -283,6 +298,8 @@ export default function sunScene(): BlockScene {
       const aM = thM + Math.PI / 2;
       const aS = thS + Math.PI / 2;
       const show = s.m2;
+      // In portrait the sky sketch takes the dial's place.
+      const dial = lay.portrait ? 1 - s.sky : 1;
       const s2on = s.s2;
       const mx = cx + k * r.fm2 * Math.cos(aM);
       const my = cy + k * r.fm2 * Math.sin(aM);
@@ -292,15 +309,22 @@ export default function sunScene(): BlockScene {
 
       const frameOn = 0.4 + 0.6 * show;
       const ring = (i: number, radius: number, on: number) => {
-        Object.assign(st[i]!, { x: cx, y: cy, sx: k * radius, sy: k * radius, intensity: on });
+        Object.assign(st[i]!, { x: cx, y: cy, sx: k * radius, sy: k * radius, intensity: on * dial });
       };
       ring(L.ringSpring, r.fm2 + r.fs2, show * (0.3 + 0.7 * s.envelope) * s2on);
       ring(L.ringNeap, r.fm2 - r.fs2, show * (0.3 + 0.7 * s.envelope) * s2on);
       ring(L.ringM2, r.fm2, frameOn * (1 - s2on * 0.6));
-      Object.assign(st[L.axisH]!, { x: cx, y: cy, sx: k * 0.82, sy: 1, intensity: frameOn });
-      Object.assign(st[L.axisV]!, { x: cx, y: cy, sx: 1, sy: k * 0.82, intensity: frameOn });
-      Object.assign(st[L.armM2]!, { x: cx, y: cy, sx: k * r.fm2, sy: k * r.fm2, rot: aM, intensity: show });
-      Object.assign(st[L.armS2]!, { x: mx, y: my, sx: sl, sy: sl, rot: aS, intensity: s2on });
+      Object.assign(st[L.axisH]!, { x: cx, y: cy, sx: k * 0.82, sy: 1, intensity: frameOn * dial });
+      Object.assign(st[L.axisV]!, { x: cx, y: cy, sx: 1, sy: k * 0.82, intensity: frameOn * dial });
+      Object.assign(st[L.armM2]!, {
+        x: cx,
+        y: cy,
+        sx: k * r.fm2,
+        sy: k * r.fm2,
+        rot: aM,
+        intensity: show * dial,
+      });
+      Object.assign(st[L.armS2]!, { x: mx, y: my, sx: sl, sy: sl, rot: aS, intensity: s2on * dial });
       const sumLen = Math.hypot(tx - cx, ty - cy);
       const sumA = Math.atan2(ty - cy, tx - cx);
       Object.assign(st[L.armSum]!, {
@@ -309,7 +333,7 @@ export default function sunScene(): BlockScene {
         sx: sumLen,
         sy: sumLen,
         rot: sumA,
-        intensity: s2on * (0.5 + 0.7 * s.frame),
+        intensity: s2on * (0.5 + 0.7 * s.frame) * dial,
       });
       ring(L.sumRing, r.sum, s.frame * s2on);
 
@@ -362,17 +386,20 @@ export default function sunScene(): BlockScene {
       for (const d of days) {
         const on = d * 24 <= span + 1e-6 && d % every === 0 ? frameOn : 0;
         Object.assign(st[L.dayTick0 + d]!, { x: x0, y: axisY, sx: xs, sy: 0.022, intensity: on });
-        labels.place(LB[`d${d}`]!, toX(d * 24), axisY - 0.03, 0, camera, on * 0.85);
+        const P = lay.portrait;
+        labels.place(LB[`d${d}`]!, toX(d * 24), axisY - 0.03, 0, camera, P ? 0 : on * 0.85);
+        labels.place(LB[`d${d}p`]!, toX(d * 24), axisY - 0.015, 0, camera, P ? on * 0.85 : 0);
       }
       phases.forEach((p, i) => {
         const on = s.phases;
         Object.assign(st[phaseTick0 + i]!, { x: x0, y: cy, sx: xs, sy: k * 0.8, intensity: on });
-        labels.place(LB[`ph${i}`]!, toX(p.hours), axisY - 0.075, 0, camera, on);
+        labels.place(LB[`ph${i}`]!, toX(p.hours), axisY - 0.075, 0, camera, lay.portrait ? 0 : on);
+        labels.place(LB[`ph${i}p`]!, toX(p.hours), cy + k * 0.82, 0, camera, lay.portrait ? on : 0);
       });
       const rowY = cy + k * 0.8;
       springs.forEach((e, i) => {
         const on = s.envelope * (e.hours <= s.hours + 6 ? 1 : 0);
-        labels.place(LB[`sn${i}`]!, toX(e.hours), rowY, 0, camera, on);
+        labels.place(LB[`sn${i}`]!, toX(e.hours), rowY, 0, camera, lay.portrait ? 0 : on);
       });
 
       // Pen and projection: the tip's height is the tide (fixed frame); riding along with M2, the sum's length is the
@@ -383,7 +410,7 @@ export default function sunScene(): BlockScene {
       const fx = s.frame;
       const gx = tx + (cx - tx) * fx;
       const gy = ty + (envY - ty) * fx;
-      Object.assign(st[L.proj]!, { x: gx, y: gy, sx: px - gx, sy: 1, rot: 0, intensity: show });
+      Object.assign(st[L.proj]!, { x: gx, y: gy, sx: px - gx, sy: 1, rot: 0, intensity: show * dial });
 
       // Sky sketch (Sun–Earth–Moon, top view; the Sun is off to the left).
       const { ix, iy, is } = lay;
@@ -417,25 +444,26 @@ export default function sunScene(): BlockScene {
       dots.setPos(0, px, py, 0);
       dots.setIntensity(0, 1.4 * show);
       dots.setPos(1, mx, my, 0);
-      dots.setIntensity(1, 1.2 * show);
+      dots.setIntensity(1, 1.2 * show * dial);
       dots.setPos(2, tx, ty, 0);
-      dots.setIntensity(2, 1.5 * s2on);
+      dots.setIntensity(2, 1.5 * s2on * dial);
       dots.setPos(3, px, envY, 0);
       dots.setIntensity(3, 1.2 * s.envelope);
       dots.setPos(4, ix - is * 1.75, iy, 0);
+      dots.setSize(4, 0.2 * (is / 0.2) * (lay.portrait ? 0.7 : 1));
       dots.setIntensity(4, 2.2 * sky);
       dots.setPos(5, ix, iy, 0);
       dots.setIntensity(5, 1.0 * sky);
       dots.setPos(6, ix + is * Math.cos(moonA), iy + is * Math.sin(moonA), 0);
       dots.setIntensity(6, 1.6 * sky);
       dots.setPos(7, cx, cy, 0);
-      dots.setIntensity(7, show);
+      dots.setIntensity(7, show * dial);
       dots.commit();
 
       // Labels: M2 beside its arm, S2 just beyond the tip.
       const mlx = cx + k * r.fm2 * 0.55 * Math.cos(aM) - 0.07 * Math.sin(aM);
       const mly = cy + k * r.fm2 * 0.55 * Math.sin(aM) + 0.07 * Math.cos(aM);
-      labels.place(LB.m2!, mlx, mly, 0, camera, show * (1 - s.frame * 0.4));
+      labels.place(LB.m2!, mlx, mly, 0, camera, show * dial * (1 - s.frame * 0.4));
       const tr = sumLen + 0.08;
       labels.place(
         LB.s2!,
@@ -445,8 +473,8 @@ export default function sunScene(): BlockScene {
         camera,
         s2on * (1 - s.frame),
       );
-      labels.place(LB.sum!, cx, envY + 0.05, 0, camera, s.frame * s2on);
-      labels.place(LB.chart!, x0, cy + k * 0.98, 0, camera, frameOn * 0.9);
+      labels.place(LB.sum!, cx, envY + 0.05, 0, camera, s.frame * s2on * dial);
+      labels.place(LB.chart!, x0, cy + k * 0.98, 0, camera, frameOn * 0.9 * (1 - s.envelope));
       labels.place(LB.sunL!, ix - is * 1.75, iy - 0.09, 0, camera, sky);
       labels.place(LB.moonL!, ix + is * Math.cos(moonA) + 0.02, iy + is * Math.sin(moonA), 0, camera, sky);
     },
@@ -460,12 +488,9 @@ export default function sunScene(): BlockScene {
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
       lay = layout(camera.aspect);
-      phases.forEach((p, i) =>
-        labels.setText(
-          LB[`ph${i}`]!,
-          (lay.portrait ? PHASE_SHORT : PHASE_TEXT)[p.kind as keyof typeof PHASE_TEXT],
-        ),
-      );
+      // Portrait: roll the camera so world +x runs down the screen (dial on top, the chart below it).
+      if (lay.portrait) camera.up.set(-1, 0, 0);
+      else camera.up.set(0, 1, 0);
     },
 
     dispose() {
@@ -488,9 +513,9 @@ function layout(aspect: number): Layout {
     const cx = -hw + Math.min(0.75, hw * 0.36);
     return {
       cx,
-      cy: 0.16,
-      k: 0.52,
-      x0: cx + 0.5,
+      cy: 0.27,
+      k: 0.46,
+      x0: cx + 0.46,
       x1: hw - 0.14,
       ix: hw - 0.52,
       iy: -0.7,
@@ -498,18 +523,17 @@ function layout(aspect: number): Layout {
       portrait: false,
     };
   }
-  // Portrait (phones): the free band between the dual clock and the captions is about y ∈ [−0.4, 0.66].
-  const hw = aspect;
-  const cx = -hw + 0.2;
+  // Portrait (phones): the camera is rolled a quarter turn, so world x runs down the screen (−1 top, +1 bottom) and
+  // world y runs left to right (±aspect). Free band between the dual clock and the captions: x ∈ [−0.68, 0.56].
   return {
-    cx,
-    cy: 0.34,
-    k: 0.25,
-    x0: cx + 0.23,
-    x1: hw - 0.05,
-    ix: 0.06,
-    iy: -0.2,
-    is: 0.13,
+    cx: -0.4,
+    cy: 0.02,
+    k: 0.33,
+    x0: -0.1,
+    x1: 0.54,
+    ix: -0.3,
+    iy: 0.02,
+    is: 0.21,
     portrait: true,
   };
 }

@@ -138,7 +138,7 @@ export const apart = registerStage('apart', {
     const rows: Readout[] = [];
     if (s.draw > 0.3 && s.column < 0.5)
       rows.push({ label: 'Record', value: '8,760 hours · 2025', tone: 'plain' });
-    if (s.column >= 0.5)
+    if (s.column >= 0.5 && s.residual < 0.5)
       rows.push({
         label: 'Rhythms fitted',
         value: `${FIT.length} · ${2 * FIT.length + 1} numbers`,
@@ -152,12 +152,6 @@ export const apart = registerStage('apart', {
     }
     if (s.residual > 0.5)
       rows.push({ label: 'Left over (2025)', value: `${(FIT_RMS * 100).toFixed(1)} cm RMS`, tone: 'warm' });
-    if (s.residual > 0.5)
-      rows.push({
-        label: recordDate(SURGE.hours, true),
-        value: `+${SURGE.metres.toFixed(2)} m`,
-        tone: 'warm',
-      });
     return rows;
   },
 });

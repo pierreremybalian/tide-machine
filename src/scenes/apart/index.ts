@@ -99,13 +99,12 @@ export default function apartScene(): BlockScene {
       size: 'sm',
     },
     { id: 'sumL', text: 'sum of the 31 fitted rhythms', tone: 'warm', side: 'right', size: 'sm' },
-    { id: 'resL', text: 'left over: weather', tone: 'warm', side: 'right', size: 'sm' },
+    { id: 'resL', text: 'left over: weather', tone: 'warm', side: 'left', size: 'sm' },
     {
       id: 'surge',
-      text: `${recordDate(SURGE.hours)} · +${SURGE.metres.toFixed(2)} m`,
+      text: `${recordDate(SURGE.hours)}: +${SURGE.metres.toFixed(2)} m`,
       tone: 'warm',
-      side: 'above',
-      size: 'sm',
+      side: 'right',
     },
     { id: 'cursor', text: '', tone: 'mute', side: 'below', size: 'sm' },
     { id: 'polarT', text: 'Height and timing · ● ours ○ NOAA', tone: 'mute', side: 'center', size: 'sm' },
@@ -227,7 +226,7 @@ export default function apartScene(): BlockScene {
       const span = new Float32Array([0, 0, RECORD.hours, 0]);
       const specs: LineSpec[] = [];
       specs[L.year] = { points: year, colour: C.record, width: 1.5, intensity: 0.75 };
-      specs[L.sum] = { points: sum, colour: C.sum, width: 1.6, intensity: 0.9 };
+      specs[L.sum] = { points: sum, colour: C.sum, width: 1.4, intensity: 0.6 };
       specs[L.residual] = { points: residual, colour: C.residual, width: 1.8, intensity: 1.1 };
       specs[L.base] = { points: span, colour: C.grid, width: 1, intensity: 0.3 };
       specs[L.resBase] = { points: span, colour: C.residual, width: 1, intensity: 0.3, dash: 0.02 };
@@ -349,7 +348,9 @@ export default function apartScene(): BlockScene {
       const cl = lay.col;
       const X0 = ya.x0 + (cl.x0 - ya.x0) * c;
       const X1 = ya.x1 + (cl.x1 - ya.x1) * c;
-      const Y = ya.y + (cl.y - ya.y) * c;
+      // Portrait: the comparison card sits at the top of a phone, so the record steps down when it appears.
+      const drop = lay.portrait ? -0.42 * smooth(s.table) : 0;
+      const Y = ya.y + (cl.y - ya.y) * c + drop;
       const K = ya.k + (cl.k - ya.k) * c;
       const xs = (X1 - X0) / span;
       const ox = X0 - w0 * xs;
@@ -423,8 +424,7 @@ export default function apartScene(): BlockScene {
           y: yRow,
           sx: xs,
           sy: kRow,
-          intensity: on,
-          highlight: i === 0 ? s.m2 : 0,
+          intensity: on * (lineByName(ROWS[i]!).family === 'semidiurnal' ? 0.7 : 1),
         });
         Object.assign(S[L.rowBase[i]!]!, {
           x: ox,
@@ -530,7 +530,7 @@ export default function apartScene(): BlockScene {
 
       // Sum and residual: the residual drops out of the record into the space the rows leave.
       const rz = smooth(s.residual);
-      const yRes = Y + (lay.resY - Y) * rz;
+      const yRes = Y + (lay.resY + drop - Y) * rz;
       const kRes = K + (lay.resK - K) * rz;
       Object.assign(S[L.residual]!, { x: ox, y: yRes, sx: xs, sy: kRes, from: 0, to: 1, intensity: rz });
       Object.assign(S[L.resBase]!, {
@@ -543,12 +543,19 @@ export default function apartScene(): BlockScene {
         intensity: rz,
       });
       labels.place(LB.sumL!, X1 + 0.02, Y + K * 0.9, 0, camera, s.sum * (1 - rz) * (lay.portrait ? 0 : 1));
-      labels.place(LB.resL!, X0, yRes + lay.resK * 0.62, 0, camera, rz);
+      labels.place(
+        LB.resL!,
+        lay.portrait ? X1 : X0 - 0.03,
+        lay.portrait ? yRes - lay.resK * 0.35 : yRes,
+        0,
+        camera,
+        rz,
+      );
       const sx = toX(SURGE.hours);
       const sy = yRes + kRes * SURGE.metres;
       dots.setPos(3 * ROWS.length, sx, sy, 0);
       dots.setIntensity(3 * ROWS.length, 1.8 * rz);
-      labels.place(LB.surge!, sx, sy + 0.02, 0, camera, rz);
+      labels.place(LB.surge!, sx + 0.03, sy, 0, camera, rz);
       dots.commit();
       lines.commit();
     },
@@ -583,21 +590,21 @@ function layout(aspect: number): Layout {
       rowY,
       rowK: 0.13,
       dialX: hw - 0.33,
-      resY: -0.1,
-      resK: 0.36,
+      resY: 0.1,
+      resK: 0.3,
       polar: { x: -hw + 0.72, y: 0.3, k: 0.62, on: 1 },
       portrait: false,
     };
   }
-  const rowY = ROWS.map((_, i) => 0.34 - i * 0.085);
+  const rowY = ROWS.map((_, i) => 0.33 - i * 0.105);
   return {
     ya: { x0: -hw + 0.05, x1: hw - 0.05, y: 0.3, k: 0.13 },
-    col: { x0: -hw + 0.12, x1: hw - 0.16, y: 0.5, k: 0.08 },
+    col: { x0: -hw + 0.12, x1: hw - 0.16, y: 0.52, k: 0.09 },
     rowY,
-    rowK: 0.08,
+    rowK: 0.09,
     dialX: hw - 0.08,
-    resY: 0.18,
-    resK: 0.24,
+    resY: 0.12,
+    resK: 0.3,
     polar: { x: 0, y: -0.2, k: 0.3, on: 0 },
     portrait: true,
   };

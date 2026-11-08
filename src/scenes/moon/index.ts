@@ -8,6 +8,7 @@ import {
   BackSide,
   DataTexture,
   LinearFilter,
+  LinearMipmapLinearFilter,
   Mesh,
   MeshBasicNodeMaterial,
   RedFormat,
@@ -154,6 +155,7 @@ export default function moonScene(): BlockScene {
     { id: 'lo1', text: `−${(MOON_BULGE_M / 2).toFixed(2)} m`, tone: 'mute', side: 'above' },
     { id: 'lo2', text: `−${(MOON_BULGE_M / 2).toFixed(2)} m`, tone: 'mute', side: 'below' },
     { id: 'sf', text: 'San Francisco', tone: 'a', side: 'right' },
+    { id: 'sfL', text: 'San Francisco', tone: 'a', side: 'left' },
     { id: 'arc', text: 'the Moon moves on', tone: 'plain', side: 'above', size: 'sm' },
   ];
   const labels = new LabelSet(labelSpecs);
@@ -183,7 +185,8 @@ export default function moonScene(): BlockScene {
       // ── Earth: dark ocean, slate land, glowing coastlines and a faint graticule; soft key light and a blue rim.
       const mask = new DataTexture(smoothLand(decodeLand()), LAND_W, LAND_H, RedFormat);
       mask.magFilter = LinearFilter;
-      mask.minFilter = LinearFilter;
+      mask.minFilter = LinearMipmapLinearFilter;
+      mask.generateMipmaps = true;
       mask.needsUpdate = true;
       disposers.push(() => mask.dispose());
       const p = normalize(attribute<'vec3'>('position', 'vec3'));
@@ -398,6 +401,13 @@ export default function moonScene(): BlockScene {
       const a4 = smooth(Math.min(1, Math.max(0, (local - 0.69) / 0.07)));
       if (a4 > 0) lerpPose(pose, P.catchUp, a4, pose);
       if (s.pullBack > 0) lerpPose(pose, P.wide, smooth(s.pullBack), pose);
+      // Portrait: look along the Earth–Moon line from above, so the Moon sits above Earth on screen.
+      if (rig.camera.aspect < 1) {
+        pose.az += Math.PI / 2;
+        pose.el = Math.min(1.3, pose.el + 0.12);
+        pose.tx *= 0.45;
+        pose.ty = 0;
+      }
       rig.apply(pose, elapsed);
 
       // Moon and Earth.
@@ -506,10 +516,9 @@ export default function moonScene(): BlockScene {
       const cmNow = Math.round(hRaw * 100);
       if (cmNow !== sfCm) {
         sfCm = cmNow;
-        labels.setText(
-          LB.sf!,
-          `San Francisco ${cmNow >= 0 ? '+' : '−'}${Math.abs(cmNow / 100).toFixed(2)} m`,
-        );
+        const txt = `San Francisco ${cmNow >= 0 ? '+' : '−'}${Math.abs(cmNow / 100).toFixed(2)} m`;
+        labels.setText(LB.sf!, txt);
+        labels.setText(LB.sfL!, txt);
       }
       labels.place(
         LB.sf!,
@@ -519,6 +528,11 @@ export default function moonScene(): BlockScene {
         rig.camera,
         sfOn * (behind(v.x * r, v.y * r, v.z * r) ? 0.35 : 1),
       );
+      // Near the right edge the name flips to the left of the dot.
+      const sfVis = labels.state[LB.sf!]!.opacity;
+      const flipL = labels.state[LB.sf!]!.x > 0.62;
+      labels.place(LB.sfL!, v.x * r * 0.99, v.y * r * 0.99, v.z * r * 0.99, rig.camera, flipL ? sfVis : 0);
+      if (flipL) labels.hide(LB.sf!);
 
       // The Moon moves on: the arc it has covered since Earth started turning.
       const a0 = moonAngle(TURN_START_H);

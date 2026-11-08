@@ -84,10 +84,10 @@ export default function rhythmsScene(): BlockScene {
   const D = 1 / Math.tan((params.fov / 2) * (Math.PI / 180));
   const focusAll = new Set(BEATS.flatMap((b) => b.focus));
   const families = [
-    { id: 'fLong', text: 'slow: weeks to a year', at: 0.55, tone: 'light' as const },
-    { id: 'fDiurnal', text: 'once a day', at: 14.5, tone: 'a' as const },
-    { id: 'fSemi', text: 'twice a day', at: 29, tone: 'b' as const },
-    { id: 'fShallow', text: '3 to 8 a day: shallow water', at: 51, tone: 'plain' as const },
+    { id: 'fLong', text: 'slow: weeks to a year', short: 'slow', at: 0.55, tone: 'light' as const },
+    { id: 'fDiurnal', text: 'once a day', short: '1/day', at: 14.5, tone: 'a' as const },
+    { id: 'fSemi', text: 'twice a day', short: '2/day', at: 29, tone: 'b' as const },
+    { id: 'fShallow', text: '3 to 8 a day: shallow water', short: 'shallow', at: 51, tone: 'plain' as const },
   ];
 
   const focusText = (name: string, portrait: boolean) => {
@@ -198,7 +198,8 @@ export default function rhythmsScene(): BlockScene {
       const mid = (x0 + x1) / 2;
       const per = (x1 - x0) / (2 * s.half);
       const xOf = (a: number) => mid + (a - s.centre) * per;
-      const base = lay.base;
+      // Portrait: the table card sits at the top of a phone, so the spectrum steps down when it appears.
+      const base = lay.base - (lay.portrait ? 0.08 * s.table : 0);
       const k = lay.k;
       const focus = BEATS[s.beat]!.focus;
       const focusing = focus.length > 0 ? s.settled : 0;
@@ -231,15 +232,16 @@ export default function rhythmsScene(): BlockScene {
             : 0;
         const showName = named * inView * (isFocus ? 1 - focusing : 1);
         labels.place(LB[`n${l.name}`]!, x, base + k * l.H * grow + 0.012, 0, camera, showName);
-        if (focusAll.has(l.name))
-          labels.place(
-            LB[`f${l.name}`]!,
-            x,
-            base + k * l.H * grow + 0.012,
-            0,
-            camera,
-            isFocus ? focusing * inView : 0,
-          );
+        if (focusAll.has(l.name)) {
+          // Portrait is too narrow for side-by-side causes: stagger them down the screen and keep them inside it.
+          const fi = focus.indexOf(l.name);
+          const P = lay.portrait;
+          const fx = P ? Math.max(lay.x0 + 0.2, Math.min(lay.x1 - 0.2, x)) : x;
+          const fy = P
+            ? Math.max(base + k * l.H * grow + 0.012, base + k * 0.86 - fi * 0.22)
+            : base + k * l.H * grow + 0.012;
+          labels.place(LB[`f${l.name}`]!, fx, fy, 0, camera, isFocus ? focusing * inView : 0);
+        }
       });
 
       Object.assign(S[L.axis]!, {
@@ -270,7 +272,7 @@ export default function rhythmsScene(): BlockScene {
           on * (i % 2 === 0 || !lay.portrait ? 0.8 : 0),
         );
       });
-      labels.place(LB.yTitle!, x0 - 0.04, base + k * 0.68, 0, camera, s.grow * 0.8);
+      labels.place(LB.yTitle!, x0 - 0.04, base + k * 0.68, 0, camera, s.grow * 0.8 * (1 - focusing));
       families.forEach((f) => {
         const x = xOf(axisOf(f.at));
         const inView = x > x0 - 0.1 && x < x1 + 0.1 ? 1 : 0;
@@ -292,6 +294,7 @@ export default function rhythmsScene(): BlockScene {
       camera.updateProjectionMatrix();
       lay = layout(camera.aspect);
       for (const name of focusAll) labels.setText(LB[`f${name}`]!, focusText(name, lay.portrait));
+      for (const f of families) labels.setText(LB[f.id]!, lay.portrait ? f.short : f.text);
     },
 
     dispose() {
@@ -319,8 +322,8 @@ function layout(aspect: number): Layout {
     x1: hw - 0.06,
     tx0: -hw + 0.16,
     tx1: hw - 0.06,
-    base: -0.12,
-    k: 0.95,
+    base: -0.33,
+    k: 0.9,
     portrait: true,
   };
 }
