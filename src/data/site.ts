@@ -5,7 +5,7 @@ export const SITE = {
   title: 'Tide Machine — How the tides work, and the brass computer that predicted them',
   description:
     'Watch the tide sweep into San Francisco Bay, see why the Moon and Sun make it, then build Kelvin’s tide-predicting machine and use it on any coast on Earth. Every water level is computed from real NOAA data.',
-  ogImage: '/og.png',
+  ogImage: '/og.jpg',
   ogImageAlt: 'Tide Machine: San Francisco Bay at low tide beside a brass machine of pulleys drawing the tide curve.',
   themeColor: '#020306',
   author: 'Balian Design',
