@@ -1,0 +1,16 @@
+node_modules/
+dist/
+.astro/
+.wrangler/
+.DS_Store
+scratch/
+scripts/.venv/
+scripts/cache/
+*.log
+
+# Local secrets and machine-specific settings (never commit)
+.env
+.env.*
+.dev.vars*
+.claude/
+ref/

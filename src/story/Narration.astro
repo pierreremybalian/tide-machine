@@ -1,0 +1,371 @@
+---
+// The guided narration: one caption at a time, timed to the scroll (src/story/schedule.ts), a plain-language clock,
+// the stage you are in, the dual clock (what this stage compares) and a thin progress line. Purely visual
+// (aria-hidden): the same text is in the story DOM for screen readers, and stage changes are announced.
+import { STAGES, STAGE_STARTS } from '../time/stages.ts';
+import { supHtml } from '../lib/sup.ts';
+import { STATUS_LABEL } from '../data/site.ts';
+import { stageNote } from '../script/index.ts';
+import '../script/all.ts';
+
+export interface NarrationCaption {
+  chapter: number;
+  start: number;
+  kind: 'intro' | 'beat';
+  text: string;
+  kicker?: string;
+  title?: string;
+  time?: string;
+}
+
+interface Props {
+  captions: NarrationCaption[];
+  titles: string[];
+}
+
+const { captions, titles } = Astro.props;
+const pad = (n: number) => String(n).padStart(2, '0');
+---
+
+<div class="narration" data-narration data-titles={JSON.stringify(titles)}>
+  <div class="visual" aria-hidden="true">
+    <div class="bar">
+      <i data-bar></i>
+      {STAGE_STARTS.slice(1, -1).map((p) => <span style={`left: ${(p * 100).toFixed(3)}%`}></span>)}
+    </div>
+
+    <div class="top">
+      <p class="stage">
+        <span class="num" data-stage-num>01 / {pad(STAGES.length)}</span>
+        <span class="name" data-stage-name>{titles[0]}</span>
+        <span class="acc" data-acc-chip data-st={STAGES[0]!.status}><i></i><span data-acc-label></span></span>
+      </p>
+      <dl class="dual" data-dual></dl>
+    </div>
+
+    <div class="caps">
+      {
+        captions.map((c) =>
+          c.kind === 'intro' ? (
+            <div class="cap intro" data-cap data-start={c.start} data-chapter={c.chapter}>
+              <p class="kicker">
+                <span>Stage {c.chapter + 1}</span>
+                {c.kicker && <span set:html={supHtml(c.kicker)} />}
+              </p>
+              <h2>{c.title}</h2>
+              <p class="summary" set:html={supHtml(c.text)} />
+              {stageNote(STAGES[c.chapter]!.id) && (
+                <p class="note" data-st={STAGES[c.chapter]!.status}>
+                  <b>{STATUS_LABEL[STAGES[c.chapter]!.status]}.</b> <Fragment set:html={supHtml(stageNote(STAGES[c.chapter]!.id))} />
+                </p>
+              )}
+            </div>
+          ) : (
+            <div class="cap beat" data-cap data-start={c.start} data-chapter={c.chapter}>
+              {c.time && <p class="time" set:html={supHtml(c.time)} />}
+              <p class="text" set:html={supHtml(c.text)} />
+            </div>
+          ),
+        )
+      }
+    </div>
+  </div>
+  <p class="sr-only" aria-live="polite" data-live></p>
+</div>
+
+<script>
+  import { initNarration } from './narration.ts';
+  initNarration(document.querySelector<HTMLElement>('[data-narration]')!);
+</script>
+
+<style>
+  .narration {
+    position: fixed;
+    inset: 0;
+    z-index: 15;
+    pointer-events: none;
+  }
+  /* Readability: a soft shade under the caption corner and the top line, never a box. */
+  .visual::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 62vw 58svh at 0% 100%, rgb(2 2 5 / 0.74), rgb(2 2 5 / 0) 100%),
+      linear-gradient(rgb(2 2 5 / 0.45), rgb(2 2 5 / 0) 7rem);
+    transition: opacity 0.8s var(--ease-cosmic);
+  }
+  .narration.is-hero .visual::before {
+    opacity: 0;
+  }
+  .bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: rgb(255 255 255 / 0.07);
+  }
+  .bar i {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgb(255 217 160 / 0.5), var(--color-glow));
+    transform-origin: left;
+    transform: scaleX(var(--p, 0));
+  }
+  .bar span {
+    position: absolute;
+    top: 0;
+    width: 1px;
+    height: 5px;
+    background: rgb(255 255 255 / 0.22);
+  }
+  .top,
+  .bar {
+    transition: opacity 0.8s var(--ease-cosmic);
+  }
+  .narration.is-hero .top,
+  .narration.is-hero .bar {
+    opacity: 0;
+  }
+  .top {
+    position: absolute;
+    top: 1.25rem;
+    left: max(1.5rem, 6vw);
+    right: max(1.5rem, 4vw);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1.5rem;
+    text-shadow: 0 1px 16px rgb(0 0 0 / 0.8);
+  }
+  .stage {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.35rem 0.9rem;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-mute);
+  }
+  .stage .name {
+    color: var(--color-paper);
+  }
+  .acc {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--st, var(--color-mute));
+  }
+  .acc i {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+  /* The dual clock: what this stage compares, computed from its script. */
+  .dual {
+    display: grid;
+    grid-template-columns: auto auto;
+    column-gap: 1rem;
+    row-gap: 0.28rem;
+    justify-content: end;
+    align-items: baseline;
+    text-align: right;
+    min-height: 1rem;
+  }
+  .dual :global(dt) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.64rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-mute);
+  }
+  .dual :global(dt i) {
+    width: 0.55rem;
+    height: 2px;
+    border-radius: 1px;
+    background: var(--tone);
+    box-shadow: 0 0 8px var(--tone);
+  }
+  .dual :global(dd) {
+    font-family: var(--font-serif);
+    font-size: clamp(1.02rem, 1.4vw, 1.22rem);
+    font-variant-numeric: tabular-nums;
+    color: var(--tone);
+    transition: color 0.4s ease;
+  }
+  .dual :global([data-tone='a']) {
+    --tone: var(--color-obs-a);
+  }
+  .dual :global([data-tone='b']) {
+    --tone: var(--color-obs-b);
+  }
+  .dual :global([data-tone='both']) {
+    --tone: var(--color-obs-both);
+  }
+  .dual :global([data-tone='light']) {
+    --tone: var(--color-light);
+  }
+  .dual :global([data-tone='warm']) {
+    --tone: var(--color-bowl);
+  }
+  .dual :global([data-tone='plain']) {
+    --tone: var(--color-paper);
+  }
+  .dual :global([data-tone='mute']) {
+    --tone: var(--color-mute);
+  }
+
+  .caps {
+    position: absolute;
+    left: max(1.5rem, 6vw);
+    bottom: max(3rem, 12svh);
+    width: min(36rem, calc(100vw - 3rem));
+  }
+  .cap {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    opacity: 0;
+    transform: translateY(16px);
+    filter: blur(5px);
+    text-shadow: 0 1px 28px rgb(0 0 0 / 0.85);
+    transition:
+      opacity 0.35s ease,
+      transform 0.35s ease,
+      filter 0.35s ease;
+  }
+  .cap.is-on {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition:
+      opacity 0.9s var(--ease-cosmic) 0.3s,
+      transform 1.2s var(--ease-cosmic) 0.3s,
+      filter 0.9s var(--ease-cosmic) 0.3s;
+  }
+  .kicker {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-glow);
+  }
+  .kicker span:first-child {
+    color: var(--color-mute);
+  }
+  .intro h2 {
+    margin-top: 0.6rem;
+    font-family: var(--font-serif);
+    font-weight: 330;
+    font-size: clamp(2.6rem, 5.6vw, 4.6rem);
+    line-height: 1;
+    letter-spacing: -0.025em;
+    color: var(--color-paper);
+  }
+  .summary {
+    margin-top: 1rem;
+    font-family: var(--font-serif);
+    font-size: clamp(1.15rem, 1.6vw, 1.4rem);
+    font-style: italic;
+    line-height: 1.45;
+    color: var(--color-fog);
+  }
+  .note {
+    margin-top: 1.1rem;
+    max-width: 30rem;
+    padding-left: 0.8rem;
+    border-left: 2px solid var(--st, var(--color-line-strong));
+    font-size: 0.8rem;
+    line-height: 1.5;
+    color: var(--color-mute);
+    text-shadow: 0 1px 12px rgb(0 0 0 / 0.9);
+  }
+  .note b {
+    color: var(--st);
+    font-weight: 500;
+  }
+  .time {
+    margin-bottom: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    color: var(--color-glow);
+  }
+  .text {
+    font-family: var(--font-serif);
+    font-size: clamp(1.35rem, 2.1vw, 1.85rem);
+    line-height: 1.38;
+    letter-spacing: -0.005em;
+    color: var(--color-paper);
+  }
+  @media (max-width: 767px) {
+    .visual::before {
+      background:
+        linear-gradient(0deg, rgb(2 2 5 / 0.75), rgb(2 2 5 / 0) 50svh),
+        linear-gradient(rgb(2 2 5 / 0.5), rgb(2 2 5 / 0) 6rem);
+    }
+    /* Phones: the stage line on one row, the dual clock left-aligned under it, nothing wraps. */
+    .top {
+      top: 0.9rem;
+      left: 1rem;
+      right: 1rem;
+      flex-direction: column;
+      gap: 0.55rem;
+    }
+    .stage {
+      gap: 0.2rem 0.7rem;
+      font-size: 0.58rem;
+    }
+    .stage .name {
+      max-width: 15rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .dual {
+      justify-content: start;
+      text-align: left;
+      column-gap: 0.7rem;
+      row-gap: 0.15rem;
+    }
+    .dual :global(dt) {
+      justify-content: flex-start;
+      white-space: nowrap;
+    }
+    .dual :global(dd) {
+      white-space: nowrap;
+    }
+    .dual :global(dd) {
+      font-size: 0.9rem;
+    }
+    .dual :global(dt) {
+      font-size: 0.55rem;
+    }
+    .caps {
+      left: 1rem;
+      bottom: max(2rem, env(safe-area-inset-bottom));
+      width: calc(100vw - 2rem);
+    }
+    .intro h2 {
+      font-size: 2.4rem;
+    }
+    .text {
+      font-size: 1.2rem;
+    }
+    .note {
+      display: none;
+    }
+  }
+</style>

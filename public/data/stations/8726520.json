@@ -1,0 +1,222 @@
+{
+ "id": "8726520",
+ "label": "St. Petersburg, FL",
+ "name": "St. Petersburg",
+ "state": "FL",
+ "lat": 27.7606,
+ "lng": -82.6269,
+ "z0": 0.366,
+ "datums": {
+  "MHHW": 1.716,
+  "MHW": 1.63,
+  "MSL": 1.394,
+  "MLW": 1.145,
+  "MLLW": 1.028
+ },
+ "constituents": [
+  {
+   "name": "M2",
+   "amplitude": 0.166,
+   "phase": 199.4,
+   "speed": 28.984104
+  },
+  {
+   "name": "S2",
+   "amplitude": 0.052,
+   "phase": 214.8,
+   "speed": 30
+  },
+  {
+   "name": "N2",
+   "amplitude": 0.027,
+   "phase": 190.4,
+   "speed": 28.43973
+  },
+  {
+   "name": "K1",
+   "amplitude": 0.161,
+   "phase": 49.8,
+   "speed": 15.041069
+  },
+  {
+   "name": "M4",
+   "amplitude": 0.003,
+   "phase": 237.1,
+   "speed": 57.96821
+  },
+  {
+   "name": "O1",
+   "amplitude": 0.146,
+   "phase": 36.6,
+   "speed": 13.943035
+  },
+  {
+   "name": "M6",
+   "amplitude": 0.002,
+   "phase": 218.2,
+   "speed": 86.95232
+  },
+  {
+   "name": "MK3",
+   "amplitude": 0.002,
+   "phase": 137.2,
+   "speed": 44.025173
+  },
+  {
+   "name": "S4",
+   "amplitude": 0.001,
+   "phase": 319,
+   "speed": 60
+  },
+  {
+   "name": "MN4",
+   "amplitude": 0.001,
+   "phase": 218.3,
+   "speed": 57.423832
+  },
+  {
+   "name": "NU2",
+   "amplitude": 0.008,
+   "phase": 203.2,
+   "speed": 28.512583
+  },
+  {
+   "name": "MU2",
+   "amplitude": 0.01,
+   "phase": 26.3,
+   "speed": 27.968208
+  },
+  {
+   "name": "2N2",
+   "amplitude": 0.003,
+   "phase": 176.2,
+   "speed": 27.895355
+  },
+  {
+   "name": "OO1",
+   "amplitude": 0.004,
+   "phase": 84.7,
+   "speed": 16.139101
+  },
+  {
+   "name": "LAM2",
+   "amplitude": 0.005,
+   "phase": 222.7,
+   "speed": 29.455626
+  },
+  {
+   "name": "S1",
+   "amplitude": 0.016,
+   "phase": 140.3,
+   "speed": 15
+  },
+  {
+   "name": "M1",
+   "amplitude": 0.006,
+   "phase": 90.7,
+   "speed": 14.496694
+  },
+  {
+   "name": "J1",
+   "amplitude": 0.008,
+   "phase": 78.6,
+   "speed": 15.5854435
+  },
+  {
+   "name": "SSA",
+   "amplitude": 0.033,
+   "phase": 55,
+   "speed": 0.0821373
+  },
+  {
+   "name": "SA",
+   "amplitude": 0.103,
+   "phase": 152.9,
+   "speed": 0.0410686
+  },
+  {
+   "name": "MSF",
+   "amplitude": 0.014,
+   "phase": 7.3,
+   "speed": 1.0158958
+  },
+  {
+   "name": "RHO",
+   "amplitude": 0.008,
+   "phase": 7.6,
+   "speed": 13.471515
+  },
+  {
+   "name": "Q1",
+   "amplitude": 0.026,
+   "phase": 26.6,
+   "speed": 13.398661
+  },
+  {
+   "name": "T2",
+   "amplitude": 0.004,
+   "phase": 197,
+   "speed": 29.958933
+  },
+  {
+   "name": "R2",
+   "amplitude": 0.001,
+   "phase": 180.9,
+   "speed": 30.041067
+  },
+  {
+   "name": "2Q1",
+   "amplitude": 0.003,
+   "phase": 14.6,
+   "speed": 12.854286
+  },
+  {
+   "name": "P1",
+   "amplitude": 0.046,
+   "phase": 58.5,
+   "speed": 14.958931
+  },
+  {
+   "name": "2SM2",
+   "amplitude": 0.003,
+   "phase": 86,
+   "speed": 31.015896
+  },
+  {
+   "name": "M3",
+   "amplitude": 0.002,
+   "phase": 6.5,
+   "speed": 43.47616
+  },
+  {
+   "name": "L2",
+   "amplitude": 0.009,
+   "phase": 225,
+   "speed": 29.528479
+  },
+  {
+   "name": "2MK3",
+   "amplitude": 0.002,
+   "phase": 136.1,
+   "speed": 42.92714
+  },
+  {
+   "name": "K2",
+   "amplitude": 0.024,
+   "phase": 215.1,
+   "speed": 30.082138
+  },
+  {
+   "name": "M8",
+   "amplitude": 0.001,
+   "phase": 298.5,
+   "speed": 115.93642
+  },
+  {
+   "name": "MS4",
+   "amplitude": 0.001,
+   "phase": 257.4,
+   "speed": 58.984104
+  }
+ ]
+}

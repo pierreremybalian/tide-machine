@@ -1,0 +1,103 @@
+---
+// Instrument cards (HANDOFF §9): HTML/SVG comparisons that carry text, driven by the same stage scripts as the
+// scenes. Each card is src/hud/cards/<name>.astro with its own script (discovered automatically). Purely visual
+// (aria-hidden): the narration carries the words.
+import type { AstroComponentFactory } from 'astro/runtime/server/index.js';
+const cards = Object.entries(import.meta.glob<{ default: AstroComponentFactory }>('./cards/*.astro', { eager: true }))
+  .sort(([a], [b]) => a.localeCompare(b))
+  .map(([, m]) => m.default);
+---
+
+<div class="hud" data-hud-root aria-hidden="true">
+  <div class="divider v" data-divider-v></div>
+  <div class="divider h" data-divider-h></div>
+  {cards.map((Card) => <Card />)}
+</div>
+
+<script>
+  import { stageDividers } from '../script/index.ts';
+  import '../script/all.ts';
+  import { onStage } from './card.ts';
+  const root = document.querySelector<HTMLElement>('[data-hud-root]')!;
+  onStage((s) => {
+    const d = stageDividers(s.stageId, s.local);
+    root.style.setProperty('--div-v', d.v.toFixed(3));
+    root.style.setProperty('--div-h', d.h.toFixed(3));
+  });
+</script>
+
+<style>
+  .hud {
+    position: fixed;
+    inset: 0;
+    z-index: 14;
+    pointer-events: none;
+  }
+  .divider {
+    position: absolute;
+  }
+  .divider.v {
+    top: 7svh;
+    bottom: 7svh;
+    left: 50%;
+    width: 1px;
+    background: linear-gradient(transparent, rgb(255 255 255 / 0.3) 15%, rgb(255 255 255 / 0.3) 85%, transparent);
+    opacity: var(--div-v, 0);
+  }
+  .divider.h {
+    left: 4vw;
+    right: 4vw;
+    top: 50%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.3) 15%, rgb(255 255 255 / 0.3) 85%, transparent);
+    opacity: var(--div-h, 0);
+  }
+  /* Shared card chrome. Cards sit bottom-right on desktop (captions are bottom-left). */
+  .hud :global(.card) {
+    position: absolute;
+    right: max(1.5rem, 4vw);
+    bottom: max(3rem, 12svh);
+    width: 21rem;
+    padding: 0.9rem 1rem 0.8rem;
+    border-radius: 0.8rem;
+    background: rgb(6 8 16 / 0.62);
+    border: 1px solid var(--color-line);
+    backdrop-filter: blur(10px);
+    opacity: 0;
+    transform: translateY(10px);
+    transition:
+      opacity 0.5s var(--ease-cosmic),
+      transform 0.6s var(--ease-cosmic);
+  }
+  .hud :global(.card.is-on) {
+    opacity: 1;
+    transform: none;
+  }
+  .hud :global(.card h3) {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.64rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-paper);
+  }
+  .hud :global(.card h3 span) {
+    color: var(--color-mute);
+  }
+  @media (max-width: 767px) {
+    .hud :global(.card) {
+      right: 1rem;
+      left: auto;
+      top: 7.4rem;
+      bottom: auto;
+      width: min(17rem, calc(100vw - 2rem));
+      padding: 0.6rem 0.7rem;
+    }
+    .divider.v {
+      top: 8svh;
+      bottom: 40svh;
+    }
+  }
+</style>

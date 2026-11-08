@@ -1,0 +1,90 @@
+---
+import '@fontsource-variable/newsreader';
+import '@fontsource-variable/inter-tight';
+import '@fontsource-variable/jetbrains-mono';
+import '../styles/global.css';
+import { SITE } from '../data/site.ts';
+
+interface Props {
+  title?: string;
+  description?: string;
+  noindex?: boolean;
+}
+const { title = SITE.title, description = SITE.description, noindex = false } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const og = new URL(SITE.ogImage, Astro.site);
+const analytics = import.meta.env.PROD && !noindex;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content={SITE.themeColor} />
+    <meta name="color-scheme" content="dark" />
+    <meta
+      name="robots"
+      content={noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'}
+    />
+    <meta name="author" content={SITE.author} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={og} />
+    <meta property="og:image:secure_url" content={og} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={SITE.ogImageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={og} />
+    <meta name="twitter:image:alt" content={SITE.ogImageAlt} />
+    <script type="application/ld+json" set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      name: SITE.name,
+      headline: title,
+      description,
+      url: canonical.toString(),
+      image: og.toString(),
+      inLanguage: 'en',
+      about: [
+        { '@type': 'Thing', name: 'Block universe (eternalism)', sameAs: 'https://en.wikipedia.org/wiki/Eternalism_(philosophy_of_time)' },
+        { '@type': 'Thing', name: 'Relativity of simultaneity', sameAs: 'https://en.wikipedia.org/wiki/Relativity_of_simultaneity' },
+        { '@type': 'Thing', name: 'Spacetime', sameAs: 'https://en.wikipedia.org/wiki/Spacetime' },
+        { '@type': 'Thing', name: 'Philosophy of space and time', sameAs: 'https://en.wikipedia.org/wiki/Philosophy_of_space_and_time' },
+      ],
+      keywords: 'block universe, eternalism, presentism, growing block, special relativity, relativity of simultaneity, time dilation, light cone, Rietdijk–Putnam argument, Andromeda paradox',
+      author: { '@type': 'Organization', name: SITE.author },
+      publisher: { '@type': 'Organization', name: SITE.author },
+    })} />
+    {
+      analytics && (
+        <>
+          <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${SITE.gaId}`} />
+          <script
+            is:inline
+            set:html={`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","${SITE.gaId}");`}
+          />
+        </>
+      )
+    }
+    <slot name="head" />
+  </head>
+  <body class="min-h-svh bg-void text-fog antialiased">
+    <a href="#story" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded focus:bg-panel focus:px-3 focus:py-2 focus:text-paper">Skip to the story</a>
+    <slot />
+  </body>
+</html>

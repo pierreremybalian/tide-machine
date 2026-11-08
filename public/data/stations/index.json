@@ -1,0 +1,202 @@
+[
+ {
+  "id": "9414290",
+  "label": "San Francisco, CA",
+  "name": "San Francisco",
+  "state": "CA",
+  "lat": 37.806305,
+  "lng": -122.46589
+ },
+ {
+  "id": "8518750",
+  "label": "The Battery, New York, NY",
+  "name": "The Battery",
+  "state": "NY",
+  "lat": 40.700554,
+  "lng": -74.01417
+ },
+ {
+  "id": "8443970",
+  "label": "Boston, MA",
+  "name": "Boston",
+  "state": "MA",
+  "lat": 42.35389,
+  "lng": -71.05028
+ },
+ {
+  "id": "8410140",
+  "label": "Eastport, ME",
+  "name": "Eastport",
+  "state": "ME",
+  "lat": 44.90461,
+  "lng": -66.98289
+ },
+ {
+  "id": "8418150",
+  "label": "Portland, ME",
+  "name": "Portland",
+  "state": "ME",
+  "lat": 43.658054,
+  "lng": -70.24416
+ },
+ {
+  "id": "8454000",
+  "label": "Providence, RI",
+  "name": "Providence",
+  "state": "RI",
+  "lat": 41.807167,
+  "lng": -71.400665
+ },
+ {
+  "id": "8534720",
+  "label": "Atlantic City, NJ",
+  "name": "Atlantic City",
+  "state": "NJ",
+  "lat": 39.356667,
+  "lng": -74.41805
+ },
+ {
+  "id": "8545240",
+  "label": "Philadelphia, PA",
+  "name": "Philadelphia",
+  "state": "PA",
+  "lat": 39.933056,
+  "lng": -75.14198
+ },
+ {
+  "id": "8574680",
+  "label": "Baltimore, MD",
+  "name": "Baltimore",
+  "state": "MD",
+  "lat": 39.266693,
+  "lng": -76.57831
+ },
+ {
+  "id": "8638610",
+  "label": "Sewells Point, Norfolk, VA",
+  "name": "Sewells Point",
+  "state": "VA",
+  "lat": 36.94278,
+  "lng": -76.32861
+ },
+ {
+  "id": "8658120",
+  "label": "Wilmington, NC",
+  "name": "Wilmington",
+  "state": "NC",
+  "lat": 34.2267,
+  "lng": -77.9533
+ },
+ {
+  "id": "8665530",
+  "label": "Charleston, SC",
+  "name": "Charleston",
+  "state": "SC",
+  "lat": 32.780834,
+  "lng": -79.923615
+ },
+ {
+  "id": "8670870",
+  "label": "Fort Pulaski, Savannah, GA",
+  "name": "Fort Pulaski",
+  "state": "GA",
+  "lat": 32.034695,
+  "lng": -80.90303
+ },
+ {
+  "id": "8720218",
+  "label": "Mayport, Jacksonville, FL",
+  "name": "Mayport (Bar Pilots Dock)",
+  "state": "FL",
+  "lat": 30.398167,
+  "lng": -81.42789
+ },
+ {
+  "id": "8723214",
+  "label": "Virginia Key, Miami, FL",
+  "name": "Virginia Key",
+  "state": "FL",
+  "lat": 25.7314,
+  "lng": -80.1618
+ },
+ {
+  "id": "8724580",
+  "label": "Key West, FL",
+  "name": "Key West",
+  "state": "FL",
+  "lat": 24.5557,
+  "lng": -81.8079
+ },
+ {
+  "id": "8726520",
+  "label": "St. Petersburg, FL",
+  "name": "St. Petersburg",
+  "state": "FL",
+  "lat": 27.7606,
+  "lng": -82.6269
+ },
+ {
+  "id": "8761724",
+  "label": "Grand Isle, LA",
+  "name": "Grand Isle",
+  "state": "LA",
+  "lat": 29.2633,
+  "lng": -89.9567
+ },
+ {
+  "id": "8771450",
+  "label": "Galveston, TX",
+  "name": "Galveston Pier 21",
+  "state": "TX",
+  "lat": 29.31,
+  "lng": -94.7933
+ },
+ {
+  "id": "9410170",
+  "label": "San Diego, CA",
+  "name": "San Diego",
+  "state": "CA",
+  "lat": 32.715557,
+  "lng": -117.17667
+ },
+ {
+  "id": "9410660",
+  "label": "Los Angeles, CA",
+  "name": "Los Angeles",
+  "state": "CA",
+  "lat": 33.72,
+  "lng": -118.272
+ },
+ {
+  "id": "9435380",
+  "label": "South Beach, Newport, OR",
+  "name": "South Beach",
+  "state": "OR",
+  "lat": 44.625446,
+  "lng": -124.044945
+ },
+ {
+  "id": "9447130",
+  "label": "Seattle, WA",
+  "name": "Seattle",
+  "state": "WA",
+  "lat": 47.60264,
+  "lng": -122.3393
+ },
+ {
+  "id": "9452210",
+  "label": "Juneau, AK",
+  "name": "Juneau",
+  "state": "AK",
+  "lat": 58.2988,
+  "lng": -134.4106
+ },
+ {
+  "id": "1612340",
+  "label": "Honolulu, HI",
+  "name": "Honolulu",
+  "state": "HI",
+  "lat": 21.303333,
+  "lng": -157.86453
+ }
+]

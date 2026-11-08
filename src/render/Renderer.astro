@@ -1,0 +1,117 @@
+---
+// Fixed, full-screen canvas and the 3D-anchored label layer. Boots once and never remounts (transition:persist).
+import { STAGES } from '../time/stages.ts';
+---
+
+<div id="cosmos" class="cosmos" transition:persist aria-hidden="true">
+  <canvas id="cosmos-canvas"></canvas>
+  <div class="stills" data-stills>
+    {STAGES.map((c) => <div class="still" data-still={c.id}></div>)}
+  </div>
+  <div class="veil"></div>
+</div>
+<div class="labels" data-labels aria-hidden="true"></div>
+
+<script>
+  import { createEngine } from './renderer.ts';
+  import { $stageId, $rendererStatus, $sceneStatus, $stage } from '../state/store.ts';
+
+  const root = document.getElementById('cosmos')!;
+  const canvas = document.getElementById('cosmos-canvas') as HTMLCanvasElement;
+
+  // Static stills follow the chapter when there is no GPU (or before the renderer is ready).
+  const stills = root.querySelectorAll<HTMLElement>('[data-still]');
+  $stageId.subscribe((id) => {
+    stills.forEach((s) => s.classList.toggle('is-on', s.dataset.still === id));
+  });
+  // While the current chapter's scene is still loading (e.g. right after a long jump), show its still.
+  let stillsFetched = false;
+  const updateLoading = () => {
+    const status = $sceneStatus.get()[$stage.get().sceneId];
+    const loading = $rendererStatus.get() === 'ready' && status !== 'ready' && status !== 'failed';
+    root.classList.toggle('is-loading', loading);
+    if (loading && !stillsFetched) {
+      stillsFetched = true;
+      stills.forEach((el) => (el.style.backgroundImage = `url(/stills/${el.dataset.still}.webp)`));
+    }
+  };
+  $sceneStatus.subscribe(updateLoading);
+  $stageId.subscribe(updateLoading);
+  $rendererStatus.subscribe((s) => {
+    root.setAttribute('data-status', s);
+    // Stills are only fetched when they are needed.
+    if (s === 'fallback' || s === 'error')
+      stills.forEach((el) => (el.style.backgroundImage = `url(/stills/${el.dataset.still}.webp)`));
+  });
+
+  createEngine({ canvas, labelRoot: document.querySelector<HTMLElement>('[data-labels]')! })
+    .then((engine) => {
+      (window as unknown as { __engine?: unknown }).__engine = engine;
+    })
+    .catch((err) => {
+      console.error('[renderer] boot failed', err);
+      $rendererStatus.set('error');
+    });
+</script>
+
+<style>
+  .cosmos {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background: #000;
+    pointer-events: none;
+  }
+  canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    opacity: 0;
+    transition: opacity 1.2s ease;
+  }
+  .cosmos[data-status='ready'] canvas {
+    opacity: 1;
+  }
+  .stills {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+  }
+  .cosmos[data-status='fallback'] .stills,
+  .cosmos[data-status='error'] .stills {
+    opacity: 1;
+  }
+  .cosmos.is-loading .stills {
+    opacity: 1;
+    transition-delay: 0.25s;
+  }
+  .cosmos[data-status='fallback'] canvas,
+  .cosmos[data-status='error'] canvas {
+    display: none;
+  }
+  .still {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 0.9s ease;
+  }
+  .still.is-on {
+    opacity: 1;
+  }
+  /* Readability: a soft shade behind the narrative column on wide screens. */
+  .veil {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgb(2 2 5 / 0.55) 0%, rgb(2 2 5 / 0.22) 34%, rgb(2 2 5 / 0) 52%);
+  }
+  @media (max-width: 767px) {
+    .veil {
+      background: linear-gradient(0deg, rgb(2 2 5 / 0.7) 0%, rgb(2 2 5 / 0.15) 45%, rgb(2 2 5 / 0) 60%);
+    }
+  }
+</style>

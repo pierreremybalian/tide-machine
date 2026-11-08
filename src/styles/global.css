@@ -1,0 +1,185 @@
+@import 'tailwindcss';
+
+/* Tailwind's default palette is cleared: use only these tokens. */
+@theme {
+  --color-*: initial;
+  --color-void: #020205;
+  --color-ink: #05060b;
+  --color-panel: rgb(10 12 22 / 0.72);
+  --color-line: rgb(190 200 255 / 0.14);
+  --color-line-strong: rgb(190 200 255 / 0.32);
+  --color-fog: #c9cfe6;
+  --color-mute: #8a92b2;
+  --color-paper: #eef0fa;
+  --color-white: #ffffff;
+  --color-glow: #ffd9a0;
+  --color-signal: #8fd0ff;
+
+  /* Observers and light (mirrored in src/shared/gfx/palette.ts). */
+  --color-obs-a: #ffa04a;
+  --color-obs-b: #52cbff;
+  --color-obs-both: #fff4e6;
+  --color-light: #ad97ff;
+  --color-bowl: #f6d79f;
+
+  /* How sure are we (HANDOFF §13). */
+  --color-st-measured: #7cf2c1;
+  --color-st-established: #8fd0ff;
+  --color-st-argument: #ffb3c7;
+  --color-st-open: #ffe08a;
+  --color-st-metaphor: #c9a8ff;
+
+  --font-serif: 'Newsreader Variable', 'Iowan Old Style', Georgia, serif;
+  --font-sans: 'Inter Tight Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, 'SF Mono', monospace;
+
+  --ease-cosmic: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+:root {
+  color-scheme: dark;
+}
+
+[data-st='measured'] {
+  --st: var(--color-st-measured);
+}
+[data-st='established'] {
+  --st: var(--color-st-established);
+}
+[data-st='argument'] {
+  --st: var(--color-st-argument);
+}
+[data-st='open'] {
+  --st: var(--color-st-open);
+}
+[data-st='metaphor'] {
+  --st: var(--color-st-metaphor);
+}
+
+/* 3D-anchored labels (src/shared/gfx/labels.ts). */
+.labels {
+  position: fixed;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  overflow: hidden;
+}
+.lbl {
+  position: absolute;
+  left: 0;
+  top: 0;
+  will-change: transform, opacity;
+  transition: opacity 0.25s linear;
+  --tone: var(--color-fog);
+}
+.lbl > span {
+  position: absolute;
+  white-space: nowrap;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--tone);
+  text-shadow:
+    0 0 10px rgb(0 0 0 / 0.95),
+    0 0 3px rgb(0 0 0 / 0.9);
+}
+.lbl-sm > span {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.lbl-keepcase > span {
+  text-transform: none;
+}
+.lbl-right > span {
+  left: 0.7rem;
+  transform: translateY(-50%);
+}
+.lbl-left > span {
+  right: 0.7rem;
+  transform: translateY(-50%);
+}
+.lbl-above > span {
+  bottom: 0.55rem;
+  transform: translateX(-50%);
+}
+.lbl-below > span {
+  top: 0.55rem;
+  transform: translateX(-50%);
+}
+.lbl-center > span {
+  transform: translate(-50%, -50%);
+}
+.lbl[data-tone='a'] {
+  --tone: var(--color-obs-a);
+}
+.lbl[data-tone='b'] {
+  --tone: var(--color-obs-b);
+}
+.lbl[data-tone='both'] {
+  --tone: var(--color-obs-both);
+}
+.lbl[data-tone='light'] {
+  --tone: var(--color-light);
+}
+.lbl[data-tone='warm'] {
+  --tone: var(--color-bowl);
+}
+.lbl[data-tone='mute'] {
+  --tone: var(--color-mute);
+}
+.lbl[data-tone='plain'] {
+  --tone: var(--color-paper);
+}
+.lbl[data-tone='event'] {
+  --tone: var(--color-glow);
+}
+@media (max-width: 767px) {
+  .lbl > span {
+    font-size: 0.72rem;
+  }
+  .lbl-sm > span {
+    font-size: 0.58rem;
+  }
+}
+
+html {
+  background: var(--color-void);
+  color: var(--color-fog);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: clip;
+}
+
+::selection {
+  background: rgb(143 208 255 / 0.35);
+  color: var(--color-white);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-signal);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,12 @@
+# Static site on Cloudflare Workers (static assets), same setup as Cosmic History (DECISIONS.md).
+name = "tide-machine"
+compatibility_date = "2026-10-01"
+workers_dev = false
+preview_urls = false
+
+routes = [{ pattern = "tide-machine.balian.dev", custom_domain = true }]
+
+[assets]
+directory = "./dist"
+html_handling = "auto-trailing-slash"
+not_found_handling = "none"

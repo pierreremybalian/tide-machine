@@ -1,0 +1,199 @@
+---
+// Scene smoke test (HANDOFF §15): pick a scene, scrub local, FPS + GPU memory, load/unload ×50 leak check.
+// URL params: ?scene=<id>&local=0.5&chapter=<chapterId>&tier=low|medium|high&webgl=1&paused=1&ui=0
+import Base from '../layouts/Base.astro';
+import { SCENES } from '../scenes/registry.ts';
+const ids = Object.keys(SCENES);
+---
+
+<Base title="Scene smoke test" noindex>
+  <canvas id="dev-canvas"></canvas>
+  <div class="labels" data-labels aria-hidden="true"></div>
+  <div class="panel" data-ui>
+    <label>Scene
+      <select data-scene>
+        {ids.map((id) => <option value={id}>{id}</option>)}
+      </select>
+    </label>
+    <label>local <output data-local-out>0.50</output>
+      <input type="range" min="0" max="1" step="0.001" value="0.5" data-local />
+    </label>
+    <label class="row"><input type="checkbox" data-paused /> pause idle motion</label>
+    <label class="row"><input type="checkbox" data-play /> auto-scrub</label>
+    <div class="stats" data-stats>…</div>
+    <div class="info" data-info></div>
+    <button type="button" data-leak>Load/unload ×50</button>
+    <pre data-leak-out></pre>
+  </div>
+</Base>
+
+<script>
+  import { createEngine } from '../render/renderer.ts';
+  import { $quality, $sceneInfo, $stats, $sceneStatus } from '../state/store.ts';
+
+  const params = new URLSearchParams(location.search);
+  const canvas = document.getElementById('dev-canvas') as HTMLCanvasElement;
+  const sel = document.querySelector<HTMLSelectElement>('[data-scene]')!;
+  const slider = document.querySelector<HTMLInputElement>('[data-local]')!;
+  const out = document.querySelector<HTMLOutputElement>('[data-local-out]')!;
+  const paused = document.querySelector<HTMLInputElement>('[data-paused]')!;
+  const play = document.querySelector<HTMLInputElement>('[data-play]')!;
+  const stats = document.querySelector<HTMLElement>('[data-stats]')!;
+  const info = document.querySelector<HTMLElement>('[data-info]')!;
+  const leakBtn = document.querySelector<HTMLButtonElement>('[data-leak]')!;
+  const leakOut = document.querySelector<HTMLElement>('[data-leak-out]')!;
+  if (params.get('ui') === '0') document.querySelector<HTMLElement>('[data-ui]')!.style.display = 'none';
+
+  sel.value = params.get('scene') ?? '_lab';
+  slider.value = params.get('local') ?? '0.5';
+  paused.checked = params.get('paused') === '1';
+  out.value = Number(slider.value).toFixed(3);
+
+  const w = window as unknown as Record<string, unknown>;
+  w.__ready = false;
+
+  const engine = await createEngine({
+    canvas,
+    labelRoot: document.querySelector<HTMLElement>('[data-labels]')!,
+    single: { sceneId: sel.value, local: Number(slider.value), paused: paused.checked },
+    skipProbe: true,
+    tier: (params.get('tier') as 'low' | 'medium' | 'high' | null) ?? 'medium',
+  });
+  w.__engine = engine;
+  if (!engine) {
+    info.textContent = 'No WebGPU/WebGL2 available.';
+    w.__ready = true;
+  } else {
+    const apply = () => {
+      out.value = Number(slider.value).toFixed(3);
+      engine.setSingle({ sceneId: sel.value, local: Number(slider.value), paused: paused.checked });
+      const u = new URL(location.href);
+      u.searchParams.set('scene', sel.value);
+      u.searchParams.set('local', slider.value);
+      history.replaceState(null, '', u);
+    };
+    sel.addEventListener('change', () => {
+      w.__ready = false;
+      apply();
+    });
+    slider.addEventListener('input', apply);
+    paused.addEventListener('change', apply);
+    let dir = 1;
+    const tick = () => {
+      if (play.checked) {
+        let v = Number(slider.value) + dir * 0.0015;
+        if (v > 1 || v < 0) {
+          dir *= -1;
+          v = Math.min(1, Math.max(0, v));
+        }
+        slider.value = String(v);
+        apply();
+      }
+      requestAnimationFrame(tick);
+    };
+    tick();
+
+    // Ready = scene initialised and ≥ N frames rendered after that (screenshots wait on window.__ready).
+    const settle = Number(params.get('frames') ?? 30);
+    let readyFrame = -1;
+    const watch = () => {
+      const st = $sceneStatus.get()[sel.value];
+      if (st && st !== 'loading') {
+        if (readyFrame < 0) readyFrame = engine.frames();
+        if (engine.frames() - readyFrame >= settle) w.__ready = true;
+      } else readyFrame = -1;
+      if (st === 'failed') w.__sceneFailed = true;
+      requestAnimationFrame(watch);
+    };
+    watch();
+
+    $stats.subscribe((s) => {
+      stats.textContent = `${s.fps.toFixed(0)} fps · ${s.frameMs.toFixed(1)} ms · geo ${s.geometries} · tex ${s.textures}`;
+    });
+    const showInfo = () => {
+      const q = $quality.get();
+      const si = $sceneInfo.get();
+      info.textContent = `${engine.backend} · ${q?.name} · ${si ? `${si.sceneId}: ${si.status} — ${si.statusNote}` : ''} · status ${$sceneStatus.get()[sel.value] ?? '-'}`;
+    };
+    $sceneInfo.subscribe(showInfo);
+    $sceneStatus.subscribe(showInfo);
+
+    leakBtn.addEventListener('click', async () => {
+      const id = sel.value;
+      const mem = () => {
+        const m = (engine.renderer.info as unknown as { memory: { geometries: number; textures: number } }).memory;
+        return { geometries: m.geometries, textures: m.textures };
+      };
+      // Park the engine on the placeholder so page mode does not reload a chapter scene mid-test.
+      engine.setSingle({ sceneId: '_placeholder', local: 0.5, paused: true });
+      await new Promise((r) => setTimeout(r, 300));
+      engine.manager.unload(id);
+      await new Promise((r) => requestAnimationFrame(r));
+      // Warm-up cycles first: shared, lazily created resources (sprite quad, field textures) are allocated once.
+      let before = mem();
+      for (let i = 0; i < 52; i++) {
+        if (i === 2) before = mem();
+        const e = engine.manager.load(id);
+        await e.promise;
+        e.scene?.update(0.5, 0.016, i);
+        e.scene?.render(e.target);
+        engine.manager.unload(id);
+        leakOut.textContent = `iteration ${i + 1}/52`;
+        await new Promise((r) => requestAnimationFrame(r));
+      }
+      await new Promise((r) => setTimeout(r, 200));
+      const after = mem();
+      const ok = after.geometries <= before.geometries && after.textures <= before.textures;
+      leakOut.textContent = `before ${JSON.stringify(before)}\nafter  ${JSON.stringify(after)}\n${ok ? 'PASS: no leak' : 'FAIL: leaked'}`;
+      w.__leak = { before, after, ok };
+      apply();
+    });
+  }
+</script>
+
+<style>
+  #dev-canvas {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    display: block;
+  }
+  .panel {
+    position: fixed;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 5;
+    width: 20rem;
+    display: grid;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    background: rgb(8 10 20 / 0.85);
+    border: 1px solid var(--color-line);
+    border-radius: 0.6rem;
+    color: var(--color-fog);
+  }
+  label {
+    display: grid;
+    gap: 0.25rem;
+  }
+  label.row {
+    display: flex;
+    gap: 0.4rem;
+    align-items: center;
+  }
+  select,
+  button {
+    font: inherit;
+    background: #0d1020;
+    color: var(--color-paper);
+    border: 1px solid var(--color-line-strong);
+    border-radius: 0.35rem;
+    padding: 0.3rem;
+  }
+  pre {
+    white-space: pre-wrap;
+  }
+</style>
