@@ -9,7 +9,7 @@ import { createKit } from '../../shared/gfx/kit.ts';
 import { createEvents, type Events } from '../../shared/gfx/events.ts';
 import { LabelSet, type LabelSpec } from '../../shared/gfx/labels.ts';
 import { PAL, type RGB } from '../../shared/gfx/palette.ts';
-import { circlePoints, createLines, type LineSpec, type Lines } from './lines.ts';
+import { circlePoints, createLines, type LineSpec, type Lines } from '../../shared/gfx/lines.ts';
 import {
   arms,
   dateLabel,

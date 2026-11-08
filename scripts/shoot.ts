@@ -76,7 +76,16 @@ for (const job of jobs) {
     console.log(`  [pageerror] ${String(e).slice(0, 600)}`);
   });
   const t0 = Date.now();
-  await page.goto(job.url, { waitUntil: 'load', timeout });
+  // The dev server reloads when other files change; retry a navigation that a reload interrupted.
+  for (let attempt = 0; ; attempt++) {
+    try {
+      await page.goto(job.url, { waitUntil: 'load', timeout });
+      break;
+    } catch (err) {
+      if (attempt >= 2 || !/destroyed|interrupted|ERR_ABORTED/i.test(String(err))) throw err;
+      await page.waitForTimeout(1500);
+    }
+  }
   try {
     if (job.url.includes('/dev/scenes')) await page.waitForFunction('window.__ready === true', null, { timeout, polling: 250 });
     else {

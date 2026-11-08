@@ -13,6 +13,7 @@ export interface AssetLoader {
 export function createAssetLoader(): AssetLoader {
   const textures = new Map<string, { promise: Promise<Texture>; refs: number }>();
   const blobs = new Map<string, Promise<ArrayBuffer>>();
+  const jsons = new Map<string, Promise<unknown>>();
   const loader = new TextureLoader();
   return {
     texture(url, opts = {}) {
@@ -44,10 +45,18 @@ export function createAssetLoader(): AssetLoader {
       }
       return p;
     },
-    async json<T>(url: string) {
-      const r = await fetch(url);
-      if (!r.ok) throw new Error(`${url}: HTTP ${r.status}`);
-      return (await r.json()) as T;
+    json<T>(url: string) {
+      // Cached like binary(): stages reload the same data files on every scene load.
+      let p = jsons.get(url);
+      if (!p) {
+        p = fetch(url).then((r) => {
+          if (!r.ok) throw new Error(`${url}: HTTP ${r.status}`);
+          return r.json();
+        });
+        jsons.set(url, p);
+        p.catch(() => jsons.delete(url));
+      }
+      return p as Promise<T>;
     },
     release(url) {
       const hit = textures.get(url);

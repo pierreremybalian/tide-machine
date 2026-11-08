@@ -49,7 +49,7 @@ import { LabelSet, type LabelSpec } from '../../shared/gfx/labels.ts';
 import { OrbitRig, type RigPose } from '../../shared/gfx/rig.ts';
 import { PAL, type RGB } from '../../shared/gfx/palette.ts';
 import { fbm } from '../../shared/noise.ts';
-import { arcPoints, circlePoints, createLines, type LineSpec, type Lines } from './lines.ts';
+import { arcPoints, circlePoints, createLines, type LineSpec, type Lines } from '../../shared/gfx/lines.ts';
 import { decodeLand, LAND_H, LAND_W } from './land.ts';
 import {
   BULGE_EXAGGERATION,
