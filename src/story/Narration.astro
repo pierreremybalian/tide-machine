@@ -92,6 +92,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
     inset: 0;
     background:
       radial-gradient(ellipse 62vw 58svh at 0% 100%, rgb(2 2 5 / 0.74), rgb(2 2 5 / 0) 100%),
+      radial-gradient(ellipse 42vw 32svh at 100% 0%, rgb(2 2 5 / 0.82), rgb(2 2 5 / 0) 100%),
       linear-gradient(rgb(2 2 5 / 0.45), rgb(2 2 5 / 0) 7rem);
     transition: opacity 0.8s var(--ease-cosmic);
   }
@@ -193,6 +194,12 @@ const pad = (n: number) => String(n).padStart(2, '0');
     border-radius: 1px;
     background: var(--tone);
     box-shadow: 0 0 8px var(--tone);
+  }
+  .dual :global(dt),
+  .dual :global(dd) {
+    text-shadow:
+      0 0 14px rgb(2 2 5 / 0.95),
+      0 0 4px rgb(2 2 5 / 0.95);
   }
   .dual :global(dd) {
     font-family: var(--font-serif);

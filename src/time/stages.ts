@@ -22,9 +22,9 @@ type Row = [id: string, status: Status, weight: number, transition: TransitionKi
 
 const ROWS: Row[] = [
   ['breathe', 'measured', 6, 'dissolve'],
-  ['moon', 'simplified', 7, 'zoom'],
+  ['moon', 'simplified', 7, 'dissolve'],
   ['wave', 'measured', 7, 'dissolve'],
-  ['bay', 'measured', 8, 'zoom'],
+  ['bay', 'measured', 8, 'dissolve'],
   ['sun', 'measured', 6, 'dissolve'],
   ['rhythms', 'established', 6, 'dissolve'],
   ['apart', 'measured', 7, 'dissolve'],
@@ -32,7 +32,7 @@ const ROWS: Row[] = [
   ['gears', 'measured', 6, 'dissolve'],
   ['brass', 'historical', 6, 'dissolve'],
   ['crank', 'measured', 8, 'dissolve'],
-  ['sandy', 'measured', 7, 'zoom'],
+  ['sandy', 'measured', 7, 'dissolve'],
   ['anywhere', 'measured', 6, 'dissolve'],
 ];
 
