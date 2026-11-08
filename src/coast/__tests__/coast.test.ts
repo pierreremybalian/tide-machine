@@ -341,7 +341,9 @@ describe('wave bands', () => {
     // Equal 10-cell steps take longer in shallower water.
     const row = 45 * nx;
     expect(f.T[row + 60]! - f.T[row + 50]!).toBeGreaterThan(f.T[row + 20]! - f.T[row + 10]!);
-    expect(f.amp[row + 20]!).toBeCloseTo(1, 3);
+    // Open water keeps its swell; bottom friction takes some over the shoaling beach; the lee is sheltered.
+    expect(f.amp[row + 20]!).toBeGreaterThan(0.95);
+    expect(f.amp[row + 65]!).toBeLessThan(f.amp[row + 20]!);
     expect(f.amp[5 * nx + 45]!).toBeLessThan(0.5);
   });
   it('wind sea grows with fetch', () => {
