@@ -82,3 +82,9 @@ Non-obvious choices, deviations from HANDOFF.md, and why.
 - **Globe**: EOT20's 1/2° overview as a half-float texture (ocean mask, M2 amplitude, cos κ, sin κ) sampled with a four-tap tent so the coastline is a curve; M2 amplitude tints the sea, co-tidal lines every 30° (from cos/sin so they survive interpolation), day and night from the subsolar point, an atmosphere from each ray's height above the limb, NOAA's 1,374 stations and the ten suggestions as fixed-size points. Narrow screens pull the camera back by aspect^−0.8.
 - **Times** are shown in the reader's own time zone (named on the card): there is no time-zone database for arbitrary coordinates without a dependency.
 - **Checks**: `node scripts/finale-check.ts [--webgl] [--width 390 --height 844]` loads a shared link (Boston, NOAA 8443970), then searches Lisbon (EOT20) and turns the crank a day; the card's now / next high / next low match `predict()` and the turning points recomputed independently from the same sources to < 0.1 mm and < 1 min, and the chip reads Measured / Modeled. Switching through all ten suggestions returns GPU memory to the globe's (no leak); `--leak` passes for both scenes.
+
+## Journey review (2026-11-08)
+- **Transitions**: dissolves into the moon, bay and Sandy stages (the zoom transition smeared terrain and globes into radial streaks); the machine stage keeps its zoom.
+- **Dual clock legibility**: a deeper shade at the top right and a dark halo on the readouts, because the brass close-ups and the bay put bright detail behind them.
+- **Open Graph image**: the "Turn the crank" frame (machine beside the bay) with the title, as JPEG (240 KB instead of a 1 MB PNG).
+- **Production check**: `scripts/finale-check.ts` passes against `wrangler dev` with the production headers (live NOAA API and terrain tiles under the CSP).
