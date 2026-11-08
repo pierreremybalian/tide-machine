@@ -175,4 +175,22 @@ const lag = (m: number) => (m === 0 ? '—' : m < 60 ? `+${m} min` : `+${Math.fl
   td.x {
     color: var(--color-mute);
   }
+  td {
+    white-space: nowrap;
+  }
+  /* Phones: name, time and range only. */
+  @media (max-width: 767px) {
+    th:nth-child(3),
+    td:nth-child(3),
+    th:nth-child(5),
+    td:nth-child(5) {
+      display: none;
+    }
+    table {
+      font-size: 0.6rem;
+    }
+    td.name {
+      font-size: 0.66rem;
+    }
+  }
 </style>

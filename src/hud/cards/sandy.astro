@@ -198,4 +198,13 @@ const peak = eastern(PEAK.ms);
   .peak .s {
     color: var(--color-obs-a);
   }
+  /* Phones: clear the four-row readout above, and leave the peak numbers to the caption. */
+  @media (max-width: 767px) {
+    section.card.sandy {
+      top: 9.6rem;
+    }
+    .peak {
+      display: none;
+    }
+  }
 </style>

@@ -123,7 +123,11 @@ export default function sandyScene(): BlockScene {
       const storm = ramp(local, 0.3, 0.45) * (1 - 0.5 * ramp(local, 0.8, 1));
       u.bandHeight.value.set(c[0] + (b[0] - c[0]) * storm, c[1] + (b[1] - c[1]) * storm, c[2] + (b[2] - c[2]) * storm);
       u.gusts.value = 0.6 + 0.4 * storm;
-      applyShot(rig, coast, shotAt(SHOTS, local, shot), pose, elapsed);
+      shotAt(SHOTS, local, shot);
+      // Portrait screens: slide the target west so the Battery is not at the edge.
+      const aspect = rig.camera.aspect;
+      if (aspect < 1) shot.lng -= 0.012 * (1 - aspect);
+      applyShot(rig, coast, shot, pose, elapsed);
       const cam = rig.camera;
 
       const st = coast.field.stations[gaugeIdx]!;

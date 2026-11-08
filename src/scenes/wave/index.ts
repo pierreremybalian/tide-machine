@@ -12,7 +12,8 @@ import { createMarkers, type Markers } from '../../shared/water/markers.ts';
 import { LabelSet } from '../../shared/gfx/labels.ts';
 import { smoother, windowed } from '../../time/tracks.ts';
 import { DELAY_H, WEST_COAST, fmtDelay, wave, waveState } from '../../script/wave.ts';
-import { amphidromes, createGlobe, loadPatch, onSphere, type Globe } from './globe.ts';
+import { amphidromes, createGlobe, loadPatch, onSphere, type Globe, type M2Patch } from './globe.ts';
+import type { Eot20Tile } from '../../finale/eot20.ts';
 
 interface View {
   /** Camera position: latitude, longitude (degrees) and distance from the centre (globe radii). */
@@ -42,6 +43,20 @@ const VIEWS: readonly (readonly [number, View])[] = [
   [0.9, { lat: 28, lng: -131.5, dist: 1.85, tLat: 40.5, tLng: -122.5, tR: 0.84 }],
   [1.0, { lat: 28.5, lng: -131, dist: 1.85, tLat: 40.5, tLng: -122.5, tR: 0.84 }],
 ];
+
+// EOT20's overview, the West Coast patch and the amphidromes, decoded once per session (scene reloads reuse them;
+// only GPU resources are made per load).
+let data: Promise<{ ov: Eot20Tile; patch: M2Patch; amphi: { lat: number; lng: number }[] }> | null = null;
+function loadData() {
+  data ??= (async () => {
+    const eot = await Eot20.load();
+    const p = params.patch;
+    const [ov, patch] = await Promise.all([eot.overview(), loadPatch(eot, p.south, p.west, p.north, p.east)]);
+    return { ov, patch, amphi: amphidromes(ov) };
+  })();
+  data.catch(() => (data = null));
+  return data;
+}
 
 function viewAt(local: number, out: View): View {
   const n = VIEWS.length;
@@ -101,8 +116,7 @@ export default function waveScene(): BlockScene {
     labels,
     async init(ctx: RenderContext) {
       renderer = ctx.renderer;
-      const eot = await Eot20.load();
-      const [ov, patch] = await Promise.all([eot.overview(), loadPatch(eot, params.patch.south, params.patch.west, params.patch.north, params.patch.east)]);
+      const { ov, patch, amphi: found } = await loadData();
       globe = createGlobe(ov, patch, Math.round(192 * Math.max(0.75, ctx.quality.detail)));
       scene.add(globe.mesh);
       backdrop = createBackdropMesh();
@@ -115,7 +129,7 @@ export default function waveScene(): BlockScene {
         ctx.globals.uElapsed,
       );
       scene.add(stations.object);
-      amphiPts = amphidromes(ov);
+      amphiPts = found;
       let best = Infinity;
       amphiPts.forEach((a, i) => {
         const d = Math.hypot(a.lat - 28, a.lng + 138);
