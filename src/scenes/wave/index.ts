@@ -170,7 +170,7 @@ export default function waveScene(): BlockScene {
       });
       stations.update(camera);
       stations.commit();
-      amphiPts.forEach((a, i) => amphi!.setIntensity(i, 1.2 * s.amphi));
+      amphiPts.forEach((_, i) => amphi!.setIntensity(i, 1.2 * s.amphi));
       amphi.update(camera);
       amphi.commit();
       if (labelled >= 0) {

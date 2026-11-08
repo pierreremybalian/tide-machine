@@ -8,6 +8,7 @@
 import { DataTexture, HalfFloatType, LinearFilter, ClampToEdgeWrapping, Mesh, MeshBasicNodeMaterial, RGBAFormat, SphereGeometry } from 'three/webgpu';
 import { Fn, abs, asin, atan, cameraPosition, clamp, cos, dot, exp, float, fract, fwidth, max, min, mix, normalize, smoothstep, step, texture, uniform, varying, vec2, vec3, vec4, attribute } from 'three/tsl';
 import type { Texture } from 'three/webgpu';
+import type { FloatUniform } from '../../render/globals.ts';
 import { floatToHalf } from '../../coast/heightfield.ts';
 import { interpolateTile, tileFor, type Eot20, type Eot20Tile } from '../../finale/eot20.ts';
 
@@ -16,10 +17,10 @@ const D2R = Math.PI / 180;
 export interface Globe {
   mesh: Mesh;
   /** M2 argument V + u (degrees). */
-  arg: ReturnType<typeof uniform<number>>;
+  arg: FloatUniform;
   /** Co-tidal lines and crest strength (0–1). */
-  lines: ReturnType<typeof uniform<number>>;
-  crest: ReturnType<typeof uniform<number>>;
+  lines: FloatUniform;
+  crest: FloatUniform;
   dispose(): void;
 }
 
