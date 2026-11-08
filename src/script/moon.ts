@@ -128,8 +128,7 @@ export const moon = registerStage('moon', {
         tone: 'a',
       });
     }
-    if (s.catchUp > 0.5 || s.pullBack > 0.5)
-      rows.push({ label: 'Lunar day', value: hm(LUNAR_DAY_H), tone: 'plain' });
+    if (local > 0.72) rows.push({ label: 'Lunar day', value: hm(LUNAR_DAY_H), tone: 'plain' });
     if (s.pullBack > 0.5)
       rows.push({ label: 'Sun’s bulges', value: `+${SUN_BULGE_M.toFixed(2)} m`, tone: 'warm' });
     return rows;

@@ -92,7 +92,7 @@ const params = {
     bulge: { az: -0.25, el: 0.5, dist: 6.6, tx: -0.55, tt: 0.05, ty: 0 },
     turn: { az: -0.2, el: 0.92, dist: 6.4, tx: -0.45, tt: 0.1, ty: 0.2 },
     catchUp: { az: -0.05, el: 0.85, dist: 11.5, tx: -2.5, tt: 0, ty: 0.3 },
-    wide: { az: 0.1, el: 0.62, dist: 13.5, tx: -2.6, tt: 0, ty: 0 },
+    wide: { az: 0.1, el: 0.72, dist: 13.5, tx: -2.4, tt: 0, ty: 1.5 },
   } satisfies Record<string, RigPose>,
 };
 
