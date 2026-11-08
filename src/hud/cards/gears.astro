@@ -1,0 +1,137 @@
+---
+// Gear trains (stage 9): a few cranks of each machine with their tooth counts, the ratio they make from the driving
+// shaft and the drift that ratio leaves after a year. Kelvin's are our closest two-stage trains (his do not survive);
+// Old Brass Brains' are SP-32's. Computed at build time from src/tides/machine.ts via the stage script.
+import { fmtDrift, ladderRows } from '../../script/gears.ts';
+import { pretty } from '../../script/adds.ts';
+import type { GearTrain } from '../../tides/machine.ts';
+
+const rows = ladderRows();
+const pick = (names: string[], which: 'kelvin' | 'obb') =>
+  names.map((name) => {
+    const r = rows.find((x) => x.name === name)!;
+    return { name: pretty(name), train: (which === 'kelvin' ? r.kelvin : r.obb)! };
+  });
+const teeth = (t: GearTrain) => t.pairs.map(([a, b]) => `${a === 1 ? 'worm' : a}/${b}`).join(' × ');
+const ratio = (t: GearTrain) => (t.source === 'exact' ? `${t.ratio}` : t.ratio.toFixed(7));
+const groups = [
+  {
+    title: 'Kelvin, 1872',
+    note: 'shaft 1 turn a day · our trains',
+    rows: pick(['M2', 'S2', 'K1'], 'kelvin'),
+  },
+  {
+    title: 'Old Brass Brains, 1912',
+    note: 'shafts 30°/h · SP-32 teeth',
+    rows: pick(['M2', 'K1', 'K2', 'RHO'], 'obb'),
+  },
+];
+---
+
+<section class="card gears" data-card="gears">
+  <h3>
+    Gear trains <span>drift a year</span>
+  </h3>
+  {groups.map((g) => (
+    <div class="group">
+      <p class="title">
+        {g.title} <span>{g.note}</span>
+      </p>
+      <table>
+        <tbody>
+          {g.rows.map((r) => (
+            <tr>
+              <th>{r.name}</th>
+              <td class="teeth">{teeth(r.train)}</td>
+              <td class="ratio">×{ratio(r.train)}</td>
+              <td class="drift" data-big={Math.abs(r.train.driftPerYear) > 0.3 ? '' : undefined}>
+                {r.train.source === 'exact' ? '0' : fmtDrift(r.train.driftPerYear)}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  ))}
+</section>
+
+<script>
+  import { gearsState } from '../../script/gears.ts';
+  import { onStage, showCard } from '../card.ts';
+
+  const card = document.querySelector<HTMLElement>('[data-card="gears"]')!;
+  onStage((s) => showCard(card, s.stageId === 'gears' && gearsState(s.local).card));
+</script>
+
+<style>
+  .group {
+    margin-top: 0.7rem;
+  }
+  .title {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.6rem;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-brass);
+  }
+  .title span {
+    color: var(--color-mute);
+    text-transform: none;
+    letter-spacing: 0.02em;
+  }
+  table {
+    width: 100%;
+    margin-top: 0.3rem;
+    border-collapse: collapse;
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-fog);
+  }
+  th {
+    width: 2.2rem;
+    text-align: left;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    color: var(--color-paper);
+  }
+  td,
+  th {
+    padding: 0.16rem 0;
+    border-top: 1px solid rgb(255 255 255 / 0.06);
+  }
+  .teeth {
+    color: var(--color-glow);
+  }
+  .ratio {
+    text-align: right;
+    color: var(--color-mute);
+  }
+  .drift {
+    width: 3.6rem;
+    text-align: right;
+    color: var(--color-paper);
+  }
+  .drift[data-big] {
+    color: var(--color-glow);
+  }
+  /* Phones: below the dual clock, without the ratio column. */
+  @media (max-width: 767px) {
+    section.card.gears {
+      top: 10.4rem;
+    }
+    .ratio {
+      display: none;
+    }
+    .group {
+      margin-top: 0.4rem;
+    }
+    td,
+    th {
+      padding: 0.1rem 0;
+    }
+  }
+</style>

@@ -1,13 +1,37 @@
 ---
 id: gears
-title: "Gears that keep astronomical time"
-kicker: "Gear trains"
-summary: "Each pulley turns at its rhythm’s speed through a train of gears. The ratios have to match astronomy for a year at a time."
-beats: []
-howWeKnow: "To be written."
+title: 'Gears that keep astronomical time'
+kicker: 'Gear trains'
+summary: 'Each crank turns at its rhythm’s speed through a train of gears. Teeth come in whole numbers and the Moon does not, so every ratio is a little off. How far off, after a year?'
+beats:
+  - local: 0.14
+    text: 'Every crank has to turn at its own rhythm’s speed, and all of them are driven from shafts the operator turns. In our drawing of Kelvin’s machine the driving shaft turns once a day.'
+  - local: 0.24
+    text: 'M2 must turn 1.9322736 times for each turn of the shaft. Gears only make ratios of whole numbers of teeth: 176/169 × 154/83 gives 1.9322735. Kelvin’s tooth counts don’t survive, so these are the closest pairs of 10 to 200 teeth we could find.'
+  - local: 0.34
+    text: 'The Sun’s rhythms are easy. S2 turns exactly twice a day: 54 teeth driving 27. The Moon’s rhythms are not whole-number fractions of a day, so every lunar crank runs a little fast or a little slow.'
+  - local: 0.47
+    text: 'To see how much, run a year and compare each crank with the sky. Each rung is one crank of the US machine of 1912, Old Brass Brains, geared with the tooth counts its makers published. The center line is where the sky says the crank should point.'
+  - local: 0.58
+    text: 'The errors grow steadily. ρ1 falls 0.75° behind, so by the end of the year its peaks come 3.4 minutes late. K1 and K2 run about a minute fast. M2, the biggest rhythm, is off by 3 seconds.'
+  - local: 0.69
+    text: 'At San Francisco, all of those errors together move the predicted tide by less than 3 millimeters. Kelvin’s ten, with our gear trains (the white ticks), barely leave the line.'
+  - local: 0.81
+    text: 'And no error builds up for longer than a year. Before each port and each year, the operator set every crank again from astronomy, so the gears only had to keep time for one run.'
+  - local: 0.91
+    text: 'The astronomy is cut into the brass: two numbers of teeth per stage, chosen once, good for a year at a time.'
+howWeKnow: 'Old Brass Brains’ tooth counts are printed in the Coast and Geodetic Survey’s description of the machine (Special Publication 32, 1915, Table C). We multiplied out every train and the results match the gear speeds listed there. The only exception is M1, whose speed has since been redefined, so its row uses our closest train. The true speeds come from the mean motions of the Moon and Sun, the same ones NOAA uses. Drift is the difference between the two speeds times the hours in a year. Kelvin’s tooth counts are not recorded, so his trains are ours: the closest ratios two pairs of 10–200-tooth gears can make, found by checking every combination.'
 sources:
-  - label: "NOAA Tides and Currents"
-    url: "https://tidesandcurrents.noaa.gov/"
+  - label: 'US Coast and Geodetic Survey, Description of the U.S. Coast and Geodetic Survey Tide-Predicting Machine No. 2, Special Publication 32 (1915)'
+    url: 'https://archive.org/details/descriptionofusc00uscouoft'
+  - label: 'W. Thomson, “The tide gauge, tidal harmonic analyser, and tide predicter,” Minutes of Proceedings of the Institution of Civil Engineers 65 (1881)'
+    url: 'https://archive.org/details/minutesproceedi00secrgoog'
+  - label: 'NOAA Tides and Currents, Tide Predicting Machines'
+    url: 'https://tidesandcurrents.noaa.gov/predmach.html'
 ---
 
-To be written.
+A tide-predicting machine keeps its astronomy in its gears. Every crank must turn at the speed of one rhythm of the tide, and those speeds are set by the Moon’s and Sun’s motions: M2 at 28.9841042° an hour, K1 at 15.0410686°, and so on. They are not simple fractions of each other or of the day.
+
+A pair of gears turns one shaft at a fixed fraction of another, the ratio of their tooth counts, and two or three pairs in a row multiply. So the designer looks for small whole numbers whose products come close to an awkward decimal. Old Brass Brains’ designers settled for errors of up to three quarters of a degree a year on minor cranks and under a quarter of a degree on the four largest.
+
+That was enough because no run lasted more than a year. Before each one, the operator set every crank from tables of the astronomical arguments for the first day of the year, so the drift started from zero again. Over a year, the gearing errors at San Francisco add up to less than 3 mm, much less than what wind and air pressure do to the water on an ordinary day.

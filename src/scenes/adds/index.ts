@@ -30,8 +30,8 @@ import { createRig, type Rig, type RigFrame } from './rig.ts';
 
 const params = {
   station: '/data/stations/9414290.json',
-  /** The assembly's run: covers the stage's 43 days of machine time. */
-  span: 44 * DAY_MS,
+  /** The assembly's run: covers this stage and the next (stage 9 carries on to day 47). */
+  span: 48 * DAY_MS,
   fov: 30,
   /** Azimuth (radians, + looks from the pen end) and elevation per framing: the lone crank, with its trail, two
    * cranks and the record, ten, the machine. */
