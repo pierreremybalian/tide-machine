@@ -96,7 +96,7 @@ export function createKit(): BlockKit {
   };
   const existence = (p: V3): F => {
     const d = knifeDist(0, p);
-    const near = exp(d.div(exist.presentWidth).pow(2).negate());
+    const near = exp(d.div(exist.presentWidth).abs().pow(2).negate());
     const below = float(1).sub(smoothstep(exist.fade.negate(), exist.fade, d));
     return mix(float(1), near, exist.present).mul(mix(float(1), below.max(near), exist.growing));
   };

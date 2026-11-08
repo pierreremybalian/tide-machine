@@ -166,9 +166,9 @@ export function createRibbons(kit: BlockKit, paths: readonly PathSpec[]): Ribbon
   const tick = aStyle.y;
   const phase = fract(aTau.div(max(tick, 1e-6)));
   const dPhase = min(phase, float(1).sub(phase)).mul(tick);
-  const bead = exp(dPhase.div(max(tick.mul(0.045), 1e-6)).pow(2).negate()).mul(step(1e-5, tick));
+  const bead = exp(dPhase.div(max(tick.mul(0.045), 1e-6)).abs().pow(2).negate()).mul(step(1e-5, tick));
   const coreW = float(0.16).add(bead.mul(0.5));
-  const core = exp(v.div(coreW).pow(2).negate());
+  const core = exp(v.div(coreW).abs().pow(2).negate());
   const halo = exp(v.mul(v).mul(3.0).negate()).mul(0.12);
   const dash = aStyle.w;
   const dashMask = float(1).sub(step(1e-5, dash).mul(step(0.55, fract(aTau.div(max(dash, 1e-6))))));
@@ -178,7 +178,7 @@ export function createRibbons(kit: BlockKit, paths: readonly PathSpec[]): Ribbon
   const revealFrom = st.z;
   const inside = step(aAlong, revealEnd.add(1e-4)).mul(step(revealFrom.sub(1e-4), aAlong));
   // The hot writing head only while a path is being drawn (not before it starts, not once complete).
-  const head = exp(revealEnd.sub(aAlong).div(0.012).pow(2).negate()).mul(step(revealEnd, 0.999)).mul(step(1e-4, revealEnd)).mul(inside);
+  const head = exp(revealEnd.sub(aAlong).div(0.012).abs().pow(2).negate()).mul(step(revealEnd, 0.999)).mul(step(1e-4, revealEnd)).mul(inside);
 
   const glow = kit.sliceGlow(c).mul(sliceResponse);
   const exist = kit.existence(c).mul(existResponse).add(float(1).sub(existResponse));
