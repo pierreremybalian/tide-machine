@@ -125,7 +125,7 @@ export function createTideField(input: BayStation[], o: FieldOptions): TideField
     prepared: prepare({ id: s.id, z0: 0, constituents: s.constituents }),
   }));
   const n = stations.length;
-  const k = Math.min(o.k ?? 6, n - 1);
+  const k = Math.max(0, Math.min(o.k ?? 6, n - 1));
   const detour = o.detour ?? null;
   const dist = new Float64Array(n);
   const order = new Int32Array(n);
@@ -172,6 +172,7 @@ export function createTideField(input: BayStation[], o: FieldOptions): TideField
       return out;
     },
     at(x, z, levels) {
+      if (n <= 1) return n ? levels[0]! : 0;
       const hit = rank(x, z);
       if (hit >= 0) return levels[hit]!;
       const R = dist[order[k]!]!;
@@ -203,6 +204,11 @@ export function createTideField(input: BayStation[], o: FieldOptions): TideField
       const idx = new Uint16Array(count * k);
       const w = new Float32Array(count * k);
       const exact = new Int16Array(count).fill(-1);
+      // One station (the finale's nearest gauge): a uniform field.
+      if (n <= 1) {
+        if (n === 1) exact.fill(0);
+        return { count, k: 0, idx, w, exact };
+      }
       for (let p = 0; p < count; p++) {
         const hit = rank(points[2 * p]!, points[2 * p + 1]!);
         if (hit >= 0) {
@@ -235,6 +241,7 @@ export function fillLevels(fw: FieldWeights, levels: ArrayLike<number>, out: Flo
     let v: number;
     const e = exact[p]!;
     if (e >= 0) v = levels[e]!;
+    else if (k === 0) v = 0;
     else {
       v = 0;
       const b = p * k;

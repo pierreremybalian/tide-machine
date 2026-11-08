@@ -73,7 +73,7 @@ export interface Coast {
   stationLevels: Float64Array;
   /** Terrain height (m NAVD88) at a world point. */
   heightAt(x: number, z: number): number;
-  /** Interpolated water level (m NAVD88) at a world point, from the last update. */
+  /** Interpolated water level (m NAVD88) at a world point, from the last update, plus uniforms.levelOffset. */
   levelAt(x: number, z: number): number;
   /** Whether a world point is under tidal water at the last update. */
   wetAt(x: number, z: number): boolean;
@@ -323,7 +323,7 @@ export async function createCoast(ctx: RenderContext, opts: CoastOptions): Promi
       return sampleGrid(hf.data, hf.nx, hf.ny, ((x - extent.x0) / extent.w) * hf.nx - 0.5, ((z - extent.z0) / extent.d) * hf.ny - 0.5);
     },
     levelAt(x, z) {
-      return sampleGrid(levelNow, fg.nx, fg.ny, ((x - extF.x0) / extF.w) * fg.nx - 0.5, ((z - extF.z0) / extF.d) * fg.ny - 0.5);
+      return sampleGrid(levelNow, fg.nx, fg.ny, ((x - extF.x0) / extF.w) * fg.nx - 0.5, ((z - extF.z0) / extF.d) * fg.ny - 0.5) + uniforms.levelOffset.value;
     },
     wetAt(x, z) {
       const e = sampleGrid(bake.spill, hf.nx, hf.ny, ((x - extent.x0) / extent.w) * hf.nx - 0.5, ((z - extent.z0) / extent.d) * hf.ny - 0.5);

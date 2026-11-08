@@ -306,6 +306,17 @@ describe('tide field', () => {
     });
   });
 
+  it('a single station gives a uniform field (the finale)', () => {
+    const one = [doc.stations[1]!];
+    const f = createTideField(one, { bbox: doc.bbox });
+    const lv = f.levels(times[0]!);
+    expect(f.atLatLng(37.6, -122.2, lv)).toBe(lv[0]);
+    const out = new Float32Array(2);
+    fillLevels(f.weights(Float32Array.from([0, 0, 5, 5])), lv, out);
+    expect(out[0]).toBeCloseTo(lv[0]!, 5);
+    expect(out[1]).toBeCloseTo(lv[0]!, 5);
+  });
+
   it('is smooth between stations and bounded by them', () => {
     const f = createTideField(doc.stations, { bbox: doc.bbox });
     const lv = f.levels(times[0]!);

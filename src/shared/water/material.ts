@@ -108,6 +108,8 @@ export function createCoastUniforms() {
   return {
     /** Vertical exaggeration of terrain and water level (×). */
     exaggeration: uniform(3),
+    /** Added to every water level (m): storm surge, sea-level scenarios. 0 = the predicted tide. */
+    levelOffset: uniform(0),
     /** Wave clock (s), wrapped by the caller. */
     time: uniform(0),
     /** Significant wave height of each band before shoaling (m): swell, wind sea, chop. */
@@ -166,7 +168,8 @@ export function createCoastMaterial(inp: CoastMaterialInputs, u: CoastUniforms):
   const tv = texture(inp.terrain as Texture, uvOf(te, pos.xz)).level(float(0));
   const lv = texture(inp.level as Texture, uvOf(le, pos.xz)).level(float(0));
   const hV = pos.y.mul(1000);
-  const yM = select(lv.x.greaterThan(tv.y), max(hV, lv.x), hV);
+  const lvl = lv.x.add(u.levelOffset);
+  const yM = select(lvl.greaterThan(tv.y), max(hV, lvl), hV);
   const yWorld = yM.mul(u.exaggeration).div(1000);
   mat.positionNode = vec3(pos.x, yWorld, pos.z);
   const vXZ = varying(pos.xz, 'vCoastXZ');
@@ -191,8 +194,8 @@ export function createCoastMaterial(inp: CoastMaterialInputs, u: CoastUniforms):
     const pond = smoothstep(-0.35, 0.35, cls.x);
     const diked = smoothstep(-0.35, 0.35, cls.y);
     const l4 = lTex(uvOf(le, xz));
-    const L = l4.x;
-    const Lmax = l4.y;
+    const L = l4.x.add(u.levelOffset);
+    const Lmax = l4.y.add(u.levelOffset);
     const msl = l4.w;
 
     // Wet/dry, antialiased over a pixel.
