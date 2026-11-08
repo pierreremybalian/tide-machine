@@ -1,0 +1,22 @@
+{
+ "region": "San Francisco Bay",
+ "nx": 1280,
+ "ny": 1536,
+ "bbox": {
+  "south": 37.4,
+  "north": 38.25,
+  "west": -122.75,
+  "east": -121.85
+ },
+ "cell": [
+  61.8,
+  61.2
+ ],
+ "units": "m",
+ "encoding": "float16-delta-shuffle-deflate",
+ "verticalDatum": "NAVD88 on land (USGS 3DEP/NED); bathymetry as compiled by the tile sources (NOAA CRM, ≈ mean sea level), see DECISIONS.md",
+ "zoom": 11,
+ "source": "AWS Open Data terrain tiles (Terrarium), https://registry.opendata.aws/terrain-tiles/",
+ "min": -112.9,
+ "max": 1164.2
+}

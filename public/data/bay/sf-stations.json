@@ -1,0 +1,7089 @@
+{
+ "region": "San Francisco Bay",
+ "bbox": {
+  "south": 37.4,
+  "north": 38.25,
+  "west": -122.75,
+  "east": -121.85
+ },
+ "stationBox": {
+  "south": 37.4,
+  "north": 38.25,
+  "west": -122.75,
+  "east": -121.85
+ },
+ "source": "NOAA CO-OPS metadata API (harmonic constituents and datums, public domain)",
+ "fetched": "2026-11-08",
+ "datum": "Water levels are referenced to NAVD88: h = (MSL − NAVD88) + tide about MSL. Stations without a published NAVD88 tie take the offset interpolated from their neighbours; stations without datums are referenced to MSL the same way.",
+ "stations": [
+  {
+   "id": "9415584",
+   "name": "Petaluma River, Upper Drawbridge",
+   "label": "Petaluma River, Upper Drawbridge",
+   "lat": 38.2283,
+   "lng": -122.613,
+   "inTerrain": true,
+   "z0": 1.137,
+   "mslNavd88": 1.042,
+   "datums": {
+    "MHHW": 2.547,
+    "MHW": 2.406,
+    "MSL": 1.656,
+    "MLW": 0.818,
+    "MLLW": 0.519,
+    "NAVD88": 0.614
+   },
+   "epoch": "1983-2001",
+   "constituents": [
+    {
+     "name": "M2",
+     "amplitude": 0.713,
+     "phase": 273.3,
+     "speed": 28.984104
+    },
+    {
+     "name": "S2",
+     "amplitude": 0.169,
+     "phase": 299.3,
+     "speed": 30
+    },
+    {
+     "name": "N2",
+     "amplitude": 0.135,
+     "phase": 258.2,
+     "speed": 28.43973
+    },
+    {
+     "name": "K1",
+     "amplitude": 0.371,
+     "phase": 264.2,
+     "speed": 15.041069
+    },
+    {
+     "name": "M4",
+     "amplitude": 0.021,
+     "phase": 72.1,
+     "speed": 57.96821
+    },
+    {
+     "name": "O1",
+     "amplitude": 0.217,
+     "phase": 253.5,
+     "speed": 13.943035
+    },
+    {
+     "name": "M6",
+     "amplitude": 0.021,
+     "phase": 226.6,
+     "speed": 86.95232
+    },
+    {
+     "name": "S4",
+     "amplitude": 0.003,
+     "phase": 151.1,
+     "speed": 60
+    },
+    {
+     "name": "NU2",
+     "amplitude": 0.026,
+     "phase": 260.2,
+     "speed": 28.512583
+    },
+    {
+     "name": "MU2",
+     "amplitude": 0.017,
+     "phase": 247.5,
+     "speed": 27.968208
+    },
+    {
+     "name": "2N2",
+     "amplitude": 0.018,
+     "phase": 243.2,
+     "speed": 27.895355
+    },
+    {
+     "name": "OO1",
+     "amplitude": 0.009,
+     "phase": 273.8,
+     "speed": 16.139101
+    },
+    {
+     "name": "LAM2",
+     "amplitude": 0.005,
+     "phase": 285.2,
+     "speed": 29.455626
+    },
+    {
+     "name": "M1",
+     "amplitude": 0.015,
+     "phase": 258.7,
+     "speed": 14.496694
+    },
+    {
+     "name": "J1",
+     "amplitude": 0.017,
+     "phase": 268.9,
+     "speed": 15.5854435
+    },
+    {
+     "name": "SSA",
+     "amplitude": 0.029,
+     "phase": 259.8,
+     "speed": 0.0821373
+    },
+    {
+     "name": "SA",
+     "amplitude": 0.048,
+     "phase": 223.9,
+     "speed": 0.0410686
+    },
+    {
+     "name": "RHO",
+     "amplitude": 0.008,
+     "phase": 249.3,
+     "speed": 13.471515
+    },
+    {
+     "name": "Q1",
+     "amplitude": 0.042,
+     "phase": 248.5,
+     "speed": 13.398661
+    },
+    {
+     "name": "T2",
+     "amplitude": 0.01,
+     "phase": 298.2,
+     "speed": 29.958933
+    },
+    {
+     "name": "R2",
+     "amplitude": 0.001,
+     "phase": 301.5,
+     "speed": 30.041067
+    },
+    {
+     "name": "2Q1",
+     "amplitude": 0.006,
+     "phase": 243.7,
+     "speed": 12.854286
+    },
+    {
+     "name": "P1",
+     "amplitude": 0.123,
+     "phase": 263.4,
+     "speed": 14.958931
+    },
+    {
+     "name": "L2",
+     "amplitude": 0.02,
+     "phase": 288.3,
+     "speed": 29.528479
+    },
+    {
+     "name": "K2",
+     "amplitude": 0.046,
+     "phase": 301.3,
+     "speed": 30.082138
+    },
+    {
+     "name": "M8",
+     "amplitude": 0.002,
+     "phase": 263.5,
+     "speed": 115.93642
+    }
+   ]
+  },
+  {
+   "id": "9415423",
+   "name": "LAKEVILLE, PETALUMA RIVER",
+   "label": "Lakeville, Petaluma River",
+   "lat": 38.1983,
+   "lng": -122.547,
+   "inTerrain": true,
+   "z0": 1.049,
+   "mslNavd88": null,
+   "datums": {
+    "MHHW": 2.64,
+    "MHW": 2.49,
+    "MSL": 1.748,
+    "MLW": 0.97,
+    "MLLW": 0.699
+   },
+   "epoch": "1983-2001",
+   "constituents": [
+    {
+     "name": "M2",
+     "amplitude": 0.694,
+     "phase": 265.1,
+     "speed": 28.984104
+    },
+    {
+     "name": "S2",
+     "amplitude": 0.142,
+     "phase": 284.7,
+     "speed": 30
+    },
+    {
+     "name": "N2",
+     "amplitude": 0.119,
+     "phase": 248.6,
+     "speed": 28.43973
+    },
+    {
+     "name": "K1",
+     "amplitude": 0.351,
+     "phase": 263.1,
+     "speed": 15.041069
+    },
+    {
+     "name": "M4",
+     "amplitude": 0.027,
+     "phase": 97.8,
+     "speed": 57.96821
+    },
+    {
+     "name": "O1",
+     "amplitude": 0.194,
+     "phase": 244.8,
+     "speed": 13.943035
+    },
+    {
+     "name": "M6",
+     "amplitude": 0.015,
+     "phase": 201.3,
+     "speed": 86.95232
+    },
+    {
+     "name": "S4",
+     "amplitude": 0.001,
+     "phase": 311.6,
+     "speed": 60
+    },
+    {
+     "name": "NU2",
+     "amplitude": 0.023,
+     "phase": 250.8,
+     "speed": 28.512583
+    },
+    {
+     "name": "S6",
+     "amplitude": 0.002,
+     "phase": 30.1,
+     "speed": 90
+    },
+    {
+     "name": "MU2",
+     "amplitude": 0.017,
+     "phase": 245.6,
+     "speed": 27.968208
+    },
+    {
+     "name": "2N2",
+     "amplitude": 0.016,
+     "phase": 232,
+     "speed": 27.895355
+    },
+    {
+     "name": "OO1",
+     "amplitude": 0.008,
+     "phase": 281.4,
+     "speed": 16.139101
+    },
+    {
+     "name": "LAM2",
+     "amplitude": 0.005,
+     "phase": 274.2,
+     "speed": 29.455626
+    },
+    {
+     "name": "M1",
+     "amplitude": 0.014,
+     "phase": 253.9,
+     "speed": 14.496694
+    },
+    {
+     "name": "J1",
+     "amplitude": 0.016,
+     "phase": 272.2,
+     "speed": 15.5854435
+    },
+    {
+     "name": "SSA",
+     "amplitude": 0.029,
+     "phase": 259.8,
+     "speed": 0.0821373
+    },
+    {
+     "name": "SA",
+     "amplitude": 0.048,
+     "phase": 223.9,
+     "speed": 0.0410686
+    },
+    {
+     "name": "RHO",
+     "amplitude": 0.007,
+     "phase": 236.8,
+     "speed": 13.471515
+    },
+    {
+     "name": "Q1",
+     "amplitude": 0.037,
+     "phase": 235.8,
+     "speed": 13.398661
+    },
+    {
+     "name": "T2",
+     "amplitude": 0.009,
+     "phase": 284,
+     "speed": 29.958933
+    },
+    {
+     "name": "R2",
+     "amplitude": 0.001,
+     "phase": 285.5,
+     "speed": 30.041067
+    },
+    {
+     "name": "2Q1",
+     "amplitude": 0.005,
+     "phase": 227.5,
+     "speed": 12.854286
+    },
+    {
+     "name": "P1",
+     "amplitude": 0.117,
+     "phase": 261.7,
+     "speed": 14.958931
+    },
+    {
+     "name": "L2",
+     "amplitude": 0.019,
+     "phase": 281.9,
+     "speed": 29.528479
+    },
+    {
+     "name": "K2",
+     "amplitude": 0.039,
+     "phase": 286.3,
+     "speed": 30.082138
+    },
+    {
+     "name": "M8",
+     "amplitude": 0.001,
+     "phase": 97.9,
+     "speed": 115.93642
+    }
+   ]
+  },
+  {
+   "id": "9414811",
+   "name": "Bradmoor Island",
+   "label": "Bradmoor Island",
+   "lat": 38.1833,
+   "lng": -121.923,
+   "inTerrain": true,
+   "z0": 0.883,
+   "mslNavd88": null,
+   "datums": {
+    "MHHW": 2.89,
+    "MHW": 2.73,
+    "MSL": 2.101,
+    "MLW": 1.447,
+    "MLLW": 1.218
+   },
+   "epoch": "1983-2001",
+   "constituents": [
+    {
+     "name": "M2",
+     "amplitude": 0.598,
+     "phase": 300.4,
+     "speed": 28.984104
+    },
+    {
+     "name": "S2",
+     "amplitude": 0.114,
+     "phase": 301.2,
+     "speed": 30
+    },
+    {
+     "name": "N2",
+     "amplitude": 0.128,
+     "phase": 274.1,
+     "speed": 28.43973
+    },
+    {
+     "name": "K1",
+     "amplitude": 0.316,
+     "phase": 281.2,
+     "speed": 15.041069
+    },
+    {
+     "name": "M4",
+     "amplitude": 0.038,
+     "phase": 161.5,
+     "speed": 57.96821
+    },
+    {
+     "name": "O1",
+     "amplitude": 0.159,
+     "phase": 255.8,
+     "speed": 13.943035
+    },
+    {
+     "name": "M6",
+     "amplitude": 0.022,
+     "phase": 337.6,
+     "speed": 86.95232
+    },
+    {
+     "name": "S4",
+     "amplitude": 0.002,
+     "phase": 347.5,
+     "speed": 60
+    },
+    {
+     "name": "NU2",
+     "amplitude": 0.025,
+     "phase": 277.7,
+     "speed": 28.512583
+    },
+    {
+     "name": "S6",
+     "amplitude": 0.001,
+     "phase": 186.5,
+     "speed": 90
+    },
+    {
+     "name": "MU2",
+     "amplitude": 0.014,
+     "phase": 55.8,
+     "speed": 27.968208
+    },
+    {
+     "name": "2N2",
+     "amplitude": 0.017,
+     "phase": 247.9,
+     "speed": 27.895355
+    },
+    {
+     "name": "OO1",
+     "amplitude": 0.007,
+     "phase": 306.7,
+     "speed": 16.139101
+    },
+    {
+     "name": "LAM2",
+     "amplitude": 0.004,
+     "phase": 300.8,
+     "speed": 29.455626
+    },
+    {
+     "name": "M1",
+     "amplitude": 0.011,
+     "phase": 268.6,
+     "speed": 14.496694
+    },
+    {
+     "name": "J1",
+     "amplitude": 0.013,
+     "phase": 293.9,
+     "speed": 15.5854435
+    },
+    {
+     "name": "RHO",
+     "amplitude": 0.006,
+     "phase": 244.9,
+     "speed": 13.471515
+    },
+    {
+     "name": "Q1",
+     "amplitude": 0.031,
+     "phase": 243.1,
+     "speed": 13.398661
+    },
+    {
+     "name": "T2",
+     "amplitude": 0.007,
+     "phase": 301.2,
+     "speed": 29.958933
+    },
+    {
+     "name": "R2",
+     "amplitude": 0.001,
+     "phase": 301.3,
+     "speed": 30.041067
+    },
+    {
+     "name": "2Q1",
+     "amplitude": 0.004,
+     "phase": 230.5,
+     "speed": 12.854286
+    },
+    {
+     "name": "P1",
+     "amplitude": 0.105,
+     "phase": 279.3,
+     "speed": 14.958931
+    },
+    {
+     "name": "L2",
+     "amplitude": 0.017,
+     "phase": 326.7,
+     "speed": 29.528479
+    },
+    {
+     "name": "K2",
+     "amplitude": 0.031,
+     "phase": 301.3,
+     "speed": 30.082138
+    },
+    {
+     "name": "M8",
+     "amplitude": 0.003,
+     "phase": 183.3,
+     "speed": 115.93642
+    }
+   ]
+  },
+  {
+   "id": "9415338",
+   "name": "Sonoma Creek Entrance",
+   "label": "Sonoma Creek Entrance",
+   "lat": 38.1567,
+   "lng": -122.407,
+   "inTerrain": true,
+   "z0": 0.826,
+   "mslNavd88": 1.129,
+   "datums": {
+    "MHHW": 1.98,
+    "MHW": 1.8,
+    "MSL": 1.151,
+    "MLW": 0.528,
+    "MLLW": 0.325,
+    "NAVD88": 0.022
+   },
+   "epoch": "1983-2001",
+   "constituents": [
+    {
+     "name": "M2",
+     "amplitude": 0.542,
+     "phase": 256.6,
+     "speed": 28.984104
+    },
+    {
+     "name": "S2",
+     "amplitude": 0.089,
+     "phase": 277.8,
+     "speed": 30
+    },
+    {
+     "name": "N2",
+     "amplitude": 0.097,
+     "phase": 230.9,
+     "speed": 28.43973
+    },
+    {
+     "name": "K1",
+     "amplitude": 0.288,
+     "phase": 256.5,
+     "speed": 15.041069
+    },
+    {
+     "name": "M4",
+     "amplitude": 0.05,
+     "phase": 100.9,
+     "speed": 57.96821
+    },
+    {
+     "name": "O1",
+     "amplitude": 0.172,
+     "phase": 253.6,
+     "speed": 13.943035
+    },
+    {
+     "name": "M6",
+     "amplitude": 0.007,
+     "phase": 227,
+     "speed": 86.95232
+    },
+    {
+     "name": "S4",
+     "amplitude": 0.003,
+     "phase": 210.4,
+     "speed": 60
+    },
+    {
+     "name": "NU2",
+     "amplitude": 0.019,
+     "phase": 234.3,
+     "speed": 28.512583
+    },
+    {
+     "name": "S6",
+     "amplitude": 0.001,
+     "phase": 179.1,
+     "speed": 90
+    },
+    {
+     "name": "MU2",
+     "amplitude": 0.013,
+     "phase": 236.3,
+     "speed": 27.968208
+    },
+    {
+     "name": "2N2",
+     "amplitude": 0.013,
+     "phase": 205.6,
+     "speed": 27.895355
+    },
+    {
+     "name": "OO1",
+     "amplitude": 0.007,
+     "phase": 259,
+     "speed": 16.139101
+    },
+    {
+     "name": "LAM2",
+     "amplitude": 0.004,
+     "phase": 265.9,
+     "speed": 29.455626
+    },
+    {
+     "name": "M1",
+     "amplitude": 0.012,
+     "phase": 255,
+     "speed": 14.496694
+    },
+    {
+     "name": "J1",
+     "amplitude": 0.013,
+     "phase": 257.9,
+     "speed": 15.5854435
+    },
+    {
+     "name": "SSA",
+     "amplitude": 0.039,
+     "phase": 286.9,
+     "speed": 0.0821373
+    },
+    {
+     "name": "SA",
+     "amplitude": 0.038,
+     "phase": 221.4,
+     "speed": 0.0410686
+    },
+    {
+     "name": "RHO",
+     "amplitude": 0.006,
+     "phase": 252.2,
+     "speed": 13.471515
+    },
+    {
+     "name": "Q1",
+     "amplitude": 0.033,
+     "phase": 252.2,
+     "speed": 13.398661
+    },
+    {
+     "name": "T2",
+     "amplitude": 0.005,
+     "phase": 276.8,
+     "speed": 29.958933
+    },
+    {
+     "name": "R2",
+     "amplitude": 0.001,
+     "phase": 277.5,
+     "speed": 30.041067
+    },
+    {
+     "name": "2Q1",
+     "amplitude": 0.004,
+     "phase": 250.3,
+     "speed": 12.854286
+    },
+    {
+     "name": "P1",
+     "amplitude": 0.095,
+     "phase": 256.2,
+     "speed": 14.958931
+    },
+    {
+     "name": "L2",
+     "amplitude": 0.015,
+     "phase": 282.6,
+     "speed": 29.528479
+    },
+    {
+     "name": "K2",
+     "amplitude": 0.024,
+     "phase": 279.6,
+     "speed": 30.082138
+    },
+    {
+     "name": "M8",
+     "amplitude": 0.004,
+     "phase": 68.3,
+     "speed": 115.93642
+    }
+   ]
+  },
+  {
+   "id": "9415265",
+   "name": "SUISUN SLOUGH ENTRANCE",
+   "label": "Suisun Slough Entrance",
+   "lat": 38.1283,
+   "lng": -122.073,
+   "inTerrain": true,
+   "z0": 0.796,
+   "mslNavd88": null,
+   "datums": {
+    "MHHW": 2.439,
+    "MHW": 2.284,
+    "MSL": 1.716,
+    "MLW": 1.144,
+    "MLLW": 0.92
+   },
+   "epoch": "1983-2001",
+   "constituents": [
+    {
+     "name": "M2",
+     "amplitude": 0.506,
+     "phase": 289.4,
+     "speed": 28.984104
+    },
+    {
+     "name": "S2",
+     "amplitude": 0.097,
+     "phase": 303,
+     "speed": 30
+    },
+    {
+     "name": "N2",
+     "amplitude": 0.093,
+     "phase": 264.1,
+     "speed": 28.43973
+    },
+    {
+     "name": "K1",
+     "amplitude": 0.299,
+     "phase": 273.7,
+     "speed": 15.041069
+    },
+    {
+     "name": "M4",
+     "amplitude": 0.024,
+     "phase": 140.2,
+     "speed": 57.96821
+    },
+    {
+     "name": "O1",
+     "amplitude": 0.168,
+     "phase": 257.5,
+     "speed": 13.943035
+    },
+    {
+     "name": "M6",
+     "amplitude": 0.01,
+     "phase": 246.7,
+     "speed": 86.95232
+    },
+    {
+     "name": "MK3",
+     "amplitude": 0.036,
+     "phase": 135.5,
+     "speed": 44.025173
+    },
+    {
+     "name": "MN4",
+     "amplitude": 0.008,
+     "phase": 113.7,
+     "speed": 57.423832
+    },
+    {
+     "name": "NU2",
+     "amplitude": 0.023,
+     "phase": 267.5,
+     "speed": 28.512583
+    },
+    {
+     "name": "MU2",
+     "amplitude": 0.021,
+     "phase": 85.8,
+     "speed": 27.968208
+    },
+    {
+     "name": "2N2",
+     "amplitude": 0.018,
+     "phase": 262.1,
+     "speed": 27.895355
+    },
+    {
+     "name": "OO1",
+     "amplitude": 0.01,
+     "phase": 321.3,
+     "speed": 16.139101
+    },
+    {
+     "name": "LAM2",
+     "amplitude": 0.015,
+     "phase": 285.3,
+     "speed": 29.455626
+    },
+    {
+     "name": "M1",
+     "amplitude": 0.013,
+     "phase": 307.5,
+     "speed": 14.496694
+    },
+    {
+     "name": "SSA",
+     "amplitude": 0.061,
+     "phase": 339.3,
+     "speed": 0.0821373
+    },
+    {
+     "name": "RHO",
+     "amplitude": 0.006,
+     "phase": 239.9,
+     "speed": 13.471515
+    },
+    {
+     "name": "Q1",
+     "amplitude": 0.027,
+     "phase": 259.8,
+     "speed": 13.398661
+    },
+    {
+     "name": "P1",
+     "amplitude": 0.079,
+     "phase": 282.8,
+     "speed": 14.958931
+    },
+    {
+     "name": "2SM2",
+     "amplitude": 0.006,
+     "phase": 129.3,
+     "speed": 31.015896
+    },
+    {
+     "name": "M3",
+     "amplitude": 0.016,
+     "phase": 203.5,
+     "speed": 43.47616
+    },
+    {
+     "name": "L2",
+     "amplitude": 0.048,
+     "phase": 285,
+     "speed": 29.528479
+    },
+    {
+     "name": "2MK3",
+     "amplitude": 0.049,
+     "phase": 125.4,
+     "speed": 42.92714
+    },
+    {
+     "name": "K2",
+     "amplitude": 0.053,
+     "phase": 290.2,
+     "speed": 30.082138
+    },
+    {
+     "name": "MS4",
+     "amplitude": 0.012,
+     "phase": 155.9,
+     "speed": 58.984104
+    }
+   ]
+  },
+  {
+   "id": "9415252",
+   "name": "PETALUMA RIVER ENTRANCE",
+   "label": "Petaluma River Entrance",
+   "lat": 38.115307,
+   "lng": -122.50567,
+   "inTerrain": true,
+   "z0": 0.984,
+   "mslNavd88": 1.073,
+   "datums": {
+    "MHHW": 2.851,
+    "MHW": 2.687,
+    "MSL": 2.003,
+    "MLW": 1.305,
+    "MLLW": 1.019,
+    "NAVD88": 0.93
+   },
+   "epoch": "1983-2001",
+   "constituents": [
+    {
+     "name": "M2",
+     "amplitude": 0.62,
+     "phase": 257.7,
+     "speed": 28.984104
+    },
+    {
+     "name": "S2",
+     "amplitude": 0.12,
+     "phase": 273.2,
+     "speed": 30
+    },
+    {
+     "name": "N2",
+     "amplitude": 0.107,
+     "phase": 235.8,
+     "speed": 28.43973
+    },
+    {
+     "name": "K1",
+     "amplitude": 0.344,
+     "phase": 256.8,
+     "speed": 15.041069
+    },
+    {
+     "name": "M4",
+     "amplitude": 0.04,
+     "phase": 73.5,
+     "speed": 57.96821
+    },
+    {
+     "name": "O1",
+     "amplitude": 0.2,
+     "phase": 237.9,
+     "speed": 13.943035
+    },
+    {
+     "name": "M6",
+     "amplitude": 0.01,
+     "phase": 179.4,
+     "speed": 86.95232
+    },
+    {
+     "name": "S4",
+     "amplitude": 0.001,
+     "phase": 358.3,
+     "speed": 60
+    },
+    {
+     "name": "NU2",
+     "amplitude": 0.021,
+     "phase": 238.7,
+     "speed": 28.512583
+    },
+    {
+     "name": "S6",
+     "amplitude": 0.002,
+     "phase": 302.2,
+     "speed": 90
+    },
+    {
+     "name": "MU2",
+     "amplitude": 0.015,
+     "phase": 241.8,
+     "speed": 27.968208
+    },
+    {
+     "name": "2N2",
+     "amplitude": 0.014,
+     "phase": 213.9,
+     "speed": 27.895355
+    },
+    {
+     "name": "OO1",
+     "amplitude": 0.008,
+     "phase": 275.6,
+     "speed": 16.139101
+    },
+    {
+     "name": "LAM2",
+     "amplitude": 0.004,
+     "phase": 265.1,
+     "speed": 29.455626
+    },
+    {
+     "name": "M1",
+     "amplitude": 0.014,
+     "phase": 247.4,
+     "speed": 14.496694
+    },
+    {
+     "name": "J1",
+     "amplitude": 0.016,
+     "phase": 266.1,
+     "speed": 15.5854435
+    },
+    {
+     "name": "SSA",
+     "amplitude": 0.029,
+     "phase": 259.8,
+     "speed": 0.0821373
+    },
+    {
+     "name": "SA",
+     "amplitude": 0.048,
+     "phase": 223.9,
+     "speed": 0.0410686
+    },
+    {
+     "name": "RHO",
+     "amplitude": 0.007,
+     "phase": 229.7,
+     "speed": 13.471515
+    },
+    {
+     "name": "Q1",
+     "amplitude": 0.039,
+     "phase": 228.5,
+     "speed": 13.398661
+    },
+    {
+     "name": "T2",
+     "amplitude": 0.007,
+     "phase": 272.6,
+     "speed": 29.958933
+    },
+    {
+     "name": "R2",
+     "amplitude": 0.001,
+     "phase": 274.2,
+     "speed": 30.041067
+    },
+    {
+     "name": "2Q1",
+     "amplitude": 0.005,
+     "phase": 218.8,
+     "speed": 12.854286
+    },
+    {
+     "name": "P1",
+     "amplitude": 0.114,
+     "phase": 255.4,
+     "speed": 14.958931
+    },
+    {
+     "name": "L2",
+     "amplitude": 0.017,
+     "phase": 279.8,
+     "speed": 29.528479
+    },
+    {
+     "name": "K2",
+     "amplitude": 0.033,
+     "phase": 274.3,
+     "speed": 30.082138
+    },
+    {
+     "name": "M8",
+     "amplitude": 0.002,
+     "phase": 53.3,
+     "speed": 115.93642
+    }
+   ]
+  },
+  {
+   "id": "9415218",
+   "name": "Mare Island",
+   "label": "Mare Island",
+   "lat": 38.07,
+   "lng": -122.25,
+   "inTerrain": true,
+   "z0": 0.936,
+   "mslNavd88": 1.046,
+   "datums": {
+    "MHHW": 2.647,
+    "MHW": 2.475,
+    "MSL": 1.828,
+    "MLW": 1.184,
+    "MLLW": 0.892,
+    "NAVD88": 0.782
+   },
+   "epoch": "1983-2001",
+   "constituents": [
+    {
+     "name": "M2",
+     "amplitude": 0.578,
+     "phase": 253.9,
+     "speed": 28.984104
+    },
+    {
+     "name": "S2",
+     "amplitude": 0.124,
+     "phase": 267.3,
+     "speed": 30
+    },
+    {
+     "name": "N2",
+     "amplitude": 0.112,
+     "phase": 229.4,
+     "speed": 28.43973
+    },
+    {
+     "name": "K1",
+     "amplitude": 0.329,
+     "phase": 251.4,
+     "speed": 15.041069
+    },
+    {
+     "name": "M4",
+     "amplitude": 0.015,
+     "phase": 17.8,
+     "speed": 57.96821
+    },
+    {
+     "name": "O1",
+     "amplitude": 0.197,
+     "phase": 235.4,
+     "speed": 13.943035
+    },
+    {
+     "name": "M6",
+     "amplitude": 0.012,
+     "phase": 131.7,
+     "speed": 86.95232
+    },
+    {
+     "name": "MK3",
+     "amplitude": 0.017,
+     "phase": 93.4,
+     "speed": 44.025173
+    },
+    {
+     "name": "S4",
+     "amplitude": 0.001,
+     "phase": 84.4,
+     "speed": 60
+    },
+    {
+     "name": "MN4",
+     "amplitude": 0.005,
+     "phase": 1.6,
+     "speed": 57.423832
+    },
+    {
+     "name": "NU2",
+     "amplitude": 0.028,
+     "phase": 234.8,
+     "speed": 28.512583
+    },
+    {
+     "name": "MU2",
+     "amplitude": 0.02,
+     "phase": 55,
+     "speed": 27.968208
+    },
+    {
+     "name": "2N2",
+     "amplitude": 0.012,
+     "phase": 228.5,
+     "speed": 27.895355
+    },
+    {
+     "name": "OO1",
+     "amplitude": 0.012,
+     "phase": 300.8,
+     "speed": 16.139101
+    },
+    {
+     "name": "LAM2",
+     "amplitude": 0.013,
+     "phase": 249.6,
+     "speed": 29.455626
+    },
+    {
+     "name": "S1",
+     "amplitude": 0.013,
+     "phase": 285.6,
+     "speed": 15
+    },
+    {
+     "name": "M1",
+     "amplitude": 0.014,
+     "phase": 292.3,
+     "speed": 14.496694
+    },
+    {
+     "name": "J1",
+     "amplitude": 0.01,
+     "phase": 275.1,
+     "speed": 15.5854435
+    },
+    {
+     "name": "SSA",
+     "amplitude": 0.03,
+     "phase": 272.3,
+     "speed": 0.0821373
+    },
+    {
+     "name": "SA",
+     "amplitude": 0.044,
+     "phase": 200.2,
+     "speed": 0.0410686
+    },
+    {
+     "name": "MF",
+     "amplitude": 0.015,
+     "phase": 153.1,
+     "speed": 1.0980331
+    },
+    {
+     "name": "RHO",
+     "amplitude": 0.008,
+     "phase": 222.6,
+     "speed": 13.471515
+    },
+    {
+     "name": "Q1",
+     "amplitude": 0.033,
+     "phase": 236.2,
+     "speed": 13.398661
+    },
+    {
+     "name": "T2",
+     "amplitude": 0.009,
+     "phase": 224.1,
+     "speed": 29.958933
+    },
+    {
+     "name": "R2",
+     "amplitude": 0.004,
+     "phase": 143,
+     "speed": 30.041067
+    },
+    {
+     "name": "2Q1",
+     "amplitude": 0.003,
+     "phase": 165.1,
+     "speed": 12.854286
+    },
+    {
+     "name": "P1",
+     "amplitude": 0.092,
+     "phase": 252.2,
+     "speed": 14.958931
+    },
+    {
+     "name": "2SM2",
+     "amplitude": 0.007,
+     "phase": 79.5,
+     "speed": 31.015896
+    },
+    {
+     "name": "M3",
+     "amplitude": 0.006,
+     "phase": 155.9,
+     "speed": 43.47616
+    },
+    {
+     "name": "L2",
+     "amplitude": 0.042,
+     "phase": 241.7,
+     "speed": 29.528479
+    },
+    {
+     "name": "2MK3",
+     "amplitude": 0.034,
+     "phase": 83.5,
+     "speed": 42.92714
+    },
+    {
+     "name": "K2",
+     "amplitude": 0.049,
+     "phase": 254,
+     "speed": 30.082138
+    },
+    {
+     "name": "M8",
+     "amplitude": 0.002,
+     "phase": 331.9,
+     "speed": 115.93642
+    },
+    {
+     "name": "MS4",
+     "amplitude": 0.008,
+     "phase": 38.8,
+     "speed": 58.984104
+    }
+   ]
+  },
+  {
+   "id": "9415143",
+   "name": "CROCKETT, CARQUINEZ STRAIT",
+   "label": "Crockett, Carquinez Strait",
+   "lat": 38.0583,
+   "lng": -122.223,
+   "inTerrain": true,
+   "z0": 0.98,
+   "mslNavd88": 1.098,
+   "datums": {
+    "MHHW": 4.024,
+    "MHW": 3.855,
+    "MSL": 3.192,
+    "MLW": 2.515,
+    "MLLW": 2.212,
+    "NAVD88": 2.094
+   },
+   "epoch": "1983-2001",
+   "constituents": [
+    {
+     "name": "M2",
+     "amplitude": 0.6,
+     "phase": 257.5,
+     "speed": 28.984104
+    },
+    {
+     "name": "S2",
+     "amplitude": 0.126,
+     "phase": 271.3,
+     "speed": 30
+    },
+    {
+     "name": "N2",
+     "amplitude": 0.114,
+     "phase": 232.5,
+     "speed": 28.43973
+    },
+    {
+     "name": "K1",
+     "amplitude": 0.334,
+     "phase": 251.8,
+     "speed": 15.041069
+    },
+    {
+     "name": "M4",
+     "amplitude": 0.017,
+     "phase": 346.6,
+     "speed": 57.96821
+    },
+    {
+     "name": "O1",
+     "amplitude": 0.202,
+     "phase": 234.4,
+     "speed": 13.943035
+    },
+    {
+     "name": "M6",
+     "amplitude": 0.012,
+     "phase": 135.1,
+     "speed": 86.95232
+    },
+    {
+     "name": "MK3",
+     "amplitude": 0.014,
+     "phase": 101.7,
+     "speed": 44.025173
+    },
+    {
+     "name": "MN4",
+     "amplitude": 0.006,
+     "phase": 328.4,
+     "speed": 57.423832
+    },
+    {
+     "name": "NU2",
+     "amplitude": 0.029,
+     "phase": 243.2,
+     "speed": 28.512583
+    },
+    {
+     "name": "MU2",
+     "amplitude": 0.018,
+     "phase": 63.4,
+     "speed": 27.968208
+    },
+    {
+     "name": "2N2",
+     "amplitude": 0.015,
+     "phase": 205.9,
+     "speed": 27.895355
+    },
+    {
+     "name": "OO1",
+     "amplitude": 0.008,
+     "phase": 308.1,
+     "speed": 16.139101
+    },
+    {
+     "name": "LAM2",
+     "amplitude": 0.015,
+     "phase": 247.7,
+     "speed": 29.455626
+    },
+    {
+     "name": "S1",
+     "amplitude": 0.017,
+     "phase": 261.2,
+     "speed": 15
+    },
+    {
+     "name": "M1",
+     "amplitude": 0.012,
+     "phase": 271.1,
+     "speed": 14.496694
+    },
+    {
+     "name": "J1",
+     "amplitude": 0.008,
+     "phase": 287.4,
+     "speed": 15.5854435
+    },
+    {
+     "name": "SSA",
+     "amplitude": 0.029,
+     "phase": 259.8,
+     "speed": 0.0821373
+    },
+    {
+     "name": "SA",
+     "amplitude": 0.048,
+     "phase": 223.9,
+     "speed": 0.0410686
+    },
+    {
+     "name": "RHO",
+     "amplitude": 0.009,
+     "phase": 233.1,
+     "speed": 13.471515
+    },
+    {
+     "name": "Q1",
+     "amplitude": 0.032,
+     "phase": 238.9,
+     "speed": 13.398661
+    },
+    {
+     "name": "T2",
+     "amplitude": 0.01,
+     "phase": 241.3,
+     "speed": 29.958933
+    },
+    {
+     "name": "R2",
+     "amplitude": 0.007,
+     "phase": 182.3,
+     "speed": 30.041067
+    },
+    {
+     "name": "2Q1",
+     "amplitude": 0.003,
+     "phase": 280.3,
+     "speed": 12.854286
+    },
+    {
+     "name": "P1",
+     "amplitude": 0.088,
+     "phase": 254.7,
+     "speed": 14.958931
+    },
+    {
+     "name": "2SM2",
+     "amplitude": 0.005,
+     "phase": 97.1,
+     "speed": 31.015896
+    },
+    {
+     "name": "M3",
+     "amplitude": 0.009,
+     "phase": 174.2,
+     "speed": 43.47616
+    },
+    {
+     "name": "L2",
+     "amplitude": 0.042,
+     "phase": 280.6,
+     "speed": 29.528479
+    },
+    {
+     "name": "2MK3",
+     "amplitude": 0.03,
+     "phase": 90.2,
+     "speed": 42.92714
+    },
+    {
+     "name": "K2",
+     "amplitude": 0.048,
+     "phase": 257.9,
+     "speed": 30.082138
+    },
+    {
+     "name": "MS4",
+     "amplitude": 0.007,
+     "phase": 27.1,
+     "speed": 58.984104
+    }
+   ]
+  },
+  {
+   "id": "9415144",
+   "name": "Port Chicago",
+   "label": "Port Chicago",
+   "lat": 38.056,
+   "lng": -122.0395,
+   "inTerrain": true,
+   "z0": 0.781,
+   "mslNavd88": 1.116,
+   "datums": {
+    "MHHW": 2.713,
+    "MHW": 2.558,
+    "MSL": 1.996,
+    "MLW": 1.441,
+    "MLLW": 1.215,
+    "NAVD88": 0.88
+   },
+   "epoch": "1983-2001",
+   "constituents": [
+    {
+     "name": "M2",
+     "amplitude": 0.496,
+     "phase": 283.2,
+     "speed": 28.984104
+    },
+    {
+     "name": "S2",
+     "amplitude": 0.097,
+     "phase": 298.1,
+     "speed": 30
+    },
+    {
+     "name": "N2",
+     "amplitude": 0.093,
+     "phase": 258.8,
+     "speed": 28.43973
+    },
+    {
+     "name": "K1",
+     "amplitude": 0.275,
+     "phase": 271,
+     "speed": 15.041069
+    },
+    {
+     "name": "M4",
+     "amplitude": 0.011,
+     "phase": 125,
+     "speed": 57.96821
+    },
+    {
+     "name": "O1",
+     "amplitude": 0.158,
+     "phase": 255.4,
+     "speed": 13.943035
+    },
+    {
+     "name": "M6",
+     "amplitude": 0.011,
+     "phase": 250.4,
+     "speed": 86.95232
+    },
+    {
+     "name": "MK3",
+     "amplitude": 0.032,
+     "phase": 128.8,
+     "speed": 44.025173
+    },
+    {
+     "name": "S4",
+     "amplitude": 0.001,
+     "phase": 189.7,
+     "speed": 60
+    },
+    {
+     "name": "MN4",
+     "amplitude": 0.004,
+     "phase": 104,
+     "speed": 57.423832
+    },
+    {
+     "name": "NU2",
+     "amplitude": 0.024,
+     "phase": 268.3,
+     "speed": 28.512583
+    },
+    {
+     "name": "MU2",
+     "amplitude": 0.021,
+     "phase": 90.5,
+     "speed": 27.968208
+    },
+    {
+     "name": "2N2",
+     "amplitude": 0.008,
+     "phase": 236.6,
+     "speed": 27.895355
+    },
+    {
+     "name": "OO1",
+     "amplitude": 0.007,
+     "phase": 328.5,
+     "speed": 16.139101
+    },
+    {
+     "name": "LAM2",
+     "amplitude": 0.013,
+     "phase": 279.2,
+     "speed": 29.455626
+    },
+    {
+     "name": "S1",
+     "amplitude": 0.013,
+     "phase": 298.3,
+     "speed": 15
+    },
+    {
+     "name": "M1",
+     "amplitude": 0.008,
+     "phase": 350.5,
+     "speed": 14.496694
+    },
+    {
+     "name": "J1",
+     "amplitude": 0.004,
+     "phase": 349.9,
+     "speed": 15.5854435
+    },
+    {
+     "name": "MM",
+     "amplitude": 0.016,
+     "phase": 34.4,
+     "speed": 0.5443747
+    },
+    {
+     "name": "SSA",
+     "amplitude": 0.042,
+     "phase": 264.8,
+     "speed": 0.0821373
+    },
+    {
+     "name": "SA",
+     "amplitude": 0.027,
+     "phase": 144.6,
+     "speed": 0.0410686
+    },
+    {
+     "name": "MSF",
+     "amplitude": 0.03,
+     "phase": 18.1,
+     "speed": 1.0158958
+    },
+    {
+     "name": "MF",
+     "amplitude": 0.041,
+     "phase": 184.3,
+     "speed": 1.0980331
+    },
+    {
+     "name": "RHO",
+     "amplitude": 0.008,
+     "phase": 247.7,
+     "speed": 13.471515
+    },
+    {
+     "name": "Q1",
+     "amplitude": 0.025,
+     "phase": 263.4,
+     "speed": 13.398661
+    },
+    {
+     "name": "T2",
+     "amplitude": 0.006,
+     "phase": 265.1,
+     "speed": 29.958933
+    },
+    {
+     "name": "R2",
+     "amplitude": 0.003,
+     "phase": 172.7,
+     "speed": 30.041067
+    },
+    {
+     "name": "2Q1",
+     "amplitude": 0.003,
+     "phase": 264.9,
+     "speed": 12.854286
+    },
+    {
+     "name": "P1",
+     "amplitude": 0.079,
+     "phase": 269.9,
+     "speed": 14.958931
+    },
+    {
+     "name": "2SM2",
+     "amplitude": 0.005,
+     "phase": 123,
+     "speed": 31.015896
+    },
+    {
+     "name": "M3",
+     "amplitude": 0.007,
+     "phase": 210.1,
+     "speed": 43.47616
+    },
+    {
+     "name": "L2",
+     "amplitude": 0.033,
+     "phase": 298.9,
+     "speed": 29.528479
+    },
+    {
+     "name": "2MK3",
+     "amplitude": 0.042,
+     "phase": 118.6,
+     "speed": 42.92714
+    },
+    {
+     "name": "K2",
+     "amplitude": 0.046,
+     "phase": 287.8,
+     "speed": 30.082138
+    },
+    {
+     "name": "M8",
+     "amplitude": 0.001,
+     "phase": 57.3,
+     "speed": 115.93642
+    },
+    {
+     "name": "MS4",
+     "amplitude": 0.008,
+     "phase": 150.8,
+     "speed": 58.984104
+    }
+   ]
+  },
+  {
+   "id": "9415112",
+   "name": "MALLARD ISLAND, SUISUN BAY",
+   "label": "Mallard Island, Suisun Bay",
+   "lat": 38.0433,
+   "lng": -121.918,
+   "inTerrain": true,
+   "z0": 0.707,
+   "mslNavd88": null,
+   "datums": {
+    "MHHW": 2.323,
+    "MHW": 2.172,
+    "MSL": 1.687,
+    "MLW": 1.187,
+    "MLLW": 0.98
+   },
+   "epoch": "1983-2001",
+   "constituents": [
+    {
+     "name": "M2",
+     "amplitude": 0.435,
+     "phase": 302.2,
+     "speed": 28.984104
+    },
+    {
+     "name": "S2",
+     "amplitude": 0.084,
+     "phase": 317.4,
+     "speed": 30
+    },
+    {
+     "name": "N2",
+     "amplitude": 0.083,
+     "phase": 277.1,
+     "speed": 28.43973
+    },
+    {
+     "name": "K1",
+     "amplitude": 0.259,
+     "phase": 282.8,
+     "speed": 15.041069
+    },
+    {
+     "name": "M4",
+     "amplitude": 0.014,
+     "phase": 142.5,
+     "speed": 57.96821
+    },
+    {
+     "name": "O1",
+     "amplitude": 0.155,
+     "phase": 267.2,
+     "speed": 13.943035
+    },
+    {
+     "name": "M6",
+     "amplitude": 0.01,
+     "phase": 279.7,
+     "speed": 86.95232
+    },
+    {
+     "name": "MK3",
+     "amplitude": 0.028,
+     "phase": 156.4,
+     "speed": 44.025173
+    },
+    {
+     "name": "MN4",
+     "amplitude": 0.004,
+     "phase": 132,
+     "speed": 57.423832
+    },
+    {
+     "name": "NU2",
+     "amplitude": 0.022,
+     "phase": 288.4,
+     "speed": 28.512583
+    },
+    {
+     "name": "MU2",
+     "amplitude": 0.021,
+     "phase": 104.9,
+     "speed": 27.968208
+    },
+    {
+     "name": "OO1",
+     "amplitude": 0.008,
+     "phase": 354.3,
+     "speed": 16.139101
+    },
+    {
+     "name": "LAM2",
+     "amplitude": 0.012,
+     "phase": 285,
+     "speed": 29.455626
+    },
+    {
+     "name": "S1",
+     "amplitude": 0.011,
+     "phase": 306.3,
+     "speed": 15
+    },
+    {
+     "name": "M1",
+     "amplitude": 0.018,
+     "phase": 8,
+     "speed": 14.496694
+    },
+    {
+     "name": "SSA",
+     "amplitude": 0.042,
+     "phase": 264.8,
+     "speed": 0.0821373
+    },
+    {
+     "name": "SA",
+     "amplitude": 0.027,
+     "phase": 144.6,
+     "speed": 0.0410686
+    },
+    {
+     "name": "RHO",
+     "amplitude": 0.006,
+     "phase": 263.3,
+     "speed": 13.471515
+    },
+    {
+     "name": "Q1",
+     "amplitude": 0.025,
+     "phase": 277.6,
+     "speed": 13.398661
+    },
+    {
+     "name": "T2",
+     "amplitude": 0.005,
+     "phase": 298,
+     "speed": 29.958933
+    },
+    {
+     "name": "2Q1",
+     "amplitude": 0.005,
+     "phase": 215.8,
+     "speed": 12.854286
+    },
+    {
+     "name": "P1",
+     "amplitude": 0.069,
+     "phase": 283,
+     "speed": 14.958931
+    },
+    {
+     "name": "2SM2",
+     "amplitude": 0.005,
+     "phase": 117.2,
+     "speed": 31.015896
+    },
+    {
+     "name": "M3",
+     "amplitude": 0.004,
+     "phase": 216.4,
+     "speed": 43.47616
+    },
+    {
+     "name": "L2",
+     "amplitude": 0.027,
+     "phase": 300.4,
+     "speed": 29.528479
+    },
+    {
+     "name": "2MK3",
+     "amplitude": 0.043,
+     "phase": 142.9,
+     "speed": 42.92714
+    },
+    {
+     "name": "K2",
+     "amplitude": 0.041,
+     "phase": 306.7,
+     "speed": 30.082138
+    },
+    {
+     "name": "MS4",
+     "amplitude": 0.008,
+     "phase": 158.3,
+     "speed": 58.984104
+    }
+   ]
+  },
+  {
+   "id": "9415102",
+   "name": "Martinez-Amorco Pier",
+   "label": "Martinez-Amorco Pier",
+   "lat": 38.0346,
+   "lng": -122.1252,
+   "inTerrain": true,
+   "z0": 0.871,
+   "mslNavd88": 1.046,
+   "datums": {
+    "MHHW": 12.324,
+    "MHW": 12.166,
+    "MSL": 11.561,
+    "MLW": 10.957,
+    "MLLW": 10.69,
+    "NAVD88": 10.515
+   },
+   "epoch": "1983-2001",
+   "constituents": [
+    {
+     "name": "M2",
+     "amplitude": 0.533,
+     "phase": 271.4,
+     "speed": 28.984104
+    },
+    {
+     "name": "S2",
+     "amplitude": 0.114,
+     "phase": 283.8,
+     "speed": 30
+    },
+    {
+     "name": "N2",
+     "amplitude": 0.102,
+     "phase": 245.9,
+     "speed": 28.43973
+    },
+    {
+     "name": "K1",
+     "amplitude": 0.309,
+     "phase": 260.1,
+     "speed": 15.041069
+    },
+    {
+     "name": "M4",
+     "amplitude": 0.014,
+     "phase": 75.5,
+     "speed": 57.96821
+    },
+    {
+     "name": "O1",
+     "amplitude": 0.184,
+     "phase": 243,
+     "speed": 13.943035
+    },
+    {
+     "name": "M6",
+     "amplitude": 0.006,
+     "phase": 193,
+     "speed": 86.95232
+    },
+    {
+     "name": "MK3",
+     "amplitude": 0.021,
+     "phase": 103.4,
+     "speed": 44.025173
+    },
+    {
+     "name": "S4",
+     "amplitude": 0.001,
+     "phase": 131.2,
+     "speed": 60
+    },
+    {
+     "name": "MN4",
+     "amplitude": 0.005,
+     "phase": 50.6,
+     "speed": 57.423832
+    },
+    {
+     "name": "NU2",
+     "amplitude": 0.023,
+     "phase": 252.9,
+     "speed": 28.512583
+    },
+    {
+     "name": "MU2",
+     "amplitude": 0.017,
+     "phase": 82.1,
+     "speed": 27.968208
+    },
+    {
+     "name": "2N2",
+     "amplitude": 0.012,
+     "phase": 219.7,
+     "speed": 27.895355
+    },
+    {
+     "name": "OO1",
+     "amplitude": 0.01,
+     "phase": 307.7,
+     "speed": 16.139101
+    },
+    {
+     "name": "LAM2",
+     "amplitude": 0.012,
+     "phase": 264.6,
+     "speed": 29.455626
+    },
+    {
+     "name": "S1",
+     "amplitude": 0.008,
+     "phase": 290.8,
+     "speed": 15
+    },
+    {
+     "name": "M1",
+     "amplitude": 0.009,
+     "phase": 300.9,
+     "speed": 14.496694
+    },
+    {
+     "name": "J1",
+     "amplitude": 0.009,
+     "phase": 297.7,
+     "speed": 15.5854435
+    },
+    {
+     "name": "MM",
+     "amplitude": 0.011,
+     "phase": 60.3,
+     "speed": 0.5443747
+    },
+    {
+     "name": "SSA",
+     "amplitude": 0.033,
+     "phase": 266.2,
+     "speed": 0.0821373
+    },
+    {
+     "name": "SA",
+     "amplitude": 0.036,
+     "phase": 170,
+     "speed": 0.0410686
+    },
+    {
+     "name": "MSF",
+     "amplitude": 0.019,
+     "phase": 11.1,
+     "speed": 1.0158958
+    },
+    {
+     "name": "MF",
+     "amplitude": 0.032,
+     "phase": 175.3,
+     "speed": 1.0980331
+    },
+    {
+     "name": "RHO",
+     "amplitude": 0.009,
+     "phase": 241.2,
+     "speed": 13.471515
+    },
+    {
+     "name": "Q1",
+     "amplitude": 0.028,
+     "phase": 244.5,
+     "speed": 13.398661
+    },
+    {
+     "name": "T2",
+     "amplitude": 0.008,
+     "phase": 248.5,
+     "speed": 29.958933
+    },
+    {
+     "name": "R2",
+     "amplitude": 0.002,
+     "phase": 209.5,
+     "speed": 30.041067
+    },
+    {
+     "name": "2Q1",
+     "amplitude": 0.004,
+     "phase": 250.3,
+     "speed": 12.854286
+    },
+    {
+     "name": "P1",
+     "amplitude": 0.088,
+     "phase": 262.1,
+     "speed": 14.958931
+    },
+    {
+     "name": "2SM2",
+     "amplitude": 0.005,
+     "phase": 111.1,
+     "speed": 31.015896
+    },
+    {
+     "name": "M3",
+     "amplitude": 0.004,
+     "phase": 172.4,
+     "speed": 43.47616
+    },
+    {
+     "name": "L2",
+     "amplitude": 0.03,
+     "phase": 287.2,
+     "speed": 29.528479
+    },
+    {
+     "name": "2MK3",
+     "amplitude": 0.032,
+     "phase": 99.6,
+     "speed": 42.92714
+    },
+    {
+     "name": "K2",
+     "amplitude": 0.047,
+     "phase": 272,
+     "speed": 30.082138
+    },
+    {
+     "name": "M8",
+     "amplitude": 0.001,
+     "phase": 287.7,
+     "speed": 115.93642
+    },
+    {
+     "name": "MS4",
+     "amplitude": 0.007,
+     "phase": 104.7,
+     "speed": 58.984104
+    }
+   ]
+  },
+  {
+   "id": "9415052",
+   "name": "GALLINAS, GALLINAS CREEK",
+   "label": "Gallinas, Gallinas Creek",
+   "lat": 38.015,
+   "lng": -122.503,
+   "inTerrain": true,
+   "z0": 0.955,
+   "mslNavd88": null,
+   "datums": {
+    "MHHW": 2.619,
+    "MHW": 2.435,
+    "MSL": 1.771,
+    "MLW": 1.124,
+    "MLLW": 0.816
+   },
+   "epoch": "1983-2001",
+   "constituents": [
+    {
+     "name": "M2",
+     "amplitude": 0.61,
+     "phase": 247.3,
+     "speed": 28.984104
+    },
+    {
+     "name": "S2",
+     "amplitude": 0.136,
+     "phase": 258.5,
+     "speed": 30
+    },
+    {
+     "name": "N2",
+     "amplitude": 0.125,
+     "phase": 222.1,
+     "speed": 28.43973
+    },
+    {
+     "name": "K1",
+     "amplitude": 0.353,
+     "phase": 247.9,
+     "speed": 15.041069
+    },
+    {
+     "name": "M4",
+     "amplitude": 0.009,
+     "phase": 5.3,
+     "speed": 57.96821
+    },
+    {
+     "name": "O1",
+     "amplitude": 0.215,
+     "phase": 231.8,
+     "speed": 13.943035
+    },
+    {
+     "name": "M6",
+     "amplitude": 0.009,
+     "phase": 131.1,
+     "speed": 86.95232
+    },
+    {
+     "name": "S4",
+     "amplitude": 0.002,
+     "phase": 31.8,
+     "speed": 60
+    },
+    {
+     "name": "NU2",
+     "amplitude": 0.024,
+     "phase": 225.4,
+     "speed": 28.512583
+    },
+    {
+     "name": "MU2",
+     "amplitude": 0.015,
+     "phase": 236.1,
+     "speed": 27.968208
+    },
+    {
+     "name": "2N2",
+     "amplitude": 0.016,
+     "phase": 196.9,
+     "speed": 27.895355
+    },
+    {
+     "name": "OO1",
+     "amplitude": 0.009,
+     "phase": 264.1,
+     "speed": 16.139101
+    },
+    {
+     "name": "LAM2",
+     "amplitude": 0.004,
+     "phase": 252.4,
+     "speed": 29.455626
+    },
+    {
+     "name": "M1",
+     "amplitude": 0.015,
+     "phase": 239.9,
+     "speed": 14.496694
+    },
+    {
+     "name": "J1",
+     "amplitude": 0.017,
+     "phase": 255.9,
+     "speed": 15.5854435
+    },
+    {
+     "name": "SSA",
+     "amplitude": 0.03,
+     "phase": 272.3,
+     "speed": 0.0821373
+    },
+    {
+     "name": "SA",
+     "amplitude": 0.044,
+     "phase": 200.2,
+     "speed": 0.0410686
+    },
+    {
+     "name": "MF",
+     "amplitude": 0.015,
+     "phase": 153.1,
+     "speed": 1.0980331
+    },
+    {
+     "name": "RHO",
+     "amplitude": 0.008,
+     "phase": 224.9,
+     "speed": 13.471515
+    },
+    {
+     "name": "Q1",
+     "amplitude": 0.042,
+     "phase": 223.8,
+     "speed": 13.398661
+    },
+    {
+     "name": "T2",
+     "amplitude": 0.008,
+     "phase": 258,
+     "speed": 29.958933
+    },
+    {
+     "name": "R2",
+     "amplitude": 0.001,
+     "phase": 258.9,
+     "speed": 30.041067
+    },
+    {
+     "name": "2Q1",
+     "amplitude": 0.006,
+     "phase": 215.8,
+     "speed": 12.854286
+    },
+    {
+     "name": "P1",
+     "amplitude": 0.117,
+     "phase": 246.7,
+     "speed": 14.958931
+    },
+    {
+     "name": "L2",
+     "amplitude": 0.017,
+     "phase": 272.5,
+     "speed": 29.528479
+    },
+    {
+     "name": "K2",
+     "amplitude": 0.037,
+     "phase": 259.4,
+     "speed": 30.082138
+    }
+   ]
+  },
+  {
+   "id": "9415056",
+   "name": "Pinole Point, San Pablo Bay",
+   "label": "Pinole Point, San Pablo Bay",
+   "lat": 38.015,
+   "lng": -122.363,
+   "inTerrain": true,
+   "z0": 1.014,
+   "mslNavd88": 0.995,
+   "datums": {
+    "MHHW": 4.333,
+    "MHW": 4.152,
+    "MSL": 3.445,
+    "MLW": 2.763,
+    "MLLW": 2.431,
+    "NAVD88": 2.45
+   },
+   "epoch": "1983-2001",
+   "constituents": [
+    {
+     "name": "M2",
+     "amplitude": 0.639,
+     "phase": 239.4,
+     "speed": 28.984104
+    },
+    {
+     "name": "S2",
+     "amplitude": 0.154,
+     "phase": 253.2,
+     "speed": 30
+    },
+    {
+     "name": "N2",
+     "amplitude": 0.127,
+     "phase": 213.6,
+     "speed": 28.43973
+    },
+    {
+     "name": "K1",
+     "amplitude": 0.366,
+     "phase": 239.3,
+     "speed": 15.041069
+    },
+    {
+     "name": "M4",
+     "amplitude": 0.003,
+     "phase": 36.2,
+     "speed": 57.96821
+    },
+    {
+     "name": "O1",
+     "amplitude": 0.224,
+     "phase": 225.6,
+     "speed": 13.943035
+    },
+    {
+     "name": "M6",
+     "amplitude": 0.008,
+     "phase": 97.5,
+     "speed": 86.95232
+    },
+    {
+     "name": "S4",
+     "amplitude": 0.002,
+     "phase": 5.4,
+     "speed": 60
+    },
+    {
+     "name": "NU2",
+     "amplitude": 0.025,
+     "phase": 217,
+     "speed": 28.512583
+    },
+    {
+     "name": "S6",
+     "amplitude": 0.001,
+     "phase": 227.4,
+     "speed": 90
+    },
+    {
+     "name": "MU2",
+     "amplitude": 0.015,
+     "phase": 225.4,
+     "speed": 27.968208
+    },
+    {
+     "name": "2N2",
+     "amplitude": 0.017,
+     "phase": 187.7,
+     "speed": 27.895355
+    },
+    {
+     "name": "OO1",
+     "amplitude": 0.01,
+     "phase": 252.9,
+     "speed": 16.139101
+    },
+    {
+     "name": "LAM2",
+     "amplitude": 0.004,
+     "phase": 245.8,
+     "speed": 29.455626
+    },
+    {
+     "name": "M1",
+     "amplitude": 0.016,
+     "phase": 232.5,
+     "speed": 14.496694
+    },
+    {
+     "name": "J1",
+     "amplitude": 0.018,
+     "phase": 246,
+     "speed": 15.5854435
+    },
+    {
+     "name": "SSA",
+     "amplitude": 0.039,
+     "phase": 286.9,
+     "speed": 0.0821373
+    },
+    {
+     "name": "SA",
+     "amplitude": 0.038,
+     "phase": 221.4,
+     "speed": 0.0410686
+    },
+    {
+     "name": "RHO",
+     "amplitude": 0.009,
+     "phase": 219.7,
+     "speed": 13.471515
+    },
+    {
+     "name": "Q1",
+     "amplitude": 0.044,
+     "phase": 218.9,
+     "speed": 13.398661
+    },
+    {
+     "name": "T2",
+     "amplitude": 0.009,
+     "phase": 252.6,
+     "speed": 29.958933
+    },
+    {
+     "name": "R2",
+     "amplitude": 0.001,
+     "phase": 254,
+     "speed": 30.041067
+    },
+    {
+     "name": "2Q1",
+     "amplitude": 0.006,
+     "phase": 212.1,
+     "speed": 12.854286
+    },
+    {
+     "name": "P1",
+     "amplitude": 0.121,
+     "phase": 238.2,
+     "speed": 14.958931
+    },
+    {
+     "name": "L2",
+     "amplitude": 0.018,
+     "phase": 265.1,
+     "speed": 29.528479
+    },
+    {
+     "name": "K2",
+     "amplitude": 0.042,
+     "phase": 254.3,
+     "speed": 30.082138
+    },
+    {
+     "name": "M8",
+     "amplitude": 0.001,
+     "phase": 320.4,
+     "speed": 115.93642
+    }
+   ]
+  },
+  {
+   "id": "9414874",
+   "name": "CORTE MADERA CREEK",
+   "label": "Corte Madera Creek",
+   "lat": 37.9433,
+   "lng": -122.513,
+   "inTerrain": true,
+   "z0": 0.946,
+   "mslNavd88": null,
+   "datums": {
+    "MHHW": 4.623,
+    "MHW": 4.44,
+    "MSL": 3.801,
+    "MLW": 3.184,
+    "MLLW": 2.855
+   },
+   "epoch": "1983-2001",
+   "constituents": [
+    {
+     "name": "M2",
+     "amplitude": 0.546,
+     "phase": 231,
+     "speed": 28.984104
+    },
+    {
+     "name": "S2",
+     "amplitude": 0.127,
+     "phase": 243.7,
+     "speed": 30
+    },
+    {
+     "name": "N2",
+     "amplitude": 0.128,
+     "phase": 203.2,
+     "speed": 28.43973
+    },
+    {
+     "name": "K1",
+     "amplitude": 0.348,
+     "phase": 238.2,
+     "speed": 15.041069
+    },
+    {
+     "name": "M4",
+     "amplitude": 0.002,
+     "phase": 246.8,
+     "speed": 57.96821
+    },
+    {
+     "name": "O1",
+     "amplitude": 0.208,
+     "phase": 223.1,
+     "speed": 13.943035
+    },
+    {
+     "name": "M6",
+     "amplitude": 0.004,
+     "phase": 126.4,
+     "speed": 86.95232
+    },
+    {
+     "name": "MK3",
+     "amplitude": 0.012,
+     "phase": 113,
+     "speed": 44.025173
+    },
+    {
+     "name": "S4",
+     "amplitude": 0.001,
+     "phase": 46.9,
+     "speed": 60
+    },
+    {
+     "name": "MN4",
+     "amplitude": 0.004,
+     "phase": 242.7,
+     "speed": 57.423832
+    },
+    {
+     "name": "NU2",
+     "amplitude": 0.03,
+     "phase": 189.9,
+     "speed": 28.512583
+    },
+    {
+     "name": "MU2",
+     "amplitude": 0.002,
+     "phase": 165.3,
+     "speed": 27.968208
+    },
+    {
+     "name": "2N2",
+     "amplitude": 0.02,
+     "phase": 201,
+     "speed": 27.895355
+    },
+    {
+     "name": "OO1",
+     "amplitude": 0.003,
+     "phase": 216.3,
+     "speed": 16.139101
+    },
+    {
+     "name": "LAM2",
+     "amplitude": 0.014,
+     "phase": 217.3,
+     "speed": 29.455626
+    },
+    {
+     "name": "S1",
+     "amplitude": 0.017,
+     "phase": 262.6,
+     "speed": 15
+    },
+    {
+     "name": "M1",
+     "amplitude": 0.01,
+     "phase": 250,
+     "speed": 14.496694
+    },
+    {
+     "name": "J1",
+     "amplitude": 0.014,
+     "phase": 268.6,
+     "speed": 15.5854435
+    },
+    {
+     "name": "SSA",
+     "amplitude": 0.03,
+     "phase": 272.3,
+     "speed": 0.0821373
+    },
+    {
+     "name": "SA",
+     "amplitude": 0.044,
+     "phase": 200.2,
+     "speed": 0.0410686
+    },
+    {
+     "name": "MF",
+     "amplitude": 0.015,
+     "phase": 153.1,
+     "speed": 1.0980331
+    },
+    {
+     "name": "RHO",
+     "amplitude": 0.009,
+     "phase": 243.8,
+     "speed": 13.471515
+    },
+    {
+     "name": "Q1",
+     "amplitude": 0.036,
+     "phase": 223.1,
+     "speed": 13.398661
+    },
+    {
+     "name": "T2",
+     "amplitude": 0.004,
+     "phase": 154.8,
+     "speed": 29.958933
+    },
+    {
+     "name": "R2",
+     "amplitude": 0.016,
+     "phase": 117,
+     "speed": 30.041067
+    },
+    {
+     "name": "2Q1",
+     "amplitude": 0.007,
+     "phase": 211.8,
+     "speed": 12.854286
+    },
+    {
+     "name": "P1",
+     "amplitude": 0.115,
+     "phase": 227.8,
+     "speed": 14.958931
+    },
+    {
+     "name": "2SM2",
+     "amplitude": 0.007,
+     "phase": 102.6,
+     "speed": 31.015896
+    },
+    {
+     "name": "M3",
+     "amplitude": 0.002,
+     "phase": 126.8,
+     "speed": 43.47616
+    },
+    {
+     "name": "L2",
+     "amplitude": 0.025,
+     "phase": 245.1,
+     "speed": 29.528479
+    },
+    {
+     "name": "2MK3",
+     "amplitude": 0.014,
+     "phase": 81.3,
+     "speed": 42.92714
+    },
+    {
+     "name": "K2",
+     "amplitude": 0.022,
+     "phase": 214.5,
+     "speed": 30.082138
+    },
+    {
+     "name": "M8",
+     "amplitude": 0.001,
+     "phase": 246.2,
+     "speed": 115.93642
+    },
+    {
+     "name": "MS4",
+     "amplitude": 0.002,
+     "phase": 305,
+     "speed": 58.984104
+    }
+   ]
+  },
+  {
+   "id": "9414863",
+   "name": "Richmond",
+   "label": "Richmond",
+   "lat": 37.9283,
+   "lng": -122.4,
+   "inTerrain": true,
+   "z0": 0.991,
+   "mslNavd88": 0.996,
+   "datums": {
+    "MHHW": 5.374,
+    "MHW": 5.189,
+    "MSL": 4.524,
+    "MLW": 3.875,
+    "MLLW": 3.533,
+    "NAVD88": 3.528
+   },
+   "epoch": "1983-2001",
+   "constituents": [
+    {
+     "name": "M2",
+     "amplitude": 0.604,
+     "phase": 222.4,
+     "speed": 28.984104
+    },
+    {
+     "name": "S2",
+     "amplitude": 0.138,
+     "phase": 231.4,
+     "speed": 30
+    },
+    {
+     "name": "N2",
+     "amplitude": 0.125,
+     "phase": 197.3,
+     "speed": 28.43973
+    },
+    {
+     "name": "K1",
+     "amplitude": 0.366,
+     "phase": 232.6,
+     "speed": 15.041069
+    },
+    {
+     "name": "M4",
+     "amplitude": 0.009,
+     "phase": 224.1,
+     "speed": 57.96821
+    },
+    {
+     "name": "O1",
+     "amplitude": 0.222,
+     "phase": 216.4,
+     "speed": 13.943035
+    },
+    {
+     "name": "M6",
+     "amplitude": 0.005,
+     "phase": 75,
+     "speed": 86.95232
+    },
+    {
+     "name": "MK3",
+     "amplitude": 0.01,
+     "phase": 144.3,
+     "speed": 44.025173
+    },
+    {
+     "name": "S4",
+     "amplitude": 0.001,
+     "phase": 352.8,
+     "speed": 60
+    },
+    {
+     "name": "MN4",
+     "amplitude": 0.004,
+     "phase": 197.5,
+     "speed": 57.423832
+    },
+    {
+     "name": "NU2",
+     "amplitude": 0.027,
+     "phase": 203.9,
+     "speed": 28.512583
+    },
+    {
+     "name": "S6",
+     "amplitude": 0.001,
+     "phase": 59.9,
+     "speed": 90
+    },
+    {
+     "name": "MU2",
+     "amplitude": 0.008,
+     "phase": 74.3,
+     "speed": 27.968208
+    },
+    {
+     "name": "2N2",
+     "amplitude": 0.013,
+     "phase": 169.9,
+     "speed": 27.895355
+    },
+    {
+     "name": "OO1",
+     "amplitude": 0.011,
+     "phase": 272.9,
+     "speed": 16.139101
+    },
+    {
+     "name": "LAM2",
+     "amplitude": 0.01,
+     "phase": 223,
+     "speed": 29.455626
+    },
+    {
+     "name": "S1",
+     "amplitude": 0.008,
+     "phase": 266.6,
+     "speed": 15
+    },
+    {
+     "name": "M1",
+     "amplitude": 0.013,
+     "phase": 262.3,
+     "speed": 14.496694
+    },
+    {
+     "name": "J1",
+     "amplitude": 0.017,
+     "phase": 252.5,
+     "speed": 15.5854435
+    },
+    {
+     "name": "SSA",
+     "amplitude": 0.028,
+     "phase": 266.6,
+     "speed": 0.0821373
+    },
+    {
+     "name": "SA",
+     "amplitude": 0.045,
+     "phase": 189.7,
+     "speed": 0.0410686
+    },
+    {
+     "name": "MF",
+     "amplitude": 0.026,
+     "phase": 265,
+     "speed": 1.0980331
+    },
+    {
+     "name": "RHO",
+     "amplitude": 0.009,
+     "phase": 211.6,
+     "speed": 13.471515
+    },
+    {
+     "name": "Q1",
+     "amplitude": 0.039,
+     "phase": 211.7,
+     "speed": 13.398661
+    },
+    {
+     "name": "T2",
+     "amplitude": 0.01,
+     "phase": 211,
+     "speed": 29.958933
+    },
+    {
+     "name": "2Q1",
+     "amplitude": 0.004,
+     "phase": 215.3,
+     "speed": 12.854286
+    },
+    {
+     "name": "P1",
+     "amplitude": 0.114,
+     "phase": 231.6,
+     "speed": 14.958931
+    },
+    {
+     "name": "2SM2",
+     "amplitude": 0.004,
+     "phase": 54,
+     "speed": 31.015896
+    },
+    {
+     "name": "M3",
+     "amplitude": 0.003,
+     "phase": 44.1,
+     "speed": 43.47616
+    },
+    {
+     "name": "L2",
+     "amplitude": 0.022,
+     "phase": 230,
+     "speed": 29.528479
+    },
+    {
+     "name": "2MK3",
+     "amplitude": 0.015,
+     "phase": 84.5,
+     "speed": 42.92714
+    },
+    {
+     "name": "K2",
+     "amplitude": 0.044,
+     "phase": 223.3,
+     "speed": 30.082138
+    },
+    {
+     "name": "M8",
+     "amplitude": 0.001,
+     "phase": 168.6,
+     "speed": 115.93642
+    },
+    {
+     "name": "MS4",
+     "amplitude": 0.004,
+     "phase": 226.9,
+     "speed": 58.984104
+    }
+   ]
+  },
+  {
+   "id": "9414958",
+   "name": "Bolinas, Bolinas Lagoon",
+   "label": "Bolinas, Bolinas Lagoon",
+   "lat": 37.908,
+   "lng": -122.6785,
+   "inTerrain": true,
+   "z0": 0.681,
+   "mslNavd88": 1.022,
+   "datums": {
+    "MHHW": 2.012,
+    "MHW": 1.826,
+    "MSL": 1.39,
+    "MLW": 0.937,
+    "MLLW": 0.709,
+    "NAVD88": 0.368
+   },
+   "epoch": "1983-2001",
+   "constituents": [
+    {
+     "name": "M2",
+     "amplitude": 0.377,
+     "phase": 217.9,
+     "speed": 28.984104
+    },
+    {
+     "name": "S2",
+     "amplitude": 0.081,
+     "phase": 231.5,
+     "speed": 30
+    },
+    {
+     "name": "N2",
+     "amplitude": 0.072,
+     "phase": 191.4,
+     "speed": 28.43973
+    },
+    {
+     "name": "K1",
+     "amplitude": 0.272,
+     "phase": 244.7,
+     "speed": 15.041069
+    },
+    {
+     "name": "M4",
+     "amplitude": 0.017,
+     "phase": 351.2,
+     "speed": 57.96821
+    },
+    {
+     "name": "O1",
+     "amplitude": 0.137,
+     "phase": 237.1,
+     "speed": 13.943035
+    },
+    {
+     "name": "M6",
+     "amplitude": 0.006,
+     "phase": 13.1,
+     "speed": 86.95232
+    },
+    {
+     "name": "MK3",
+     "amplitude": 0.024,
+     "phase": 357.7,
+     "speed": 44.025173
+    },
+    {
+     "name": "S4",
+     "amplitude": 0.002,
+     "phase": 47.9,
+     "speed": 60
+    },
+    {
+     "name": "MN4",
+     "amplitude": 0.007,
+     "phase": 344.4,
+     "speed": 57.423832
+    },
+    {
+     "name": "NU2",
+     "amplitude": 0.018,
+     "phase": 198.8,
+     "speed": 28.512583
+    },
+    {
+     "name": "MU2",
+     "amplitude": 0.015,
+     "phase": 37.9,
+     "speed": 27.968208
+    },
+    {
+     "name": "2N2",
+     "amplitude": 0.006,
+     "phase": 159.8,
+     "speed": 27.895355
+    },
+    {
+     "name": "OO1",
+     "amplitude": 0.007,
+     "phase": 318.5,
+     "speed": 16.139101
+    },
+    {
+     "name": "LAM2",
+     "amplitude": 0.007,
+     "phase": 207,
+     "speed": 29.455626
+    },
+    {
+     "name": "S1",
+     "amplitude": 0.006,
+     "phase": 299.5,
+     "speed": 15
+    },
+    {
+     "name": "M1",
+     "amplitude": 0.008,
+     "phase": 323.8,
+     "speed": 14.496694
+    },
+    {
+     "name": "J1",
+     "amplitude": 0.013,
+     "phase": 311.1,
+     "speed": 15.5854435
+    },
+    {
+     "name": "SSA",
+     "amplitude": 0.035,
+     "phase": 263.3,
+     "speed": 0.0821373
+    },
+    {
+     "name": "SA",
+     "amplitude": 0.059,
+     "phase": 213.3,
+     "speed": 0.0410686
+    },
+    {
+     "name": "RHO",
+     "amplitude": 0.006,
+     "phase": 231.5,
+     "speed": 13.471515
+    },
+    {
+     "name": "Q1",
+     "amplitude": 0.024,
+     "phase": 257.6,
+     "speed": 13.398661
+    },
+    {
+     "name": "T2",
+     "amplitude": 0.005,
+     "phase": 224.7,
+     "speed": 29.958933
+    },
+    {
+     "name": "R2",
+     "amplitude": 0.001,
+     "phase": 247.2,
+     "speed": 30.041067
+    },
+    {
+     "name": "2Q1",
+     "amplitude": 0.003,
+     "phase": 252.2,
+     "speed": 12.854286
+    },
+    {
+     "name": "P1",
+     "amplitude": 0.078,
+     "phase": 246.5,
+     "speed": 14.958931
+    },
+    {
+     "name": "2SM2",
+     "amplitude": 0.003,
+     "phase": 31.1,
+     "speed": 31.015896
+    },
+    {
+     "name": "M3",
+     "amplitude": 0.006,
+     "phase": 80,
+     "speed": 43.47616
+    },
+    {
+     "name": "L2",
+     "amplitude": 0.019,
+     "phase": 214.2,
+     "speed": 29.528479
+    },
+    {
+     "name": "2MK3",
+     "amplitude": 0.022,
+     "phase": 357.2,
+     "speed": 42.92714
+    },
+    {
+     "name": "K2",
+     "amplitude": 0.035,
+     "phase": 203.4,
+     "speed": 30.082138
+    },
+    {
+     "name": "M8",
+     "amplitude": 0.002,
+     "phase": 135.4,
+     "speed": 115.93642
+    },
+    {
+     "name": "MS4",
+     "amplitude": 0.011,
+     "phase": 17.4,
+     "speed": 58.984104
+    }
+   ]
+  },
+  {
+   "id": "9414816",
+   "name": "BERKELEY,S.F.BAY",
+   "label": "Berkeley",
+   "lat": 37.865,
+   "lng": -122.307,
+   "inTerrain": true,
+   "z0": 1,
+   "mslNavd88": 1.04,
+   "datums": {
+    "MHHW": 3.348,
+    "MHW": 3.16,
+    "MSL": 2.488,
+    "MLW": 1.835,
+    "MLLW": 1.488,
+    "NAVD88": 1.448
+   },
+   "epoch": "1983-2001",
+   "constituents": [
+    {
+     "name": "M2",
+     "amplitude": 0.613,
+     "phase": 219.7,
+     "speed": 28.984104
+    },
+    {
+     "name": "S2",
+     "amplitude": 0.143,
+     "phase": 229.1,
+     "speed": 30
+    },
+    {
+     "name": "N2",
+     "amplitude": 0.134,
+     "phase": 195.3,
+     "speed": 28.43973
+    },
+    {
+     "name": "K1",
+     "amplitude": 0.379,
+     "phase": 229.9,
+     "speed": 15.041069
+    },
+    {
+     "name": "M4",
+     "amplitude": 0.013,
+     "phase": 186.4,
+     "speed": 57.96821
+    },
+    {
+     "name": "O1",
+     "amplitude": 0.225,
+     "phase": 214.2,
+     "speed": 13.943035
+    },
+    {
+     "name": "M6",
+     "amplitude": 0.004,
+     "phase": 119.9,
+     "speed": 86.95232
+    },
+    {
+     "name": "S4",
+     "amplitude": 0.002,
+     "phase": 293.8,
+     "speed": 60
+    },
+    {
+     "name": "NU2",
+     "amplitude": 0.026,
+     "phase": 198.5,
+     "speed": 28.512583
+    },
+    {
+     "name": "MU2",
+     "amplitude": 0.015,
+     "phase": 210.2,
+     "speed": 27.968208
+    },
+    {
+     "name": "2N2",
+     "amplitude": 0.018,
+     "phase": 170.8,
+     "speed": 27.895355
+    },
+    {
+     "name": "OO1",
+     "amplitude": 0.01,
+     "phase": 245.6,
+     "speed": 16.139101
+    },
+    {
+     "name": "LAM2",
+     "amplitude": 0.004,
+     "phase": 224.1,
+     "speed": 29.455626
+    },
+    {
+     "name": "M1",
+     "amplitude": 0.016,
+     "phase": 222.1,
+     "speed": 14.496694
+    },
+    {
+     "name": "J1",
+     "amplitude": 0.018,
+     "phase": 237.7,
+     "speed": 15.5854435
+    },
+    {
+     "name": "SSA",
+     "amplitude": 0.03,
+     "phase": 272.3,
+     "speed": 0.0821373
+    },
+    {
+     "name": "SA",
+     "amplitude": 0.044,
+     "phase": 200.2,
+     "speed": 0.0410686
+    },
+    {
+     "name": "MF",
+     "amplitude": 0.015,
+     "phase": 153.1,
+     "speed": 1.0980331
+    },
+    {
+     "name": "RHO",
+     "amplitude": 0.009,
+     "phase": 207.3,
+     "speed": 13.471515
+    },
+    {
+     "name": "Q1",
+     "amplitude": 0.044,
+     "phase": 206.3,
+     "speed": 13.398661
+    },
+    {
+     "name": "T2",
+     "amplitude": 0.008,
+     "phase": 228.7,
+     "speed": 29.958933
+    },
+    {
+     "name": "R2",
+     "amplitude": 0.001,
+     "phase": 229.5,
+     "speed": 30.041067
+    },
+    {
+     "name": "2Q1",
+     "amplitude": 0.006,
+     "phase": 198.6,
+     "speed": 12.854286
+    },
+    {
+     "name": "P1",
+     "amplitude": 0.125,
+     "phase": 228.7,
+     "speed": 14.958931
+    },
+    {
+     "name": "L2",
+     "amplitude": 0.017,
+     "phase": 244.1,
+     "speed": 29.528479
+    },
+    {
+     "name": "K2",
+     "amplitude": 0.039,
+     "phase": 229.9,
+     "speed": 30.082138
+    },
+    {
+     "name": "M8",
+     "amplitude": 0.001,
+     "phase": 221,
+     "speed": 115.93642
+    }
+   ]
+  },
+  {
+   "id": "9414819",
+   "name": "SAUSALITO, COE DOCK, S.F. BAY",
+   "label": "Sausalito, COE Dock",
+   "lat": 37.865,
+   "lng": -122.493,
+   "inTerrain": true,
+   "z0": 0.944,
+   "mslNavd88": 0.996,
+   "datums": {
+    "MHHW": 5.052,
+    "MHW": 4.869,
+    "MSL": 4.247,
+    "MLW": 3.647,
+    "MLLW": 3.303,
+    "NAVD88": 3.251
+   },
+   "epoch": "1983-2001",
+   "constituents": [
+    {
+     "name": "M2",
+     "amplitude": 0.564,
+     "phase": 215.5,
+     "speed": 28.984104
+    },
+    {
+     "name": "S2",
+     "amplitude": 0.131,
+     "phase": 222.4,
+     "speed": 30
+    },
+    {
+     "name": "N2",
+     "amplitude": 0.12,
+     "phase": 190,
+     "speed": 28.43973
+    },
+    {
+     "name": "K1",
+     "amplitude": 0.364,
+     "phase": 230.6,
+     "speed": 15.041069
+    },
+    {
+     "name": "M4",
+     "amplitude": 0.017,
+     "phase": 181,
+     "speed": 57.96821
+    },
+    {
+     "name": "O1",
+     "amplitude": 0.224,
+     "phase": 212.9,
+     "speed": 13.943035
+    },
+    {
+     "name": "M6",
+     "amplitude": 0.004,
+     "phase": 36.5,
+     "speed": 86.95232
+    },
+    {
+     "name": "MK3",
+     "amplitude": 0.011,
+     "phase": 139.9,
+     "speed": 44.025173
+    },
+    {
+     "name": "S4",
+     "amplitude": 0.001,
+     "phase": 247.5,
+     "speed": 60
+    },
+    {
+     "name": "MN4",
+     "amplitude": 0.006,
+     "phase": 161.5,
+     "speed": 57.423832
+    },
+    {
+     "name": "NU2",
+     "amplitude": 0.021,
+     "phase": 199.8,
+     "speed": 28.512583
+    },
+    {
+     "name": "MU2",
+     "amplitude": 0.007,
+     "phase": 112.4,
+     "speed": 27.968208
+    },
+    {
+     "name": "2N2",
+     "amplitude": 0.011,
+     "phase": 160.4,
+     "speed": 27.895355
+    },
+    {
+     "name": "OO1",
+     "amplitude": 0.012,
+     "phase": 242.2,
+     "speed": 16.139101
+    },
+    {
+     "name": "LAM2",
+     "amplitude": 0.009,
+     "phase": 215.9,
+     "speed": 29.455626
+    },
+    {
+     "name": "S1",
+     "amplitude": 0.008,
+     "phase": 272.2,
+     "speed": 15
+    },
+    {
+     "name": "M1",
+     "amplitude": 0.013,
+     "phase": 239.9,
+     "speed": 14.496694
+    },
+    {
+     "name": "J1",
+     "amplitude": 0.02,
+     "phase": 245.7,
+     "speed": 15.5854435
+    },
+    {
+     "name": "SSA",
+     "amplitude": 0.03,
+     "phase": 272.3,
+     "speed": 0.0821373
+    },
+    {
+     "name": "SA",
+     "amplitude": 0.044,
+     "phase": 200.2,
+     "speed": 0.0410686
+    },
+    {
+     "name": "MF",
+     "amplitude": 0.015,
+     "phase": 153.1,
+     "speed": 1.0980331
+    },
+    {
+     "name": "RHO",
+     "amplitude": 0.007,
+     "phase": 222.3,
+     "speed": 13.471515
+    },
+    {
+     "name": "Q1",
+     "amplitude": 0.037,
+     "phase": 207.4,
+     "speed": 13.398661
+    },
+    {
+     "name": "T2",
+     "amplitude": 0.006,
+     "phase": 237.9,
+     "speed": 29.958933
+    },
+    {
+     "name": "2Q1",
+     "amplitude": 0.002,
+     "phase": 238.1,
+     "speed": 12.854286
+    },
+    {
+     "name": "P1",
+     "amplitude": 0.117,
+     "phase": 228.5,
+     "speed": 14.958931
+    },
+    {
+     "name": "2SM2",
+     "amplitude": 0.004,
+     "phase": 40.7,
+     "speed": 31.015896
+    },
+    {
+     "name": "L2",
+     "amplitude": 0.019,
+     "phase": 245.1,
+     "speed": 29.528479
+    },
+    {
+     "name": "2MK3",
+     "amplitude": 0.012,
+     "phase": 95.3,
+     "speed": 42.92714
+    },
+    {
+     "name": "K2",
+     "amplitude": 0.042,
+     "phase": 213.1,
+     "speed": 30.082138
+    },
+    {
+     "name": "MS4",
+     "amplitude": 0.008,
+     "phase": 192,
+     "speed": 58.984104
+    }
+   ]
+  },
+  {
+   "id": "9414806",
+   "name": "SAUSALITO, SAN FRANCISCO BAY",
+   "label": "Sausalito",
+   "lat": 37.8467,
+   "lng": -122.477,
+   "inTerrain": true,
+   "z0": 0.935,
+   "mslNavd88": 0.987,
+   "datums": {
+    "MHHW": 2.69,
+    "MHW": 2.507,
+    "MSL": 1.89,
+    "MLW": 1.303,
+    "MLLW": 0.955,
+    "NAVD88": 0.903
+   },
+   "epoch": "1983-2001",
+   "constituents": [
+    {
+     "name": "M2",
+     "amplitude": 0.549,
+     "phase": 214.8,
+     "speed": 28.984104
+    },
+    {
+     "name": "S2",
+     "amplitude": 0.129,
+     "phase": 222,
+     "speed": 30
+    },
+    {
+     "name": "N2",
+     "amplitude": 0.122,
+     "phase": 189.2,
+     "speed": 28.43973
+    },
+    {
+     "name": "K1",
+     "amplitude": 0.363,
+     "phase": 229.4,
+     "speed": 15.041069
+    },
+    {
+     "name": "M4",
+     "amplitude": 0.019,
+     "phase": 166.5,
+     "speed": 57.96821
+    },
+    {
+     "name": "O1",
+     "amplitude": 0.226,
+     "phase": 212.6,
+     "speed": 13.943035
+    },
+    {
+     "name": "M6",
+     "amplitude": 0.002,
+     "phase": 29.8,
+     "speed": 86.95232
+    },
+    {
+     "name": "MK3",
+     "amplitude": 0.015,
+     "phase": 143.8,
+     "speed": 44.025173
+    },
+    {
+     "name": "MN4",
+     "amplitude": 0.007,
+     "phase": 150.3,
+     "speed": 57.423832
+    },
+    {
+     "name": "NU2",
+     "amplitude": 0.024,
+     "phase": 198.6,
+     "speed": 28.512583
+    },
+    {
+     "name": "S6",
+     "amplitude": 0.001,
+     "phase": 71.3,
+     "speed": 90
+    },
+    {
+     "name": "MU2",
+     "amplitude": 0.006,
+     "phase": 108.3,
+     "speed": 27.968208
+    },
+    {
+     "name": "2N2",
+     "amplitude": 0.012,
+     "phase": 160.1,
+     "speed": 27.895355
+    },
+    {
+     "name": "OO1",
+     "amplitude": 0.01,
+     "phase": 249.9,
+     "speed": 16.139101
+    },
+    {
+     "name": "LAM2",
+     "amplitude": 0.008,
+     "phase": 224.6,
+     "speed": 29.455626
+    },
+    {
+     "name": "S1",
+     "amplitude": 0.005,
+     "phase": 219.7,
+     "speed": 15
+    },
+    {
+     "name": "M1",
+     "amplitude": 0.011,
+     "phase": 235.3,
+     "speed": 14.496694
+    },
+    {
+     "name": "J1",
+     "amplitude": 0.02,
+     "phase": 246.2,
+     "speed": 15.5854435
+    },
+    {
+     "name": "SSA",
+     "amplitude": 0.03,
+     "phase": 272.3,
+     "speed": 0.0821373
+    },
+    {
+     "name": "SA",
+     "amplitude": 0.044,
+     "phase": 200.2,
+     "speed": 0.0410686
+    },
+    {
+     "name": "MF",
+     "amplitude": 0.015,
+     "phase": 153.1,
+     "speed": 1.0980331
+    },
+    {
+     "name": "RHO",
+     "amplitude": 0.007,
+     "phase": 221.7,
+     "speed": 13.471515
+    },
+    {
+     "name": "Q1",
+     "amplitude": 0.039,
+     "phase": 207.3,
+     "speed": 13.398661
+    },
+    {
+     "name": "T2",
+     "amplitude": 0.008,
+     "phase": 203.3,
+     "speed": 29.958933
+    },
+    {
+     "name": "2Q1",
+     "amplitude": 0.005,
+     "phase": 208,
+     "speed": 12.854286
+    },
+    {
+     "name": "P1",
+     "amplitude": 0.115,
+     "phase": 227.2,
+     "speed": 14.958931
+    },
+    {
+     "name": "2SM2",
+     "amplitude": 0.002,
+     "phase": 45.3,
+     "speed": 31.015896
+    },
+    {
+     "name": "L2",
+     "amplitude": 0.017,
+     "phase": 243.3,
+     "speed": 29.528479
+    },
+    {
+     "name": "2MK3",
+     "amplitude": 0.011,
+     "phase": 104.7,
+     "speed": 42.92714
+    },
+    {
+     "name": "K2",
+     "amplitude": 0.037,
+     "phase": 214.1,
+     "speed": 30.082138
+    },
+    {
+     "name": "MS4",
+     "amplitude": 0.009,
+     "phase": 177.7,
+     "speed": 58.984104
+    }
+   ]
+  },
+  {
+   "id": "9414305",
+   "name": "NORTH POINT, PIER 41, S.F.BAY",
+   "label": "North Point, Pier 41",
+   "lat": 37.81,
+   "lng": -122.413,
+   "inTerrain": true,
+   "z0": null,
+   "mslNavd88": null,
+   "datums": {},
+   "epoch": null,
+   "constituents": [
+    {
+     "name": "M2",
+     "amplitude": 0.607,
+     "phase": 213.3,
+     "speed": 28.984104
+    },
+    {
+     "name": "S2",
+     "amplitude": 0.141,
+     "phase": 220.7,
+     "speed": 30
+    },
+    {
+     "name": "N2",
+     "amplitude": 0.129,
+     "phase": 187,
+     "speed": 28.43973
+    },
+    {
+     "name": "K1",
+     "amplitude": 0.376,
+     "phase": 226.8,
+     "speed": 15.041069
+    },
+    {
+     "name": "M4",
+     "amplitude": 0.029,
+     "phase": 135.9,
+     "speed": 57.96821
+    },
+    {
+     "name": "O1",
+     "amplitude": 0.231,
+     "phase": 209.7,
+     "speed": 13.943035
+    },
+    {
+     "name": "MK3",
+     "amplitude": 0.026,
+     "phase": 124,
+     "speed": 44.025173
+    },
+    {
+     "name": "MN4",
+     "amplitude": 0.011,
+     "phase": 108.6,
+     "speed": 57.423832
+    },
+    {
+     "name": "NU2",
+     "amplitude": 0.027,
+     "phase": 191.6,
+     "speed": 28.512583
+    },
+    {
+     "name": "MU2",
+     "amplitude": 0.007,
+     "phase": 88.1,
+     "speed": 27.968208
+    },
+    {
+     "name": "2N2",
+     "amplitude": 0.014,
+     "phase": 154.1,
+     "speed": 27.895355
+    },
+    {
+     "name": "OO1",
+     "amplitude": 0.013,
+     "phase": 262.7,
+     "speed": 16.139101
+    },
+    {
+     "name": "LAM2",
+     "amplitude": 0.008,
+     "phase": 215,
+     "speed": 29.455626
+    },
+    {
+     "name": "S1",
+     "amplitude": 0.007,
+     "phase": 276.5,
+     "speed": 15
+    },
+    {
+     "name": "M1",
+     "amplitude": 0.013,
+     "phase": 248.5,
+     "speed": 14.496694
+    },
+    {
+     "name": "J1",
+     "amplitude": 0.019,
+     "phase": 248.5,
+     "speed": 15.5854435
+    },
+    {
+     "name": "SSA",
+     "amplitude": 0.039,
+     "phase": 286.9,
+     "speed": 0.0821373
+    },
+    {
+     "name": "SA",
+     "amplitude": 0.038,
+     "phase": 221.4,
+     "speed": 0.0410686
+    },
+    {
+     "name": "RHO",
+     "amplitude": 0.01,
+     "phase": 198.4,
+     "speed": 13.471515
+    },
+    {
+     "name": "Q1",
+     "amplitude": 0.04,
+     "phase": 202.7,
+     "speed": 13.398661
+    },
+    {
+     "name": "T2",
+     "amplitude": 0.008,
+     "phase": 201.8,
+     "speed": 29.958933
+    },
+    {
+     "name": "R2",
+     "amplitude": 0.001,
+     "phase": 221,
+     "speed": 30.041067
+    },
+    {
+     "name": "2Q1",
+     "amplitude": 0.005,
+     "phase": 186.3,
+     "speed": 12.854286
+    },
+    {
+     "name": "P1",
+     "amplitude": 0.119,
+     "phase": 223.8,
+     "speed": 14.958931
+    },
+    {
+     "name": "M3",
+     "amplitude": 0.009,
+     "phase": 29.8,
+     "speed": 43.47616
+    },
+    {
+     "name": "L2",
+     "amplitude": 0.019,
+     "phase": 225.5,
+     "speed": 29.528479
+    },
+    {
+     "name": "2MK3",
+     "amplitude": 0.019,
+     "phase": 91.5,
+     "speed": 42.92714
+    },
+    {
+     "name": "K2",
+     "amplitude": 0.041,
+     "phase": 211.5,
+     "speed": 30.082138
+    },
+    {
+     "name": "MS4",
+     "amplitude": 0.012,
+     "phase": 147.1,
+     "speed": 58.984104
+    }
+   ]
+  },
+  {
+   "id": "9414290",
+   "name": "San Francisco",
+   "label": "San Francisco",
+   "lat": 37.806305,
+   "lng": -122.46589,
+   "inTerrain": true,
+   "z0": 0.951,
+   "mslNavd88": 0.969,
+   "datums": {
+    "MHHW": 3.602,
+    "MHW": 3.416,
+    "MSL": 2.773,
+    "MLW": 2.168,
+    "MLLW": 1.822,
+    "NAVD88": 1.804
+   },
+   "epoch": "1983-2001",
+   "constituents": [
+    {
+     "name": "M2",
+     "amplitude": 0.576,
+     "phase": 208.2,
+     "speed": 28.984104
+    },
+    {
+     "name": "S2",
+     "amplitude": 0.137,
+     "phase": 216.2,
+     "speed": 30
+    },
+    {
+     "name": "N2",
+     "amplitude": 0.122,
+     "phase": 183.2,
+     "speed": 28.43973
+    },
+    {
+     "name": "K1",
+     "amplitude": 0.37,
+     "phase": 225.4,
+     "speed": 15.041069
+    },
+    {
+     "name": "M4",
+     "amplitude": 0.022,
+     "phase": 136.8,
+     "speed": 57.96821
+    },
+    {
+     "name": "O1",
+     "amplitude": 0.23,
+     "phase": 208.4,
+     "speed": 13.943035
+    },
+    {
+     "name": "M6",
+     "amplitude": 0.002,
+     "phase": 7.3,
+     "speed": 86.95232
+    },
+    {
+     "name": "MK3",
+     "amplitude": 0.018,
+     "phase": 124.1,
+     "speed": 44.025173
+    },
+    {
+     "name": "MN4",
+     "amplitude": 0.008,
+     "phase": 112,
+     "speed": 57.423832
+    },
+    {
+     "name": "NU2",
+     "amplitude": 0.026,
+     "phase": 189.9,
+     "speed": 28.512583
+    },
+    {
+     "name": "MU2",
+     "amplitude": 0.007,
+     "phase": 100.2,
+     "speed": 27.968208
+    },
+    {
+     "name": "2N2",
+     "amplitude": 0.013,
+     "phase": 153.3,
+     "speed": 27.895355
+    },
+    {
+     "name": "OO1",
+     "amplitude": 0.012,
+     "phase": 260,
+     "speed": 16.139101
+    },
+    {
+     "name": "LAM2",
+     "amplitude": 0.007,
+     "phase": 214.3,
+     "speed": 29.455626
+    },
+    {
+     "name": "S1",
+     "amplitude": 0.007,
+     "phase": 282.6,
+     "speed": 15
+    },
+    {
+     "name": "M1",
+     "amplitude": 0.011,
+     "phase": 237.5,
+     "speed": 14.496694
+    },
+    {
+     "name": "J1",
+     "amplitude": 0.019,
+     "phase": 244.3,
+     "speed": 15.5854435
+    },
+    {
+     "name": "SSA",
+     "amplitude": 0.03,
+     "phase": 272.3,
+     "speed": 0.0821373
+    },
+    {
+     "name": "SA",
+     "amplitude": 0.044,
+     "phase": 200.2,
+     "speed": 0.0410686
+    },
+    {
+     "name": "MF",
+     "amplitude": 0.015,
+     "phase": 153.1,
+     "speed": 1.0980331
+    },
+    {
+     "name": "RHO",
+     "amplitude": 0.009,
+     "phase": 200,
+     "speed": 13.471515
+    },
+    {
+     "name": "Q1",
+     "amplitude": 0.041,
+     "phase": 202.4,
+     "speed": 13.398661
+    },
+    {
+     "name": "T2",
+     "amplitude": 0.009,
+     "phase": 204.6,
+     "speed": 29.958933
+    },
+    {
+     "name": "R2",
+     "amplitude": 0.001,
+     "phase": 126.8,
+     "speed": 30.041067
+    },
+    {
+     "name": "2Q1",
+     "amplitude": 0.006,
+     "phase": 208.6,
+     "speed": 12.854286
+    },
+    {
+     "name": "P1",
+     "amplitude": 0.114,
+     "phase": 222.1,
+     "speed": 14.958931
+    },
+    {
+     "name": "2SM2",
+     "amplitude": 0.003,
+     "phase": 37.3,
+     "speed": 31.015896
+    },
+    {
+     "name": "M3",
+     "amplitude": 0.003,
+     "phase": 37.6,
+     "speed": 43.47616
+    },
+    {
+     "name": "L2",
+     "amplitude": 0.018,
+     "phase": 229.6,
+     "speed": 29.528479
+    },
+    {
+     "name": "2MK3",
+     "amplitude": 0.014,
+     "phase": 92.2,
+     "speed": 42.92714
+    },
+    {
+     "name": "K2",
+     "amplitude": 0.04,
+     "phase": 206,
+     "speed": 30.082138
+    },
+    {
+     "name": "M8",
+     "amplitude": 0.001,
+     "phase": 108.5,
+     "speed": 115.93642
+    },
+    {
+     "name": "MS4",
+     "amplitude": 0.01,
+     "phase": 149,
+     "speed": 58.984104
+    }
+   ]
+  },
+  {
+   "id": "9414764",
+   "name": "Oakland Inner Harbor",
+   "label": "Oakland Inner Harbor",
+   "lat": 37.795,
+   "lng": -122.282,
+   "inTerrain": true,
+   "z0": 1.014,
+   "mslNavd88": 0.976,
+   "datums": {
+    "MHHW": 3.288,
+    "MHW": 3.1,
+    "MSL": 2.36,
+    "MLW": 1.683,
+    "MLLW": 1.346,
+    "NAVD88": 1.384
+   },
+   "epoch": "1983-2001",
+   "constituents": [
+    {
+     "name": "M2",
+     "amplitude": 0.634,
+     "phase": 221,
+     "speed": 28.984104
+    },
+    {
+     "name": "S2",
+     "amplitude": 0.161,
+     "phase": 228.9,
+     "speed": 30
+    },
+    {
+     "name": "N2",
+     "amplitude": 0.138,
+     "phase": 197.2,
+     "speed": 28.43973
+    },
+    {
+     "name": "K1",
+     "amplitude": 0.382,
+     "phase": 231.2,
+     "speed": 15.041069
+    },
+    {
+     "name": "M4",
+     "amplitude": 0.023,
+     "phase": 130,
+     "speed": 57.96821
+    },
+    {
+     "name": "O1",
+     "amplitude": 0.22,
+     "phase": 215.4,
+     "speed": 13.943035
+    },
+    {
+     "name": "M6",
+     "amplitude": 0.005,
+     "phase": 79.9,
+     "speed": 86.95232
+    },
+    {
+     "name": "S4",
+     "amplitude": 0.001,
+     "phase": 265.2,
+     "speed": 60
+    },
+    {
+     "name": "NU2",
+     "amplitude": 0.027,
+     "phase": 200.4,
+     "speed": 28.512583
+    },
+    {
+     "name": "S6",
+     "amplitude": 0.001,
+     "phase": 297.6,
+     "speed": 90
+    },
+    {
+     "name": "MU2",
+     "amplitude": 0.015,
+     "phase": 213.1,
+     "speed": 27.968208
+    },
+    {
+     "name": "2N2",
+     "amplitude": 0.018,
+     "phase": 173.4,
+     "speed": 27.895355
+    },
+    {
+     "name": "OO1",
+     "amplitude": 0.009,
+     "phase": 246.9,
+     "speed": 16.139101
+    },
+    {
+     "name": "LAM2",
+     "amplitude": 0.004,
+     "phase": 224.7,
+     "speed": 29.455626
+    },
+    {
+     "name": "M1",
+     "amplitude": 0.015,
+     "phase": 223.3,
+     "speed": 14.496694
+    },
+    {
+     "name": "J1",
+     "amplitude": 0.017,
+     "phase": 239,
+     "speed": 15.5854435
+    },
+    {
+     "name": "SSA",
+     "amplitude": 0.037,
+     "phase": 288.3,
+     "speed": 0.0821373
+    },
+    {
+     "name": "SA",
+     "amplitude": 0.032,
+     "phase": 227.8,
+     "speed": 0.0410686
+    },
+    {
+     "name": "MF",
+     "amplitude": 0.013,
+     "phase": 147.5,
+     "speed": 1.0980331
+    },
+    {
+     "name": "RHO",
+     "amplitude": 0.008,
+     "phase": 208.5,
+     "speed": 13.471515
+    },
+    {
+     "name": "Q1",
+     "amplitude": 0.043,
+     "phase": 207.5,
+     "speed": 13.398661
+    },
+    {
+     "name": "T2",
+     "amplitude": 0.01,
+     "phase": 228.6,
+     "speed": 29.958933
+    },
+    {
+     "name": "R2",
+     "amplitude": 0.001,
+     "phase": 229.3,
+     "speed": 30.041067
+    },
+    {
+     "name": "2Q1",
+     "amplitude": 0.006,
+     "phase": 199.7,
+     "speed": 12.854286
+    },
+    {
+     "name": "P1",
+     "amplitude": 0.127,
+     "phase": 230,
+     "speed": 14.958931
+    },
+    {
+     "name": "L2",
+     "amplitude": 0.018,
+     "phase": 244.6,
+     "speed": 29.528479
+    },
+    {
+     "name": "K2",
+     "amplitude": 0.044,
+     "phase": 229.6,
+     "speed": 30.082138
+    }
+   ]
+  },
+  {
+   "id": "9414767",
+   "name": "ALAMEDA NAS, NAVY FUEL PIER",
+   "label": "Alameda NAS, Navy Fuel Pier",
+   "lat": 37.7933,
+   "lng": -122.315,
+   "inTerrain": true,
+   "z0": 1.028,
+   "mslNavd88": null,
+   "datums": {
+    "MHHW": 3.364,
+    "MHW": 3.175,
+    "MSL": 2.44,
+    "MLW": 1.759,
+    "MLLW": 1.412
+   },
+   "epoch": "1983-2001",
+   "constituents": [
+    {
+     "name": "M2",
+     "amplitude": 0.658,
+     "phase": 222.4,
+     "speed": 28.984104
+    },
+    {
+     "name": "S2",
+     "amplitude": 0.154,
+     "phase": 231.5,
+     "speed": 30
+    },
+    {
+     "name": "N2",
+     "amplitude": 0.123,
+     "phase": 199.1,
+     "speed": 28.43973
+    },
+    {
+     "name": "K1",
+     "amplitude": 0.385,
+     "phase": 231.3,
+     "speed": 15.041069
+    },
+    {
+     "name": "M4",
+     "amplitude": 0.015,
+     "phase": 155.1,
+     "speed": 57.96821
+    },
+    {
+     "name": "O1",
+     "amplitude": 0.231,
+     "phase": 216.6,
+     "speed": 13.943035
+    },
+    {
+     "name": "M6",
+     "amplitude": 0.008,
+     "phase": 39,
+     "speed": 86.95232
+    },
+    {
+     "name": "S4",
+     "amplitude": 0.003,
+     "phase": 282.7,
+     "speed": 60
+    },
+    {
+     "name": "NU2",
+     "amplitude": 0.024,
+     "phase": 202.2,
+     "speed": 28.512583
+    },
+    {
+     "name": "MU2",
+     "amplitude": 0.016,
+     "phase": 213.4,
+     "speed": 27.968208
+    },
+    {
+     "name": "2N2",
+     "amplitude": 0.016,
+     "phase": 175.7,
+     "speed": 27.895355
+    },
+    {
+     "name": "OO1",
+     "amplitude": 0.01,
+     "phase": 246,
+     "speed": 16.139101
+    },
+    {
+     "name": "LAM2",
+     "amplitude": 0.005,
+     "phase": 226.6,
+     "speed": 29.455626
+    },
+    {
+     "name": "M1",
+     "amplitude": 0.016,
+     "phase": 224,
+     "speed": 14.496694
+    },
+    {
+     "name": "J1",
+     "amplitude": 0.018,
+     "phase": 238.6,
+     "speed": 15.5854435
+    },
+    {
+     "name": "SSA",
+     "amplitude": 0.037,
+     "phase": 288.3,
+     "speed": 0.0821373
+    },
+    {
+     "name": "SA",
+     "amplitude": 0.032,
+     "phase": 227.8,
+     "speed": 0.0410686
+    },
+    {
+     "name": "MF",
+     "amplitude": 0.013,
+     "phase": 147.5,
+     "speed": 1.0980331
+    },
+    {
+     "name": "RHO",
+     "amplitude": 0.009,
+     "phase": 210.3,
+     "speed": 13.471515
+    },
+    {
+     "name": "Q1",
+     "amplitude": 0.045,
+     "phase": 209.3,
+     "speed": 13.398661
+    },
+    {
+     "name": "T2",
+     "amplitude": 0.009,
+     "phase": 231.1,
+     "speed": 29.958933
+    },
+    {
+     "name": "R2",
+     "amplitude": 0.001,
+     "phase": 231.8,
+     "speed": 30.041067
+    },
+    {
+     "name": "2Q1",
+     "amplitude": 0.006,
+     "phase": 202,
+     "speed": 12.854286
+    },
+    {
+     "name": "P1",
+     "amplitude": 0.127,
+     "phase": 230.2,
+     "speed": 14.958931
+    },
+    {
+     "name": "L2",
+     "amplitude": 0.018,
+     "phase": 245.8,
+     "speed": 29.528479
+    },
+    {
+     "name": "K2",
+     "amplitude": 0.042,
+     "phase": 232.2,
+     "speed": 30.082138
+    },
+    {
+     "name": "M8",
+     "amplitude": 0.002,
+     "phase": 182.4,
+     "speed": 115.93642
+    }
+   ]
+  },
+  {
+   "id": "9414317",
+   "name": "PIER 22 1/2, SAN FRANCISCO",
+   "label": "Pier 22 1/2, San Francisco",
+   "lat": 37.79,
+   "lng": -122.387,
+   "inTerrain": true,
+   "z0": 0.995,
+   "mslNavd88": 0.989,
+   "datums": {
+    "MHHW": 2.97,
+    "MHW": 2.779,
+    "MSL": 2.057,
+    "MLW": 1.403,
+    "MLLW": 1.062,
+    "NAVD88": 1.068
+   },
+   "epoch": "1983-2001",
+   "constituents": [
+    {
+     "name": "M2",
+     "amplitude": 0.644,
+     "phase": 218.9,
+     "speed": 28.984104
+    },
+    {
+     "name": "S2",
+     "amplitude": 0.143,
+     "phase": 227.2,
+     "speed": 30
+    },
+    {
+     "name": "N2",
+     "amplitude": 0.133,
+     "phase": 193.5,
+     "speed": 28.43973
+    },
+    {
+     "name": "K1",
+     "amplitude": 0.381,
+     "phase": 229.5,
+     "speed": 15.041069
+    },
+    {
+     "name": "M4",
+     "amplitude": 0.024,
+     "phase": 135.2,
+     "speed": 57.96821
+    },
+    {
+     "name": "O1",
+     "amplitude": 0.231,
+     "phase": 212.8,
+     "speed": 13.943035
+    },
+    {
+     "name": "M6",
+     "amplitude": 0.005,
+     "phase": 70.7,
+     "speed": 86.95232
+    },
+    {
+     "name": "MK3",
+     "amplitude": 0.025,
+     "phase": 118.8,
+     "speed": 44.025173
+    },
+    {
+     "name": "MN4",
+     "amplitude": 0.009,
+     "phase": 110,
+     "speed": 57.423832
+    },
+    {
+     "name": "NU2",
+     "amplitude": 0.026,
+     "phase": 199,
+     "speed": 28.512583
+    },
+    {
+     "name": "MU2",
+     "amplitude": 0.007,
+     "phase": 76.7,
+     "speed": 27.968208
+    },
+    {
+     "name": "2N2",
+     "amplitude": 0.014,
+     "phase": 160.1,
+     "speed": 27.895355
+    },
+    {
+     "name": "OO1",
+     "amplitude": 0.014,
+     "phase": 263.6,
+     "speed": 16.139101
+    },
+    {
+     "name": "LAM2",
+     "amplitude": 0.008,
+     "phase": 204.9,
+     "speed": 29.455626
+    },
+    {
+     "name": "S1",
+     "amplitude": 0.007,
+     "phase": 273.2,
+     "speed": 15
+    },
+    {
+     "name": "M1",
+     "amplitude": 0.013,
+     "phase": 254.4,
+     "speed": 14.496694
+    },
+    {
+     "name": "J1",
+     "amplitude": 0.018,
+     "phase": 255.6,
+     "speed": 15.5854435
+    },
+    {
+     "name": "SSA",
+     "amplitude": 0.039,
+     "phase": 286.9,
+     "speed": 0.0821373
+    },
+    {
+     "name": "SA",
+     "amplitude": 0.038,
+     "phase": 221.4,
+     "speed": 0.0410686
+    },
+    {
+     "name": "RHO",
+     "amplitude": 0.009,
+     "phase": 202.5,
+     "speed": 13.471515
+    },
+    {
+     "name": "Q1",
+     "amplitude": 0.04,
+     "phase": 207.3,
+     "speed": 13.398661
+    },
+    {
+     "name": "T2",
+     "amplitude": 0.009,
+     "phase": 217.9,
+     "speed": 29.958933
+    },
+    {
+     "name": "R2",
+     "amplitude": 0.001,
+     "phase": 227.5,
+     "speed": 30.041067
+    },
+    {
+     "name": "2Q1",
+     "amplitude": 0.004,
+     "phase": 182.6,
+     "speed": 12.854286
+    },
+    {
+     "name": "P1",
+     "amplitude": 0.12,
+     "phase": 227.1,
+     "speed": 14.958931
+    },
+    {
+     "name": "2SM2",
+     "amplitude": 0.005,
+     "phase": 48.4,
+     "speed": 31.015896
+    },
+    {
+     "name": "M3",
+     "amplitude": 0.008,
+     "phase": 37.6,
+     "speed": 43.47616
+    },
+    {
+     "name": "L2",
+     "amplitude": 0.024,
+     "phase": 226.4,
+     "speed": 29.528479
+    },
+    {
+     "name": "2MK3",
+     "amplitude": 0.022,
+     "phase": 86.1,
+     "speed": 42.92714
+    },
+    {
+     "name": "K2",
+     "amplitude": 0.045,
+     "phase": 217.3,
+     "speed": 30.082138
+    },
+    {
+     "name": "MS4",
+     "amplitude": 0.009,
+     "phase": 150.5,
+     "speed": 58.984104
+    }
+   ]
+  },
+  {
+   "id": "9414750",
+   "name": "Alameda",
+   "label": "Alameda",
+   "lat": 37.771954,
+   "lng": -122.30026,
+   "inTerrain": true,
+   "z0": 1.051,
+   "mslNavd88": 0.981,
+   "datums": {
+    "MHHW": 3.027,
+    "MHW": 2.838,
+    "MSL": 2.067,
+    "MLW": 1.361,
+    "MLLW": 1.016,
+    "NAVD88": 1.086
+   },
+   "epoch": "1983-2001",
+   "constituents": [
+    {
+     "name": "M2",
+     "amplitude": 0.68,
+     "phase": 223.3,
+     "speed": 28.984104
+    },
+    {
+     "name": "S2",
+     "amplitude": 0.153,
+     "phase": 234.4,
+     "speed": 30
+    },
+    {
+     "name": "N2",
+     "amplitude": 0.14,
+     "phase": 199.5,
+     "speed": 28.43973
+    },
+    {
+     "name": "K1",
+     "amplitude": 0.379,
+     "phase": 232.7,
+     "speed": 15.041069
+    },
+    {
+     "name": "M4",
+     "amplitude": 0.014,
+     "phase": 138.2,
+     "speed": 57.96821
+    },
+    {
+     "name": "O1",
+     "amplitude": 0.231,
+     "phase": 216.2,
+     "speed": 13.943035
+    },
+    {
+     "name": "M6",
+     "amplitude": 0.007,
+     "phase": 32,
+     "speed": 86.95232
+    },
+    {
+     "name": "MK3",
+     "amplitude": 0.018,
+     "phase": 105.3,
+     "speed": 44.025173
+    },
+    {
+     "name": "MN4",
+     "amplitude": 0.005,
+     "phase": 119.5,
+     "speed": 57.423832
+    },
+    {
+     "name": "NU2",
+     "amplitude": 0.032,
+     "phase": 205.2,
+     "speed": 28.512583
+    },
+    {
+     "name": "MU2",
+     "amplitude": 0.008,
+     "phase": 36.1,
+     "speed": 27.968208
+    },
+    {
+     "name": "2N2",
+     "amplitude": 0.015,
+     "phase": 173.9,
+     "speed": 27.895355
+    },
+    {
+     "name": "OO1",
+     "amplitude": 0.011,
+     "phase": 276.4,
+     "speed": 16.139101
+    },
+    {
+     "name": "LAM2",
+     "amplitude": 0.01,
+     "phase": 217.4,
+     "speed": 29.455626
+    },
+    {
+     "name": "S1",
+     "amplitude": 0.011,
+     "phase": 282.4,
+     "speed": 15
+    },
+    {
+     "name": "M1",
+     "amplitude": 0.012,
+     "phase": 256.9,
+     "speed": 14.496694
+    },
+    {
+     "name": "J1",
+     "amplitude": 0.019,
+     "phase": 258.3,
+     "speed": 15.5854435
+    },
+    {
+     "name": "SSA",
+     "amplitude": 0.029,
+     "phase": 272.5,
+     "speed": 0.0821373
+    },
+    {
+     "name": "SA",
+     "amplitude": 0.04,
+     "phase": 187.8,
+     "speed": 0.0410686
+    },
+    {
+     "name": "MF",
+     "amplitude": 0.018,
+     "phase": 153.2,
+     "speed": 1.0980331
+    },
+    {
+     "name": "RHO",
+     "amplitude": 0.009,
+     "phase": 209.8,
+     "speed": 13.471515
+    },
+    {
+     "name": "Q1",
+     "amplitude": 0.041,
+     "phase": 211.3,
+     "speed": 13.398661
+    },
+    {
+     "name": "T2",
+     "amplitude": 0.01,
+     "phase": 219.7,
+     "speed": 29.958933
+    },
+    {
+     "name": "R2",
+     "amplitude": 0.002,
+     "phase": 68.3,
+     "speed": 30.041067
+    },
+    {
+     "name": "2Q1",
+     "amplitude": 0.005,
+     "phase": 215.2,
+     "speed": 12.854286
+    },
+    {
+     "name": "P1",
+     "amplitude": 0.117,
+     "phase": 230.1,
+     "speed": 14.958931
+    },
+    {
+     "name": "2SM2",
+     "amplitude": 0.005,
+     "phase": 42.8,
+     "speed": 31.015896
+    },
+    {
+     "name": "M3",
+     "amplitude": 0.003,
+     "phase": 121.9,
+     "speed": 43.47616
+    },
+    {
+     "name": "L2",
+     "amplitude": 0.029,
+     "phase": 236.7,
+     "speed": 29.528479
+    },
+    {
+     "name": "2MK3",
+     "amplitude": 0.021,
+     "phase": 72.4,
+     "speed": 42.92714
+    },
+    {
+     "name": "K2",
+     "amplitude": 0.047,
+     "phase": 222.2,
+     "speed": 30.082138
+    },
+    {
+     "name": "MS4",
+     "amplitude": 0.005,
+     "phase": 161.3,
+     "speed": 58.984104
+    }
+   ]
+  },
+  {
+   "id": "9414746",
+   "name": "PARK STREET BRIDGE",
+   "label": "Park Street Bridge",
+   "lat": 37.7717,
+   "lng": -122.235,
+   "inTerrain": true,
+   "z0": 1.029,
+   "mslNavd88": 0.984,
+   "datums": {
+    "MHHW": 2.5,
+    "MHW": 2.311,
+    "MSL": 1.544,
+    "MLW": 0.855,
+    "MLLW": 0.515,
+    "NAVD88": 0.56
+   },
+   "epoch": "1983-2001",
+   "constituents": [
+    {
+     "name": "M2",
+     "amplitude": 0.668,
+     "phase": 221.5,
+     "speed": 28.984104
+    },
+    {
+     "name": "S2",
+     "amplitude": 0.166,
+     "phase": 234.6,
+     "speed": 30
+    },
+    {
+     "name": "N2",
+     "amplitude": 0.134,
+     "phase": 196.4,
+     "speed": 28.43973
+    },
+    {
+     "name": "K1",
+     "amplitude": 0.379,
+     "phase": 229.9,
+     "speed": 15.041069
+    },
+    {
+     "name": "M4",
+     "amplitude": 0.023,
+     "phase": 114.5,
+     "speed": 57.96821
+    },
+    {
+     "name": "O1",
+     "amplitude": 0.231,
+     "phase": 215.7,
+     "speed": 13.943035
+    },
+    {
+     "name": "M6",
+     "amplitude": 0.003,
+     "phase": 64.2,
+     "speed": 86.95232
+    },
+    {
+     "name": "S4",
+     "amplitude": 0.001,
+     "phase": 206.4,
+     "speed": 60
+    },
+    {
+     "name": "NU2",
+     "amplitude": 0.026,
+     "phase": 199.8,
+     "speed": 28.512583
+    },
+    {
+     "name": "S6",
+     "amplitude": 0.001,
+     "phase": 225.5,
+     "speed": 90
+    },
+    {
+     "name": "MU2",
+     "amplitude": 0.016,
+     "phase": 208.2,
+     "speed": 27.968208
+    },
+    {
+     "name": "2N2",
+     "amplitude": 0.018,
+     "phase": 171.5,
+     "speed": 27.895355
+    },
+    {
+     "name": "OO1",
+     "amplitude": 0.01,
+     "phase": 244.1,
+     "speed": 16.139101
+    },
+    {
+     "name": "LAM2",
+     "amplitude": 0.005,
+     "phase": 227.6,
+     "speed": 29.455626
+    },
+    {
+     "name": "M1",
+     "amplitude": 0.017,
+     "phase": 222.9,
+     "speed": 14.496694
+    },
+    {
+     "name": "J1",
+     "amplitude": 0.018,
+     "phase": 236.9,
+     "speed": 15.5854435
+    },
+    {
+     "name": "SSA",
+     "amplitude": 0.037,
+     "phase": 288.3,
+     "speed": 0.0821373
+    },
+    {
+     "name": "SA",
+     "amplitude": 0.032,
+     "phase": 227.8,
+     "speed": 0.0410686
+    },
+    {
+     "name": "MF",
+     "amplitude": 0.013,
+     "phase": 147.5,
+     "speed": 1.0980331
+    },
+    {
+     "name": "RHO",
+     "amplitude": 0.009,
+     "phase": 209.6,
+     "speed": 13.471515
+    },
+    {
+     "name": "Q1",
+     "amplitude": 0.045,
+     "phase": 208.7,
+     "speed": 13.398661
+    },
+    {
+     "name": "T2",
+     "amplitude": 0.01,
+     "phase": 234,
+     "speed": 29.958933
+    },
+    {
+     "name": "R2",
+     "amplitude": 0.001,
+     "phase": 235.2,
+     "speed": 30.041067
+    },
+    {
+     "name": "2Q1",
+     "amplitude": 0.006,
+     "phase": 201.6,
+     "speed": 12.854286
+    },
+    {
+     "name": "P1",
+     "amplitude": 0.126,
+     "phase": 228.8,
+     "speed": 14.958931
+    },
+    {
+     "name": "L2",
+     "amplitude": 0.019,
+     "phase": 246.5,
+     "speed": 29.528479
+    },
+    {
+     "name": "K2",
+     "amplitude": 0.045,
+     "phase": 235.7,
+     "speed": 30.082138
+    },
+    {
+     "name": "M8",
+     "amplitude": 0.001,
+     "phase": 224.8,
+     "speed": 115.93642
+    }
+   ]
+  },
+  {
+   "id": "9414358",
+   "name": "HUNTERS POINT, S.F. BAY",
+   "label": "Hunters Point",
+   "lat": 37.73,
+   "lng": -122.357,
+   "inTerrain": true,
+   "z0": 1.085,
+   "mslNavd88": null,
+   "datums": {
+    "MHHW": 2.85,
+    "MHW": 2.661,
+    "MSL": 1.863,
+    "MLW": 1.126,
+    "MLLW": 0.778
+   },
+   "epoch": "1983-2001",
+   "constituents": [
+    {
+     "name": "M2",
+     "amplitude": 0.706,
+     "phase": 223.6,
+     "speed": 28.984104
+    },
+    {
+     "name": "S2",
+     "amplitude": 0.163,
+     "phase": 236.5,
+     "speed": 30
+    },
+    {
+     "name": "N2",
+     "amplitude": 0.147,
+     "phase": 199.5,
+     "speed": 28.43973
+    },
+    {
+     "name": "K1",
+     "amplitude": 0.394,
+     "phase": 232.1,
+     "speed": 15.041069
+    },
+    {
+     "name": "M4",
+     "amplitude": 0.019,
+     "phase": 141,
+     "speed": 57.96821
+    },
+    {
+     "name": "O1",
+     "amplitude": 0.234,
+     "phase": 214.8,
+     "speed": 13.943035
+    },
+    {
+     "name": "M6",
+     "amplitude": 0.007,
+     "phase": 59.7,
+     "speed": 86.95232
+    },
+    {
+     "name": "MK3",
+     "amplitude": 0.023,
+     "phase": 113.3,
+     "speed": 44.025173
+    },
+    {
+     "name": "MN4",
+     "amplitude": 0.006,
+     "phase": 112.9,
+     "speed": 57.423832
+    },
+    {
+     "name": "NU2",
+     "amplitude": 0.032,
+     "phase": 198.4,
+     "speed": 28.512583
+    },
+    {
+     "name": "MU2",
+     "amplitude": 0.006,
+     "phase": 41.3,
+     "speed": 27.968208
+    },
+    {
+     "name": "2N2",
+     "amplitude": 0.014,
+     "phase": 172.9,
+     "speed": 27.895355
+    },
+    {
+     "name": "OO1",
+     "amplitude": 0.013,
+     "phase": 275,
+     "speed": 16.139101
+    },
+    {
+     "name": "LAM2",
+     "amplitude": 0.013,
+     "phase": 217.5,
+     "speed": 29.455626
+    },
+    {
+     "name": "S1",
+     "amplitude": 0.012,
+     "phase": 271.5,
+     "speed": 15
+    },
+    {
+     "name": "M1",
+     "amplitude": 0.015,
+     "phase": 254,
+     "speed": 14.496694
+    },
+    {
+     "name": "J1",
+     "amplitude": 0.02,
+     "phase": 265.5,
+     "speed": 15.5854435
+    },
+    {
+     "name": "SSA",
+     "amplitude": 0.039,
+     "phase": 286.9,
+     "speed": 0.0821373
+    },
+    {
+     "name": "SA",
+     "amplitude": 0.038,
+     "phase": 221.4,
+     "speed": 0.0410686
+    },
+    {
+     "name": "RHO",
+     "amplitude": 0.013,
+     "phase": 177.1,
+     "speed": 13.471515
+    },
+    {
+     "name": "Q1",
+     "amplitude": 0.044,
+     "phase": 215.7,
+     "speed": 13.398661
+    },
+    {
+     "name": "T2",
+     "amplitude": 0.01,
+     "phase": 181.5,
+     "speed": 29.958933
+    },
+    {
+     "name": "R2",
+     "amplitude": 0.006,
+     "phase": 250.8,
+     "speed": 30.041067
+    },
+    {
+     "name": "2Q1",
+     "amplitude": 0.006,
+     "phase": 242.2,
+     "speed": 12.854286
+    },
+    {
+     "name": "P1",
+     "amplitude": 0.124,
+     "phase": 231.1,
+     "speed": 14.958931
+    },
+    {
+     "name": "2SM2",
+     "amplitude": 0.005,
+     "phase": 69.1,
+     "speed": 31.015896
+    },
+    {
+     "name": "M3",
+     "amplitude": 0.008,
+     "phase": 43.3,
+     "speed": 43.47616
+    },
+    {
+     "name": "L2",
+     "amplitude": 0.031,
+     "phase": 224.9,
+     "speed": 29.528479
+    },
+    {
+     "name": "2MK3",
+     "amplitude": 0.024,
+     "phase": 81.5,
+     "speed": 42.92714
+    },
+    {
+     "name": "K2",
+     "amplitude": 0.045,
+     "phase": 216.2,
+     "speed": 30.082138
+    },
+    {
+     "name": "MS4",
+     "amplitude": 0.007,
+     "phase": 173.6,
+     "speed": 58.984104
+    }
+   ]
+  },
+  {
+   "id": "9414688",
+   "name": "San Leandro Marina",
+   "label": "San Leandro Marina",
+   "lat": 37.695,
+   "lng": -122.192,
+   "inTerrain": true,
+   "z0": 1.194,
+   "mslNavd88": 1.007,
+   "datums": {
+    "MHHW": 3.704,
+    "MHW": 3.509,
+    "MSL": 2.634,
+    "MLW": 1.795,
+    "MLLW": 1.44,
+    "NAVD88": 1.627
+   },
+   "epoch": "1983-2001",
+   "constituents": [
+    {
+     "name": "M2",
+     "amplitude": 0.77,
+     "phase": 239.6,
+     "speed": 28.984104
+    },
+    {
+     "name": "S2",
+     "amplitude": 0.161,
+     "phase": 254.9,
+     "speed": 30
+    },
+    {
+     "name": "N2",
+     "amplitude": 0.16,
+     "phase": 217.5,
+     "speed": 28.43973
+    },
+    {
+     "name": "K1",
+     "amplitude": 0.399,
+     "phase": 242.1,
+     "speed": 15.041069
+    },
+    {
+     "name": "M4",
+     "amplitude": 0.004,
+     "phase": 81.2,
+     "speed": 57.96821
+    },
+    {
+     "name": "O1",
+     "amplitude": 0.235,
+     "phase": 226.5,
+     "speed": 13.943035
+    },
+    {
+     "name": "M6",
+     "amplitude": 0.004,
+     "phase": 71.1,
+     "speed": 86.95232
+    },
+    {
+     "name": "MK3",
+     "amplitude": 0.026,
+     "phase": 95.4,
+     "speed": 44.025173
+    },
+    {
+     "name": "S4",
+     "amplitude": 0.001,
+     "phase": 75.2,
+     "speed": 60
+    },
+    {
+     "name": "MN4",
+     "amplitude": 0.003,
+     "phase": 39.9,
+     "speed": 57.423832
+    },
+    {
+     "name": "NU2",
+     "amplitude": 0.044,
+     "phase": 223.7,
+     "speed": 28.512583
+    },
+    {
+     "name": "MU2",
+     "amplitude": 0.009,
+     "phase": 357.5,
+     "speed": 27.968208
+    },
+    {
+     "name": "2N2",
+     "amplitude": 0.025,
+     "phase": 175,
+     "speed": 27.895355
+    },
+    {
+     "name": "OO1",
+     "amplitude": 0.015,
+     "phase": 271.4,
+     "speed": 16.139101
+    },
+    {
+     "name": "LAM2",
+     "amplitude": 0.024,
+     "phase": 252.5,
+     "speed": 29.455626
+    },
+    {
+     "name": "S1",
+     "amplitude": 0.015,
+     "phase": 325.5,
+     "speed": 15
+    },
+    {
+     "name": "M1",
+     "amplitude": 0.019,
+     "phase": 269.7,
+     "speed": 14.496694
+    },
+    {
+     "name": "J1",
+     "amplitude": 0.021,
+     "phase": 274.2,
+     "speed": 15.5854435
+    },
+    {
+     "name": "SSA",
+     "amplitude": 0.037,
+     "phase": 288.3,
+     "speed": 0.0821373
+    },
+    {
+     "name": "SA",
+     "amplitude": 0.032,
+     "phase": 227.8,
+     "speed": 0.0410686
+    },
+    {
+     "name": "MF",
+     "amplitude": 0.013,
+     "phase": 147.5,
+     "speed": 1.0980331
+    },
+    {
+     "name": "RHO",
+     "amplitude": 0.008,
+     "phase": 236.1,
+     "speed": 13.471515
+    },
+    {
+     "name": "Q1",
+     "amplitude": 0.043,
+     "phase": 223.3,
+     "speed": 13.398661
+    },
+    {
+     "name": "T2",
+     "amplitude": 0.025,
+     "phase": 250.7,
+     "speed": 29.958933
+    },
+    {
+     "name": "R2",
+     "amplitude": 0.011,
+     "phase": 12.2,
+     "speed": 30.041067
+    },
+    {
+     "name": "2Q1",
+     "amplitude": 0.005,
+     "phase": 175.1,
+     "speed": 12.854286
+    },
+    {
+     "name": "P1",
+     "amplitude": 0.112,
+     "phase": 240.1,
+     "speed": 14.958931
+    },
+    {
+     "name": "2SM2",
+     "amplitude": 0.008,
+     "phase": 61.2,
+     "speed": 31.015896
+    },
+    {
+     "name": "M3",
+     "amplitude": 0.004,
+     "phase": 112.1,
+     "speed": 43.47616
+    },
+    {
+     "name": "L2",
+     "amplitude": 0.038,
+     "phase": 229.7,
+     "speed": 29.528479
+    },
+    {
+     "name": "2MK3",
+     "amplitude": 0.032,
+     "phase": 66.5,
+     "speed": 42.92714
+    },
+    {
+     "name": "K2",
+     "amplitude": 0.059,
+     "phase": 233.4,
+     "speed": 30.082138
+    },
+    {
+     "name": "MS4",
+     "amplitude": 0.004,
+     "phase": 50.8,
+     "speed": 58.984104
+    }
+   ]
+  },
+  {
+   "id": "9414392",
+   "name": "OYSTER POINT MARINA, SAN FRANCISCO BAY",
+   "label": "Oyster Point Marina",
+   "lat": 37.665,
+   "lng": -122.377,
+   "inTerrain": true,
+   "z0": 1.15,
+   "mslNavd88": null,
+   "datums": {
+    "MHHW": 2.749,
+    "MHW": 2.555,
+    "MSL": 1.711,
+    "MLW": 0.909,
+    "MLLW": 0.561
+   },
+   "epoch": "1983-2001",
+   "constituents": [
+    {
+     "name": "M2",
+     "amplitude": 0.753,
+     "phase": 235.5,
+     "speed": 28.984104
+    },
+    {
+     "name": "S2",
+     "amplitude": 0.166,
+     "phase": 246.6,
+     "speed": 30
+    },
+    {
+     "name": "N2",
+     "amplitude": 0.156,
+     "phase": 213.4,
+     "speed": 28.43973
+    },
+    {
+     "name": "K1",
+     "amplitude": 0.4,
+     "phase": 238.3,
+     "speed": 15.041069
+    },
+    {
+     "name": "M4",
+     "amplitude": 0.01,
+     "phase": 179,
+     "speed": 57.96821
+    },
+    {
+     "name": "O1",
+     "amplitude": 0.24,
+     "phase": 221.7,
+     "speed": 13.943035
+    },
+    {
+     "name": "M6",
+     "amplitude": 0.006,
+     "phase": 79.3,
+     "speed": 86.95232
+    },
+    {
+     "name": "MK3",
+     "amplitude": 0.021,
+     "phase": 115.2,
+     "speed": 44.025173
+    },
+    {
+     "name": "MN4",
+     "amplitude": 0.003,
+     "phase": 149.3,
+     "speed": 57.423832
+    },
+    {
+     "name": "NU2",
+     "amplitude": 0.034,
+     "phase": 193.3,
+     "speed": 28.512583
+    },
+    {
+     "name": "MU2",
+     "amplitude": 0.009,
+     "phase": 45.1,
+     "speed": 27.968208
+    },
+    {
+     "name": "2N2",
+     "amplitude": 0.015,
+     "phase": 194.1,
+     "speed": 27.895355
+    },
+    {
+     "name": "OO1",
+     "amplitude": 0.012,
+     "phase": 290.6,
+     "speed": 16.139101
+    },
+    {
+     "name": "LAM2",
+     "amplitude": 0.004,
+     "phase": 187.4,
+     "speed": 29.455626
+    },
+    {
+     "name": "S1",
+     "amplitude": 0.018,
+     "phase": 280.6,
+     "speed": 15
+    },
+    {
+     "name": "M1",
+     "amplitude": 0.015,
+     "phase": 267,
+     "speed": 14.496694
+    },
+    {
+     "name": "J1",
+     "amplitude": 0.018,
+     "phase": 271.9,
+     "speed": 15.5854435
+    },
+    {
+     "name": "SSA",
+     "amplitude": 0.039,
+     "phase": 286.9,
+     "speed": 0.0821373
+    },
+    {
+     "name": "SA",
+     "amplitude": 0.038,
+     "phase": 221.4,
+     "speed": 0.0410686
+    },
+    {
+     "name": "RHO",
+     "amplitude": 0.011,
+     "phase": 195,
+     "speed": 13.471515
+    },
+    {
+     "name": "Q1",
+     "amplitude": 0.043,
+     "phase": 219.9,
+     "speed": 13.398661
+    },
+    {
+     "name": "T2",
+     "amplitude": 0.012,
+     "phase": 196.7,
+     "speed": 29.958933
+    },
+    {
+     "name": "R2",
+     "amplitude": 0.012,
+     "phase": 23.9,
+     "speed": 30.041067
+    },
+    {
+     "name": "2Q1",
+     "amplitude": 0.006,
+     "phase": 229,
+     "speed": 12.854286
+    },
+    {
+     "name": "P1",
+     "amplitude": 0.123,
+     "phase": 237.5,
+     "speed": 14.958931
+    },
+    {
+     "name": "2SM2",
+     "amplitude": 0.007,
+     "phase": 31.3,
+     "speed": 31.015896
+    },
+    {
+     "name": "M3",
+     "amplitude": 0.008,
+     "phase": 42.7,
+     "speed": 43.47616
+    },
+    {
+     "name": "L2",
+     "amplitude": 0.04,
+     "phase": 233.9,
+     "speed": 29.528479
+    },
+    {
+     "name": "2MK3",
+     "amplitude": 0.026,
+     "phase": 86.5,
+     "speed": 42.92714
+    },
+    {
+     "name": "K2",
+     "amplitude": 0.052,
+     "phase": 228.6,
+     "speed": 30.082138
+    }
+   ]
+  },
+  {
+   "id": "9414458",
+   "name": "San Mateo Bridge",
+   "label": "San Mateo Bridge",
+   "lat": 37.58,
+   "lng": -122.253,
+   "inTerrain": true,
+   "z0": 1.253,
+   "mslNavd88": null,
+   "datums": {
+    "MHHW": 6.838,
+    "MHW": 6.644,
+    "MSL": 5.737,
+    "MLW": 4.846,
+    "MLLW": 4.484
+   },
+   "epoch": "1983-2001",
+   "constituents": [
+    {
+     "name": "M2",
+     "amplitude": 0.826,
+     "phase": 238,
+     "speed": 28.984104
+    },
+    {
+     "name": "S2",
+     "amplitude": 0.182,
+     "phase": 253.3,
+     "speed": 30
+    },
+    {
+     "name": "N2",
+     "amplitude": 0.166,
+     "phase": 216,
+     "speed": 28.43973
+    },
+    {
+     "name": "K1",
+     "amplitude": 0.401,
+     "phase": 239.5,
+     "speed": 15.041069
+    },
+    {
+     "name": "M4",
+     "amplitude": 0.012,
+     "phase": 340.4,
+     "speed": 57.96821
+    },
+    {
+     "name": "O1",
+     "amplitude": 0.241,
+     "phase": 223.9,
+     "speed": 13.943035
+    },
+    {
+     "name": "M6",
+     "amplitude": 0.009,
+     "phase": 48.2,
+     "speed": 86.95232
+    },
+    {
+     "name": "MK3",
+     "amplitude": 0.021,
+     "phase": 83,
+     "speed": 44.025173
+    },
+    {
+     "name": "MN4",
+     "amplitude": 0.006,
+     "phase": 318.3,
+     "speed": 57.423832
+    },
+    {
+     "name": "NU2",
+     "amplitude": 0.039,
+     "phase": 216.5,
+     "speed": 28.512583
+    },
+    {
+     "name": "MU2",
+     "amplitude": 0.017,
+     "phase": 9,
+     "speed": 27.968208
+    },
+    {
+     "name": "2N2",
+     "amplitude": 0.017,
+     "phase": 199.1,
+     "speed": 27.895355
+    },
+    {
+     "name": "OO1",
+     "amplitude": 0.015,
+     "phase": 281.7,
+     "speed": 16.139101
+    },
+    {
+     "name": "LAM2",
+     "amplitude": 0.017,
+     "phase": 218.6,
+     "speed": 29.455626
+    },
+    {
+     "name": "S1",
+     "amplitude": 0.011,
+     "phase": 229,
+     "speed": 15
+    },
+    {
+     "name": "M1",
+     "amplitude": 0.014,
+     "phase": 274.4,
+     "speed": 14.496694
+    },
+    {
+     "name": "J1",
+     "amplitude": 0.02,
+     "phase": 275.4,
+     "speed": 15.5854435
+    },
+    {
+     "name": "SSA",
+     "amplitude": 0.039,
+     "phase": 286.9,
+     "speed": 0.0821373
+    },
+    {
+     "name": "SA",
+     "amplitude": 0.038,
+     "phase": 221.4,
+     "speed": 0.0410686
+    },
+    {
+     "name": "MF",
+     "amplitude": 0.013,
+     "phase": 139.6,
+     "speed": 1.0980331
+    },
+    {
+     "name": "RHO",
+     "amplitude": 0.009,
+     "phase": 217.3,
+     "speed": 13.471515
+    },
+    {
+     "name": "Q1",
+     "amplitude": 0.043,
+     "phase": 221.4,
+     "speed": 13.398661
+    },
+    {
+     "name": "T2",
+     "amplitude": 0.01,
+     "phase": 225.9,
+     "speed": 29.958933
+    },
+    {
+     "name": "R2",
+     "amplitude": 0.004,
+     "phase": 47.5,
+     "speed": 30.041067
+    },
+    {
+     "name": "2Q1",
+     "amplitude": 0.005,
+     "phase": 236.1,
+     "speed": 12.854286
+    },
+    {
+     "name": "P1",
+     "amplitude": 0.126,
+     "phase": 238.8,
+     "speed": 14.958931
+    },
+    {
+     "name": "2SM2",
+     "amplitude": 0.008,
+     "phase": 56.2,
+     "speed": 31.015896
+    },
+    {
+     "name": "L2",
+     "amplitude": 0.038,
+     "phase": 233.2,
+     "speed": 29.528479
+    },
+    {
+     "name": "2MK3",
+     "amplitude": 0.035,
+     "phase": 65.7,
+     "speed": 42.92714
+    },
+    {
+     "name": "K2",
+     "amplitude": 0.062,
+     "phase": 238.9,
+     "speed": 30.082138
+    },
+    {
+     "name": "MS4",
+     "amplitude": 0.008,
+     "phase": 3,
+     "speed": 58.984104
+    }
+   ]
+  },
+  {
+   "id": "9414501",
+   "name": "REDWOOD CREEK,C.M. NO. 8,S.F.BAY",
+   "label": "REDWOOD CREEK,Channel Marker 8",
+   "lat": 37.5333,
+   "lng": -122.193,
+   "inTerrain": true,
+   "z0": null,
+   "mslNavd88": null,
+   "datums": {},
+   "epoch": null,
+   "constituents": [
+    {
+     "name": "M2",
+     "amplitude": 0.871,
+     "phase": 241.7,
+     "speed": 28.984104
+    },
+    {
+     "name": "S2",
+     "amplitude": 0.191,
+     "phase": 259.8,
+     "speed": 30
+    },
+    {
+     "name": "N2",
+     "amplitude": 0.179,
+     "phase": 219.8,
+     "speed": 28.43973
+    },
+    {
+     "name": "K1",
+     "amplitude": 0.415,
+     "phase": 240.9,
+     "speed": 15.041069
+    },
+    {
+     "name": "M4",
+     "amplitude": 0.011,
+     "phase": 2.1,
+     "speed": 57.96821
+    },
+    {
+     "name": "O1",
+     "amplitude": 0.248,
+     "phase": 225.1,
+     "speed": 13.943035
+    },
+    {
+     "name": "M6",
+     "amplitude": 0.011,
+     "phase": 55.3,
+     "speed": 86.95232
+    },
+    {
+     "name": "MK3",
+     "amplitude": 0.029,
+     "phase": 93,
+     "speed": 44.025173
+    },
+    {
+     "name": "MN4",
+     "amplitude": 0.005,
+     "phase": 13,
+     "speed": 57.423832
+    },
+    {
+     "name": "NU2",
+     "amplitude": 0.038,
+     "phase": 227.5,
+     "speed": 28.512583
+    },
+    {
+     "name": "MU2",
+     "amplitude": 0.021,
+     "phase": 11,
+     "speed": 27.968208
+    },
+    {
+     "name": "2N2",
+     "amplitude": 0.013,
+     "phase": 208.2,
+     "speed": 27.895355
+    },
+    {
+     "name": "OO1",
+     "amplitude": 0.013,
+     "phase": 279.2,
+     "speed": 16.139101
+    },
+    {
+     "name": "LAM2",
+     "amplitude": 0.019,
+     "phase": 216,
+     "speed": 29.455626
+    },
+    {
+     "name": "S1",
+     "amplitude": 0.014,
+     "phase": 222.6,
+     "speed": 15
+    },
+    {
+     "name": "M1",
+     "amplitude": 0.015,
+     "phase": 268.3,
+     "speed": 14.496694
+    },
+    {
+     "name": "J1",
+     "amplitude": 0.018,
+     "phase": 282.5,
+     "speed": 15.5854435
+    },
+    {
+     "name": "SSA",
+     "amplitude": 0.039,
+     "phase": 286.9,
+     "speed": 0.0821373
+    },
+    {
+     "name": "SA",
+     "amplitude": 0.038,
+     "phase": 221.4,
+     "speed": 0.0410686
+    },
+    {
+     "name": "RHO",
+     "amplitude": 0.01,
+     "phase": 195.3,
+     "speed": 13.471515
+    },
+    {
+     "name": "Q1",
+     "amplitude": 0.046,
+     "phase": 225.9,
+     "speed": 13.398661
+    },
+    {
+     "name": "T2",
+     "amplitude": 0.012,
+     "phase": 234,
+     "speed": 29.958933
+    },
+    {
+     "name": "R2",
+     "amplitude": 0.002,
+     "phase": 260.6,
+     "speed": 30.041067
+    },
+    {
+     "name": "2Q1",
+     "amplitude": 0.005,
+     "phase": 214.8,
+     "speed": 12.854286
+    },
+    {
+     "name": "P1",
+     "amplitude": 0.128,
+     "phase": 237.4,
+     "speed": 14.958931
+    },
+    {
+     "name": "2SM2",
+     "amplitude": 0.009,
+     "phase": 47.4,
+     "speed": 31.015896
+    },
+    {
+     "name": "M3",
+     "amplitude": 0.009,
+     "phase": 3.8,
+     "speed": 43.47616
+    },
+    {
+     "name": "L2",
+     "amplitude": 0.054,
+     "phase": 229.5,
+     "speed": 29.528479
+    },
+    {
+     "name": "2MK3",
+     "amplitude": 0.039,
+     "phase": 77.5,
+     "speed": 42.92714
+    },
+    {
+     "name": "K2",
+     "amplitude": 0.06,
+     "phase": 238.1,
+     "speed": 30.082138
+    },
+    {
+     "name": "M8",
+     "amplitude": 0.004,
+     "phase": 119.2,
+     "speed": 115.93642
+    },
+    {
+     "name": "MS4",
+     "amplitude": 0.009,
+     "phase": 7.1,
+     "speed": 58.984104
+    }
+   ]
+  },
+  {
+   "id": "9414523",
+   "name": "Redwood City",
+   "label": "Redwood City",
+   "lat": 37.506813,
+   "lng": -122.21191,
+   "inTerrain": true,
+   "z0": 1.342,
+   "mslNavd88": 0.982,
+   "datums": {
+    "MHHW": 4.554,
+    "MHW": 4.361,
+    "MSL": 3.396,
+    "MLW": 2.419,
+    "MLLW": 2.054,
+    "NAVD88": 2.414
+   },
+   "epoch": "1983-2001",
+   "constituents": [
+    {
+     "name": "M2",
+     "amplitude": 0.885,
+     "phase": 237.2,
+     "speed": 28.984104
+    },
+    {
+     "name": "S2",
+     "amplitude": 0.201,
+     "phase": 254.8,
+     "speed": 30
+    },
+    {
+     "name": "N2",
+     "amplitude": 0.179,
+     "phase": 216.8,
+     "speed": 28.43973
+    },
+    {
+     "name": "K1",
+     "amplitude": 0.404,
+     "phase": 240,
+     "speed": 15.041069
+    },
+    {
+     "name": "M4",
+     "amplitude": 0.02,
+     "phase": 316.8,
+     "speed": 57.96821
+    },
+    {
+     "name": "O1",
+     "amplitude": 0.238,
+     "phase": 224.5,
+     "speed": 13.943035
+    },
+    {
+     "name": "M6",
+     "amplitude": 0.01,
+     "phase": 43.9,
+     "speed": 86.95232
+    },
+    {
+     "name": "MK3",
+     "amplitude": 0.019,
+     "phase": 73.1,
+     "speed": 44.025173
+    },
+    {
+     "name": "S4",
+     "amplitude": 0.001,
+     "phase": 84.6,
+     "speed": 60
+    },
+    {
+     "name": "MN4",
+     "amplitude": 0.009,
+     "phase": 300.2,
+     "speed": 57.423832
+    },
+    {
+     "name": "NU2",
+     "amplitude": 0.041,
+     "phase": 216.4,
+     "speed": 28.512583
+    },
+    {
+     "name": "S6",
+     "amplitude": 0.001,
+     "phase": 344,
+     "speed": 90
+    },
+    {
+     "name": "MU2",
+     "amplitude": 0.021,
+     "phase": 353.2,
+     "speed": 27.968208
+    },
+    {
+     "name": "2N2",
+     "amplitude": 0.018,
+     "phase": 199.9,
+     "speed": 27.895355
+    },
+    {
+     "name": "OO1",
+     "amplitude": 0.013,
+     "phase": 288.1,
+     "speed": 16.139101
+    },
+    {
+     "name": "LAM2",
+     "amplitude": 0.018,
+     "phase": 215.3,
+     "speed": 29.455626
+    },
+    {
+     "name": "S1",
+     "amplitude": 0.016,
+     "phase": 223.8,
+     "speed": 15
+    },
+    {
+     "name": "M1",
+     "amplitude": 0.016,
+     "phase": 272.8,
+     "speed": 14.496694
+    },
+    {
+     "name": "J1",
+     "amplitude": 0.02,
+     "phase": 276,
+     "speed": 15.5854435
+    },
+    {
+     "name": "SSA",
+     "amplitude": 0.022,
+     "phase": 265.9,
+     "speed": 0.0821373
+    },
+    {
+     "name": "SA",
+     "amplitude": 0.055,
+     "phase": 181.7,
+     "speed": 0.0410686
+    },
+    {
+     "name": "MF",
+     "amplitude": 0.018,
+     "phase": 149.6,
+     "speed": 1.0980331
+    },
+    {
+     "name": "RHO",
+     "amplitude": 0.009,
+     "phase": 222.6,
+     "speed": 13.471515
+    },
+    {
+     "name": "Q1",
+     "amplitude": 0.044,
+     "phase": 222.1,
+     "speed": 13.398661
+    },
+    {
+     "name": "T2",
+     "amplitude": 0.01,
+     "phase": 222.6,
+     "speed": 29.958933
+    },
+    {
+     "name": "R2",
+     "amplitude": 0.007,
+     "phase": 58.6,
+     "speed": 30.041067
+    },
+    {
+     "name": "2Q1",
+     "amplitude": 0.006,
+     "phase": 217.8,
+     "speed": 12.854286
+    },
+    {
+     "name": "P1",
+     "amplitude": 0.126,
+     "phase": 239.3,
+     "speed": 14.958931
+    },
+    {
+     "name": "2SM2",
+     "amplitude": 0.008,
+     "phase": 57.8,
+     "speed": 31.015896
+    },
+    {
+     "name": "M3",
+     "amplitude": 0.005,
+     "phase": 127.9,
+     "speed": 43.47616
+    },
+    {
+     "name": "L2",
+     "amplitude": 0.049,
+     "phase": 233.6,
+     "speed": 29.528479
+    },
+    {
+     "name": "2MK3",
+     "amplitude": 0.036,
+     "phase": 60.2,
+     "speed": 42.92714
+    },
+    {
+     "name": "K2",
+     "amplitude": 0.064,
+     "phase": 239.1,
+     "speed": 30.082138
+    },
+    {
+     "name": "M8",
+     "amplitude": 0.001,
+     "phase": 88.5,
+     "speed": 115.93642
+    },
+    {
+     "name": "MS4",
+     "amplitude": 0.011,
+     "phase": 343.4,
+     "speed": 58.984104
+    }
+   ]
+  },
+  {
+   "id": "9414509",
+   "name": "Dumbarton Bridge",
+   "label": "Dumbarton Bridge",
+   "lat": 37.5067,
+   "lng": -122.115,
+   "inTerrain": true,
+   "z0": 1.427,
+   "mslNavd88": null,
+   "datums": {
+    "MHHW": 6.283,
+    "MHW": 6.095,
+    "MSL": 5.085,
+    "MLW": 4.041,
+    "MLLW": 3.658
+   },
+   "epoch": "1983-2001",
+   "constituents": [
+    {
+     "name": "M2",
+     "amplitude": 0.916,
+     "phase": 240.1,
+     "speed": 28.984104
+    },
+    {
+     "name": "S2",
+     "amplitude": 0.204,
+     "phase": 260.1,
+     "speed": 30
+    },
+    {
+     "name": "N2",
+     "amplitude": 0.184,
+     "phase": 218,
+     "speed": 28.43973
+    },
+    {
+     "name": "K1",
+     "amplitude": 0.412,
+     "phase": 240.8,
+     "speed": 15.041069
+    },
+    {
+     "name": "M4",
+     "amplitude": 0.014,
+     "phase": 316.2,
+     "speed": 57.96821
+    },
+    {
+     "name": "O1",
+     "amplitude": 0.24,
+     "phase": 225.2,
+     "speed": 13.943035
+    },
+    {
+     "name": "M6",
+     "amplitude": 0.012,
+     "phase": 17.7,
+     "speed": 86.95232
+    },
+    {
+     "name": "MK3",
+     "amplitude": 0.026,
+     "phase": 96.2,
+     "speed": 44.025173
+    },
+    {
+     "name": "S4",
+     "amplitude": 0.002,
+     "phase": 92.5,
+     "speed": 60
+    },
+    {
+     "name": "MN4",
+     "amplitude": 0.007,
+     "phase": 288.2,
+     "speed": 57.423832
+    },
+    {
+     "name": "NU2",
+     "amplitude": 0.038,
+     "phase": 213,
+     "speed": 28.512583
+    },
+    {
+     "name": "S6",
+     "amplitude": 0.001,
+     "phase": 342.2,
+     "speed": 90
+    },
+    {
+     "name": "MU2",
+     "amplitude": 0.019,
+     "phase": 358.1,
+     "speed": 27.968208
+    },
+    {
+     "name": "2N2",
+     "amplitude": 0.022,
+     "phase": 216.1,
+     "speed": 27.895355
+    },
+    {
+     "name": "OO1",
+     "amplitude": 0.013,
+     "phase": 278.6,
+     "speed": 16.139101
+    },
+    {
+     "name": "LAM2",
+     "amplitude": 0.022,
+     "phase": 207.3,
+     "speed": 29.455626
+    },
+    {
+     "name": "S1",
+     "amplitude": 0.024,
+     "phase": 226.3,
+     "speed": 15
+    },
+    {
+     "name": "M1",
+     "amplitude": 0.01,
+     "phase": 264.5,
+     "speed": 14.496694
+    },
+    {
+     "name": "J1",
+     "amplitude": 0.021,
+     "phase": 275.5,
+     "speed": 15.5854435
+    },
+    {
+     "name": "SSA",
+     "amplitude": 0.03,
+     "phase": 272.3,
+     "speed": 0.0821373
+    },
+    {
+     "name": "SA",
+     "amplitude": 0.044,
+     "phase": 200.2,
+     "speed": 0.0410686
+    },
+    {
+     "name": "MF",
+     "amplitude": 0.015,
+     "phase": 152.1,
+     "speed": 1.0980331
+    },
+    {
+     "name": "RHO",
+     "amplitude": 0.01,
+     "phase": 213.7,
+     "speed": 13.471515
+    },
+    {
+     "name": "Q1",
+     "amplitude": 0.042,
+     "phase": 220.5,
+     "speed": 13.398661
+    },
+    {
+     "name": "T2",
+     "amplitude": 0.015,
+     "phase": 192.1,
+     "speed": 29.958933
+    },
+    {
+     "name": "R2",
+     "amplitude": 0.011,
+     "phase": 56.6,
+     "speed": 30.041067
+    },
+    {
+     "name": "2Q1",
+     "amplitude": 0.007,
+     "phase": 233.8,
+     "speed": 12.854286
+    },
+    {
+     "name": "P1",
+     "amplitude": 0.128,
+     "phase": 238.8,
+     "speed": 14.958931
+    },
+    {
+     "name": "2SM2",
+     "amplitude": 0.007,
+     "phase": 67.1,
+     "speed": 31.015896
+    },
+    {
+     "name": "M3",
+     "amplitude": 0.012,
+     "phase": 156.1,
+     "speed": 43.47616
+    },
+    {
+     "name": "L2",
+     "amplitude": 0.05,
+     "phase": 244.8,
+     "speed": 29.528479
+    },
+    {
+     "name": "2MK3",
+     "amplitude": 0.036,
+     "phase": 73.3,
+     "speed": 42.92714
+    },
+    {
+     "name": "K2",
+     "amplitude": 0.058,
+     "phase": 239.6,
+     "speed": 30.082138
+    },
+    {
+     "name": "M8",
+     "amplitude": 0.003,
+     "phase": 48.8,
+     "speed": 115.93642
+    },
+    {
+     "name": "MS4",
+     "amplitude": 0.01,
+     "phase": 346.1,
+     "speed": 58.984104
+    }
+   ]
+  },
+  {
+   "id": "9414131",
+   "name": "Pillar Point Harbor",
+   "label": "Pillar Point Harbor",
+   "lat": 37.5025,
+   "lng": -122.48217,
+   "inTerrain": true,
+   "z0": 0.911,
+   "mslNavd88": 0.924,
+   "datums": {
+    "MHHW": 1.72,
+    "MHW": 1.522,
+    "MSL": 0.924,
+    "MLW": 0.351,
+    "MLLW": 0.013,
+    "NAVD88": 0
+   },
+   "epoch": "1983-2001",
+   "constituents": [
+    {
+     "name": "M2",
+     "amplitude": 0.543,
+     "phase": 184.1,
+     "speed": 28.984104
+    },
+    {
+     "name": "S2",
+     "amplitude": 0.144,
+     "phase": 189.6,
+     "speed": 30
+    },
+    {
+     "name": "N2",
+     "amplitude": 0.119,
+     "phase": 158.4,
+     "speed": 28.43973
+    },
+    {
+     "name": "K1",
+     "amplitude": 0.351,
+     "phase": 217.3,
+     "speed": 15.041069
+    },
+    {
+     "name": "M4",
+     "amplitude": 0.002,
+     "phase": 283,
+     "speed": 57.96821
+    },
+    {
+     "name": "O1",
+     "amplitude": 0.225,
+     "phase": 203.3,
+     "speed": 13.943035
+    },
+    {
+     "name": "M6",
+     "amplitude": 0.001,
+     "phase": 351.3,
+     "speed": 86.95232
+    },
+    {
+     "name": "S4",
+     "amplitude": 0.001,
+     "phase": 253.9,
+     "speed": 60
+    },
+    {
+     "name": "NU2",
+     "amplitude": 0.023,
+     "phase": 161.9,
+     "speed": 28.512583
+    },
+    {
+     "name": "S6",
+     "amplitude": 0.002,
+     "phase": 107.8,
+     "speed": 90
+    },
+    {
+     "name": "MU2",
+     "amplitude": 0.013,
+     "phase": 178.7,
+     "speed": 27.968208
+    },
+    {
+     "name": "2N2",
+     "amplitude": 0.016,
+     "phase": 132.6,
+     "speed": 27.895355
+    },
+    {
+     "name": "OO1",
+     "amplitude": 0.01,
+     "phase": 231.4,
+     "speed": 16.139101
+    },
+    {
+     "name": "LAM2",
+     "amplitude": 0.004,
+     "phase": 186.7,
+     "speed": 29.455626
+    },
+    {
+     "name": "M1",
+     "amplitude": 0.016,
+     "phase": 210.4,
+     "speed": 14.496694
+    },
+    {
+     "name": "J1",
+     "amplitude": 0.018,
+     "phase": 224.3,
+     "speed": 15.5854435
+    },
+    {
+     "name": "SSA",
+     "amplitude": 0.039,
+     "phase": 286.9,
+     "speed": 0.0821373
+    },
+    {
+     "name": "SA",
+     "amplitude": 0.038,
+     "phase": 221.4,
+     "speed": 0.0410686
+    },
+    {
+     "name": "RHO",
+     "amplitude": 0.009,
+     "phase": 197.2,
+     "speed": 13.471515
+    },
+    {
+     "name": "Q1",
+     "amplitude": 0.044,
+     "phase": 196.3,
+     "speed": 13.398661
+    },
+    {
+     "name": "T2",
+     "amplitude": 0.009,
+     "phase": 189.3,
+     "speed": 29.958933
+    },
+    {
+     "name": "R2",
+     "amplitude": 0.001,
+     "phase": 189.8,
+     "speed": 30.041067
+    },
+    {
+     "name": "2Q1",
+     "amplitude": 0.006,
+     "phase": 189.3,
+     "speed": 12.854286
+    },
+    {
+     "name": "P1",
+     "amplitude": 0.116,
+     "phase": 216.3,
+     "speed": 14.958931
+    },
+    {
+     "name": "L2",
+     "amplitude": 0.015,
+     "phase": 209.8,
+     "speed": 29.528479
+    },
+    {
+     "name": "K2",
+     "amplitude": 0.039,
+     "phase": 190,
+     "speed": 30.082138
+    },
+    {
+     "name": "M8",
+     "amplitude": 0.001,
+     "phase": 323.7,
+     "speed": 115.93642
+    }
+   ]
+  },
+  {
+   "id": "9414575",
+   "name": "Coyote Creek",
+   "label": "Coyote Creek",
+   "lat": 37.465,
+   "lng": -122.023,
+   "inTerrain": true,
+   "z0": 1.483,
+   "mslNavd88": null,
+   "datums": {
+    "MHHW": 2.616,
+    "MHW": 2.435,
+    "MSL": 1.402,
+    "MLW": 0.278,
+    "MLLW": -0.081
+   },
+   "epoch": "1983-2001",
+   "constituents": [
+    {
+     "name": "M2",
+     "amplitude": 0.953,
+     "phase": 250.1,
+     "speed": 28.984104
+    },
+    {
+     "name": "S2",
+     "amplitude": 0.213,
+     "phase": 273.8,
+     "speed": 30
+    },
+    {
+     "name": "N2",
+     "amplitude": 0.191,
+     "phase": 232.7,
+     "speed": 28.43973
+    },
+    {
+     "name": "K1",
+     "amplitude": 0.397,
+     "phase": 246.9,
+     "speed": 15.041069
+    },
+    {
+     "name": "M4",
+     "amplitude": 0.049,
+     "phase": 1.6,
+     "speed": 57.96821
+    },
+    {
+     "name": "O1",
+     "amplitude": 0.225,
+     "phase": 232.8,
+     "speed": 13.943035
+    },
+    {
+     "name": "M6",
+     "amplitude": 0.021,
+     "phase": 44.1,
+     "speed": 86.95232
+    },
+    {
+     "name": "MK3",
+     "amplitude": 0.029,
+     "phase": 66.8,
+     "speed": 44.025173
+    },
+    {
+     "name": "S4",
+     "amplitude": 0.003,
+     "phase": 96.4,
+     "speed": 60
+    },
+    {
+     "name": "MN4",
+     "amplitude": 0.022,
+     "phase": 342.8,
+     "speed": 57.423832
+    },
+    {
+     "name": "NU2",
+     "amplitude": 0.046,
+     "phase": 227.1,
+     "speed": 28.512583
+    },
+    {
+     "name": "S6",
+     "amplitude": 0.001,
+     "phase": 322.6,
+     "speed": 90
+    },
+    {
+     "name": "MU2",
+     "amplitude": 0.039,
+     "phase": 357.2,
+     "speed": 27.968208
+    },
+    {
+     "name": "2N2",
+     "amplitude": 0.018,
+     "phase": 220.2,
+     "speed": 27.895355
+    },
+    {
+     "name": "OO1",
+     "amplitude": 0.011,
+     "phase": 307.7,
+     "speed": 16.139101
+    },
+    {
+     "name": "LAM2",
+     "amplitude": 0.025,
+     "phase": 224.2,
+     "speed": 29.455626
+    },
+    {
+     "name": "S1",
+     "amplitude": 0.031,
+     "phase": 214.9,
+     "speed": 15
+    },
+    {
+     "name": "M1",
+     "amplitude": 0.018,
+     "phase": 283.5,
+     "speed": 14.496694
+    },
+    {
+     "name": "J1",
+     "amplitude": 0.018,
+     "phase": 300.3,
+     "speed": 15.5854435
+    },
+    {
+     "name": "SSA",
+     "amplitude": 0.03,
+     "phase": 272.3,
+     "speed": 0.0821373
+    },
+    {
+     "name": "SA",
+     "amplitude": 0.044,
+     "phase": 200.2,
+     "speed": 0.0410686
+    },
+    {
+     "name": "RHO",
+     "amplitude": 0.008,
+     "phase": 227,
+     "speed": 13.471515
+    },
+    {
+     "name": "Q1",
+     "amplitude": 0.041,
+     "phase": 235.1,
+     "speed": 13.398661
+    },
+    {
+     "name": "T2",
+     "amplitude": 0.012,
+     "phase": 229,
+     "speed": 29.958933
+    },
+    {
+     "name": "R2",
+     "amplitude": 0.009,
+     "phase": 43.9,
+     "speed": 30.041067
+    },
+    {
+     "name": "2Q1",
+     "amplitude": 0.004,
+     "phase": 246.5,
+     "speed": 12.854286
+    },
+    {
+     "name": "P1",
+     "amplitude": 0.122,
+     "phase": 246.1,
+     "speed": 14.958931
+    },
+    {
+     "name": "2SM2",
+     "amplitude": 0.011,
+     "phase": 68.9,
+     "speed": 31.015896
+    },
+    {
+     "name": "M3",
+     "amplitude": 0.011,
+     "phase": 146.7,
+     "speed": 43.47616
+    },
+    {
+     "name": "L2",
+     "amplitude": 0.066,
+     "phase": 241.2,
+     "speed": 29.528479
+    },
+    {
+     "name": "2MK3",
+     "amplitude": 0.049,
+     "phase": 68,
+     "speed": 42.92714
+    },
+    {
+     "name": "K2",
+     "amplitude": 0.067,
+     "phase": 254.3,
+     "speed": 30.082138
+    },
+    {
+     "name": "M8",
+     "amplitude": 0.006,
+     "phase": 96.2,
+     "speed": 115.93642
+    },
+    {
+     "name": "MS4",
+     "amplitude": 0.028,
+     "phase": 24.3,
+     "speed": 58.984104
+    }
+   ]
+  }
+ ]
+}

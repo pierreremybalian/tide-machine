@@ -1,0 +1,22 @@
+{
+ "region": "New York Harbor",
+ "nx": 512,
+ "ny": 640,
+ "bbox": {
+  "south": 40.62,
+  "north": 40.78,
+  "west": -74.1,
+  "east": -73.93
+ },
+ "cell": [
+  28,
+  27.6
+ ],
+ "units": "m",
+ "encoding": "float16-delta-shuffle-deflate",
+ "verticalDatum": "NAVD88 on land (USGS 3DEP/NED); bathymetry as compiled by the tile sources (NOAA CRM, ≈ mean sea level), see DECISIONS.md",
+ "zoom": 13,
+ "source": "AWS Open Data terrain tiles (Terrarium), https://registry.opendata.aws/terrain-tiles/",
+ "min": -38.1,
+ "max": 113
+}
