@@ -1,0 +1,4 @@
+# Offline data prep only (scripts/eot20_tiles.py). Install into the gitignored venv:
+#   python3 -m venv scripts/.venv && scripts/.venv/bin/pip install -r scripts/requirements.txt
+numpy==2.5.4
+netCDF4==1.7.5.1.post1
