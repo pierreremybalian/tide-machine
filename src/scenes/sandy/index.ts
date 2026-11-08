@@ -70,7 +70,7 @@ export default function sandyScene(): BlockScene {
 
   const labels = new LabelSet([
     ...PLACES.map((p) => ({ id: p.id, text: p.text, tone: 'plain' as const, side: 'center' as const, size: 'md' as const })),
-    { id: 'gauge', text: 'The Battery', tone: 'b', side: 'left', size: 'md' },
+    { id: 'gauge', text: 'The Battery', tone: 'b', side: 'above', size: 'md' },
   ]);
   const placeIdx = PLACES.map((p) => labels.index(p.id));
   const gaugeLabel = labels.index('gauge');
