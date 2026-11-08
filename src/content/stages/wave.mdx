@@ -1,13 +1,43 @@
 ---
 id: wave
-title: "The bulge is a wave"
-kicker: "Co-tidal lines"
-summary: "The ocean cannot keep up with the Moon. The tide travels as a wave, wheeling around points where there is almost none, and sweeps up the coast from San Diego to Seattle."
-beats: []
-howWeKnow: "To be written."
+title: 'The bulge is a wave'
+kicker: 'Co-tidal lines'
+summary: 'The ocean cannot keep up with the Moon. The tide travels as a wave, wheeling around points where there is almost none, and sweeps up the coast from San Diego to Seattle.'
+beats:
+  - local: 0.15
+    text: 'This is the Moon’s main tide, M2, in every ocean at once, measured from space. Satellites have tracked the height of the sea surface since 1992.'
+  - local: 0.24
+    text: 'The bright line is high water, right now. It does not race around the planet under the Moon. It turns around a few points in the ocean.'
+  - local: 0.33
+    text: 'At those amphidromic points there is almost no tide. The water there barely rises or falls while high water goes around it like the hand of a clock.'
+  - local: 0.42
+    text: 'The ocean is too shallow to keep up. A tide wave in water 4 km deep travels about 700 km an hour; to stay under the Moon at the equator it would need 1,600. Continents block the way and Earth’s spin steers it.'
+  - local: 0.52
+    text: 'Each thin line joins places that have high water at the same moment. Neighboring lines are 62 minutes apart.'
+  - local: 0.63
+    text: 'Along the west coast of North America, the crest runs north.'
+  - local: 0.72
+    text: 'High water reaches San Diego first, Los Angeles 5 minutes later and San Francisco 2 hours 14 minutes after San Diego.'
+  - local: 0.81
+    text: 'Then Newport, Oregon, after 3 hours 2 minutes, and Seattle, deep in Puget Sound, after 7 hours 51 minutes.'
+  - local: 0.9
+    text: 'Every coast has its own tide because every coast sits at a different place on this wave. Next: the wave squeezes through the Golden Gate.'
+howWeKnow: 'The map is EOT20, a global model of the ocean tide built by the Technical University of Munich from decades of satellite radar altimetry (TOPEX/Poseidon, the Jason missions and others), which separates the tide from everything else the sea surface does, one constituent at a time. Amphidromic points are found where the phase of M2 turns through a full circle around a cell of the model’s grid. The West Coast times do not come from the model: they come from NOAA’s harmonic constants for each tide gauge (the Greenwich phase of M2), divided by M2’s speed of 28.98° an hour. At open-coast gauges EOT20 and NOAA agree to a few degrees, a few minutes of time.'
 sources:
-  - label: "NOAA Tides and Currents"
-    url: "https://tidesandcurrents.noaa.gov/"
+  - label: 'Hart-Davis et al. 2021, EOT20: a global ocean tide model from multi-mission satellite altimetry, Earth Syst. Sci. Data 13, 3869–3884'
+    url: 'https://doi.org/10.5194/essd-13-3869-2021'
+  - label: 'EOT20 model data (DGFI-TUM, SEANOE, CC BY 4.0)'
+    url: 'https://doi.org/10.17882/79489'
+  - label: 'NOAA Ocean Service, Tides and Water Levels: Types and Causes of Tidal Cycles'
+    url: 'https://oceanservice.noaa.gov/education/tutorial_tides/tides07_cycles.html'
+  - label: 'NOAA Tides and Currents, station 9447130, Seattle, WA'
+    url: 'https://tidesandcurrents.noaa.gov/stationhome.html?id=9447130'
 ---
 
-To be written.
+Newton’s two bulges assume the ocean can take whatever shape the Moon asks of it, instantly. Real water cannot. A disturbance with a wavelength far longer than the depth, which the tide is, travels at the square root of gravity times depth: about 200 meters a second in the 4-kilometer-deep open ocean. To keep a bulge under the Moon at the equator the water would have to move at more than twice that. And the oceans are not a continuous shell: the Americas, Africa, Asia and Australia wall them off into basins.
+
+So the Moon’s pull does not drag a bulge around the world. It pumps each basin, twice a day, and the water answers with a wave that runs around the basin’s edges. Earth’s rotation turns it: in the Northern Hemisphere the wave keeps the coast on its right and circles counterclockwise. In the middle of each circuit is a point where the rise on one side is balanced by the fall on the other, an amphidromic point. Lines of equal tide time (co-tidal lines) radiate from it like the spokes of a wheel, and the tide grows from almost nothing at the center to its largest at the coasts.
+
+The map shows only M2, the largest of the tides, which repeats every 12 hours 25 minutes. The Sun’s tides and the once-a-day tides have amphidromes of their own, in different places. Stage 6 counts how many of these rhythms a coast needs.
+
+On the North American Pacific coast, M2 runs north as a wave held against the continent. It reaches Los Angeles almost with San Diego, San Francisco two hours later and Newport, Oregon, within the next hour. Seattle is late because the wave has to come in through the Strait of Juan de Fuca and down the length of Puget Sound, in shallower water all the way.

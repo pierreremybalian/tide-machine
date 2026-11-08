@@ -1,13 +1,41 @@
 ---
 id: breathe
-title: "The sea breathes"
-kicker: "San Francisco Bay"
-summary: "Twice a day the water in San Francisco Bay rises and falls by a couple of meters. A gauge at the Golden Gate has recorded it since 1854. Could you predict it years ahead?"
-beats: []
-howWeKnow: "To be written."
+title: 'The sea breathes'
+kicker: 'San Francisco Bay'
+summary: 'Twice a day the water in San Francisco Bay rises and falls by a meter or two. A gauge at the Golden Gate has measured it since 1854. Could you predict it years ahead?'
+beats:
+  - local: 0.14
+    text: 'San Francisco Bay, built from real terrain and depth soundings. The water stands where it really stood in the first week of June 2025.'
+  - local: 0.24
+    text: 'Just inside the Golden Gate a tide gauge has measured the water since 1854. Its six-minute readings for that week set the level of the bay here.'
+  - local: 0.34
+    text: 'The water rises and falls about twice a day. The two highs are not the same height, and neither are the two lows.'
+  - local: 0.45
+    text: 'Each rise carries ocean water in through the Gate and out across the bay. Each fall draws it back out to sea.'
+  - local: 0.55
+    text: 'At the south end the bay is shallow. When the tide falls, square kilometers of mud come out of the water. When it rises, they disappear again.'
+  - local: 0.67
+    text: 'The swing changes through the week: close to two meters on June 1, little more than one by midweek, and growing again by the weekend.'
+  - local: 0.8
+    text: 'Nothing on Earth pushes this water around. The Moon and the Sun do it, from hundreds of thousands and millions of kilometers away.'
+  - local: 0.91
+    text: 'The pattern repeats, but never exactly. Could you say, years ahead, where the water will stand at 3 p.m. on some Tuesday? Sailors needed to know.'
+howWeKnow: 'The levels are NOAA’s verified six-minute observations for station 9414290 (San Francisco), whose record begins on 29 June 1854. Only that gauge is observed here: the rest of the bay follows NOAA’s predictions for 35 tide stations inside the bay, interpolated along the water, lifted by the amount the gauge stood above its own prediction (about 12 cm that week, a mix of weather and the slow rise of sea level since NOAA’s reference years). Terrain and depths come from public USGS and NOAA surveys, vertically exaggerated three times so the shores read from a distance.'
 sources:
-  - label: "NOAA Tides and Currents"
-    url: "https://tidesandcurrents.noaa.gov/"
+  - label: 'NOAA Tides and Currents, station 9414290, San Francisco, CA'
+    url: 'https://tidesandcurrents.noaa.gov/stationhome.html?id=9414290'
+  - label: 'NOAA Tides and Currents, observed water levels at 9414290'
+    url: 'https://tidesandcurrents.noaa.gov/waterlevels.html?id=9414290'
+  - label: 'NOAA Ocean Service, Tides and Water Levels (tutorial)'
+    url: 'https://oceanservice.noaa.gov/education/tutorial_tides/'
+  - label: 'Terrain tiles on AWS Open Data (USGS 3DEP, NOAA Coastal Relief Model and others)'
+    url: 'https://registry.opendata.aws/terrain-tiles/'
 ---
 
-To be written.
+The gauge near the Golden Gate is a pipe in the water with a sensor that measures the height of the sea inside it, averaged over a few minutes so waves do not count. NOAA publishes its readings every six minutes. The station has been recording since June 1854, through gold rush, earthquake and fog, and its record is one of the longest of any tide gauge in the world.
+
+Heights here are given above mean lower low water, the zero of American nautical charts: the average of the lower of each day’s two low tides over NOAA’s reference years. A reading of 1.5 meters means the sea stands 1.5 meters above that line. The water can go below it, as it did on the morning of June 1, 2025, when the gauge read −0.07 m.
+
+What the bay shows in a week is a mixed tide: two highs and two lows a day, of unequal height. San Francisco gets this shape from the way two families of tides, one with two cycles a day and one with one, add together. Later stages take that sum apart and show how a machine of pulleys put it back together.
+
+The scene runs the whole week in one scroll, so each rise and fall passes in a few seconds. The water is lifted three times higher than life, along with the hills, so the drowned edges of the bay can be seen from far away.

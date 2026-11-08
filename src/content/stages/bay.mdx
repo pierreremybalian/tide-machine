@@ -1,13 +1,47 @@
 ---
 id: bay
-title: "Into the bay"
-kicker: "Shallow water"
-summary: "Through the Golden Gate the wave slows in shallow water, grows in the South Bay and arrives late in Suisun Bay. Thirty-five gauges inside the bay show it happening."
-beats: []
-howWeKnow: "To be written."
+title: 'Into the bay'
+kicker: 'Shallow water'
+summary: 'Through the Golden Gate the wave slows in shallow water, grows in the South Bay and arrives late in Suisun Bay. Thirty-five gauges inside the bay show it happening.'
+beats:
+  - local: 0.14
+    text: 'First, the waves you can see. Out at sea an 11-second swell has crests 189 meters apart and travels at 17 meters a second.'
+  - local: 0.22
+    text: 'At Ocean Beach the bottom comes up. In 10 meters of water the same swell is 103 meters long and moves at 9.4 m/s. The crests crowd together, grow taller and swing round to face the beach.'
+  - local: 0.29
+    text: 'When a wave’s height reaches about four-fifths of the depth, it breaks.'
+  - local: 0.36
+    text: 'The tide is a wave too, hundreds of kilometers long, so it feels the bottom everywhere. Here the water glows brighter the higher it stands above its average. Lines mark every 10 centimeters.'
+  - local: 0.42
+    text: 'High water reaches the Golden Gate at 9:47 a.m. on December 23, 2026. It takes 59 more minutes to reach Redwood City, and 2 hours 12 minutes to reach Port Chicago in Suisun Bay.'
+  - local: 0.48
+    text: 'A long wave travels at the square root of gravity times depth: about 700 km an hour in the deep Pacific, 36 km an hour in 10 meters of water. Inside the bay the tide moves at the pace of a bicycle.'
+  - local: 0.54
+    text: 'The South Bay is a dead end. The wave runs in, reflects off the far end and adds to itself: the range grows from 2.72 meters at the Gate to 3.48 at Redwood City and 3.59 at Coyote Creek.'
+  - local: 0.6
+    text: 'To the northeast the water has to squeeze through the narrow Carquinez Strait and loses energy on the way. Port Chicago sees a range of only 1.99 meters, more than two hours late.'
+  - local: 0.72
+    text: 'In the afternoon the water at the south end drops 3.5 meters. The flats drain into their channels.'
+  - local: 0.83
+    text: 'Then the next tide comes in and floods them again, twice a day, every day.'
+  - local: 0.93
+    text: 'Every level here comes from the harmonic constants of 35 gauges inside the bay. Next: why some weeks the range is huge and others small.'
+howWeKnow: 'The water is NOAA’s harmonic prediction for each of the 35 tide stations inside the bay, computed in the browser with the same method NOAA uses (at San Francisco our predictions match NOAA’s official ones to under 1 cm RMS), and blended between stations by distance measured along the water. At each gauge the level is exact; between gauges it is an interpolation, not a simulation of the flow. The times and ranges in the text are computed from the constants of the Golden Gate, Redwood City, Coyote Creek and Port Chicago gauges. The waves are drawn at true scale on the real bathymetry: crests follow the dispersion relation, bend by fast-marching travel times, grow by shoaling and break where their height reaches 0.78 of the depth. Their height offshore (3.4 m, a big winter day) is chosen, not measured.'
 sources:
-  - label: "NOAA Tides and Currents"
-    url: "https://tidesandcurrents.noaa.gov/"
+  - label: 'NOAA Tides and Currents, station 9414290, San Francisco, CA'
+    url: 'https://tidesandcurrents.noaa.gov/stationhome.html?id=9414290'
+  - label: 'NOAA Tides and Currents, station 9414523, Redwood City, CA'
+    url: 'https://tidesandcurrents.noaa.gov/stationhome.html?id=9414523'
+  - label: 'NOAA Tides and Currents, station 9415144, Port Chicago, CA'
+    url: 'https://tidesandcurrents.noaa.gov/stationhome.html?id=9415144'
+  - label: 'NOAA Ocean Service, Tides and Water Levels (tutorial)'
+    url: 'https://oceanservice.noaa.gov/education/tutorial_tides/'
 ---
 
-To be written.
+Waves change as the water shallows because their speed depends on depth. A wave of a given period, here 11 seconds between crests, keeps that period all the way to the beach. In deep water it travels at 17 meters a second and its crests are 189 meters apart. Once the depth is less than about half that spacing, the bottom holds it back: at 20 meters it moves at 12 m/s, at 10 meters 9.4 m/s, at 5 meters 6.8 m/s. The crests behind catch up with the crests in front, so they bunch together and the same energy piles into a taller, steeper wave. Where one part of a crest is over shallower water than another, that part slows first and the crest swings round, which is why waves arrive nearly parallel to a beach whatever direction they came from. When a wave stands about 0.8 times as high as the water is deep, it breaks.
+
+The tide is the same kind of wave taken to an extreme. Its crests are hundreds of kilometers apart, far more than any depth on Earth, so it always feels the bottom and always travels at √(g·h): about 200 meters a second in the open ocean, 10 meters a second where the bay is 10 meters deep, slower still over the mud. That is why high water arrives at Redwood City an hour after the Golden Gate, and why the delta end of the bay, reached through the narrow Carquinez Strait, lags by more than two hours.
+
+The South Bay amplifies the tide because it is closed at the far end. The incoming wave reflects and returns, and the two add: high water is higher and low water lower than at the Gate. The range at Coyote Creek is a third larger than at the Golden Gate. The northern bays work the other way: friction in the long, narrow straits drains energy, so Suisun Bay’s range is about two-thirds of the Gate’s.
+
+On screen, the color of the water is its height above local mean sea level, interpolated between 35 NOAA stations. Watch the bright band of high water move from the ocean into the bay and on into the South Bay while the Gate is already falling. That is a wave inside a basin, not a level rising everywhere at once.

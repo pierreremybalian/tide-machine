@@ -1,0 +1,178 @@
+---
+// Into the bay (stage 4): the king tide of 23 December 2026 at the Golden Gate, Redwood City (South Bay) and Port
+// Chicago (Suisun Bay), computed from NOAA's constants (src/script/bay.ts); a cursor follows the stage's clock. The
+// table gives each gauge's high-water time, its delay after the Golden Gate, and its range against the Gate's.
+import { ARRIVALS, pacificTime } from '../../script/bay.ts';
+const lag = (m: number) => (m === 0 ? '—' : m < 60 ? `+${m} min` : `+${Math.floor(m / 60)} h ${String(m % 60).padStart(2, '0')}`);
+---
+
+<section class="card bay-gauges" data-card="bay-gauges">
+  <h3>The tide comes in late <span>Dec 23, 2026</span></h3>
+  <svg viewBox="0 0 320 100" data-svg>
+    <g class="grid" data-grid></g>
+    <path class="c c0" data-c="0"></path>
+    <path class="c c1" data-c="1"></path>
+    <path class="c c3" data-c="3"></path>
+    <line class="cursor" y1="2" y2="96" data-cursor></line>
+  </svg>
+  <table>
+    <thead>
+      <tr><th></th><th>high water</th><th>later</th><th>range</th><th></th></tr>
+    </thead>
+    <tbody>
+      {
+        ARRIVALS.map((a, i) => (
+          <tr class={`r${i}`}>
+            <td class="name"><i />{a.gauge.name}</td>
+            <td>{pacificTime(a.high.ms)}</td>
+            <td>{lag(a.lagMin)}</td>
+            <td>{a.range.toFixed(2)} m</td>
+            <td class="x">×{a.ratio.toFixed(2)}</td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</section>
+
+<script>
+  import { DAY_START, GAUGES, bayState, levelAt } from '../../script/bay.ts';
+  import { onStage, showCard } from '../card.ts';
+
+  const NS = 'http://www.w3.org/2000/svg';
+  const card = document.querySelector<HTMLElement>('[data-card="bay-gauges"]')!;
+  const svg = card.querySelector<SVGSVGElement>('[data-svg]')!;
+  const cursor = svg.querySelector<SVGLineElement>('[data-cursor]')!;
+  const SPAN_H = 17;
+  const lo = -0.8;
+  const hi = 3.2;
+  const X = (h: number) => 2 + (300 * h) / SPAN_H;
+  const Y = (m: number) => 4 + (88 * (hi - m)) / (hi - lo);
+  for (const k of [0, 1, 3]) {
+    let d = '';
+    for (let h = 0; h <= SPAN_H; h += 1 / 6) d += `${d ? 'L' : 'M'}${X(h).toFixed(1)},${Y(levelAt(GAUGES[k]!, DAY_START + h * 3600e3)).toFixed(1)}`;
+    svg.querySelector<SVGPathElement>(`[data-c="${k}"]`)!.setAttribute('d', d);
+  }
+  const grid = svg.querySelector<SVGGElement>('[data-grid]')!;
+  for (let h = 0; h <= SPAN_H; h += 3) {
+    const l = document.createElementNS(NS, 'line');
+    l.setAttribute('x1', X(h).toFixed(1));
+    l.setAttribute('x2', X(h).toFixed(1));
+    l.setAttribute('y1', '2');
+    l.setAttribute('y2', '96');
+    grid.appendChild(l);
+  }
+  for (const m of [0, 1, 2, 3]) {
+    const l = document.createElementNS(NS, 'line');
+    l.setAttribute('class', 'h');
+    l.setAttribute('x1', '0');
+    l.setAttribute('x2', '304');
+    l.setAttribute('y1', Y(m).toFixed(1));
+    l.setAttribute('y2', Y(m).toFixed(1));
+    grid.appendChild(l);
+    const t = document.createElementNS(NS, 'text');
+    t.setAttribute('x', '318');
+    t.setAttribute('y', (Y(m) + 2.5).toFixed(1));
+    t.textContent = `${m} m`;
+    grid.appendChild(t);
+  }
+  onStage((s) => {
+    const on = s.stageId === 'bay';
+    const st = bayState(on ? s.local : 0);
+    showCard(card, on && st.card > 0.5);
+    if (!on) return;
+    const x = X(Math.min(SPAN_H, Math.max(0, st.hours))).toFixed(1);
+    cursor.setAttribute('x1', x);
+    cursor.setAttribute('x2', x);
+  });
+</script>
+
+<style>
+  svg {
+    display: block;
+    width: 100%;
+    margin-top: 0.55rem;
+    overflow: visible;
+  }
+  .grid :global(line) {
+    stroke: rgb(255 255 255 / 0.06);
+  }
+  .grid :global(line.h) {
+    stroke: rgb(255 255 255 / 0.1);
+    stroke-dasharray: 2 3;
+  }
+  .grid :global(text) {
+    font-family: var(--font-mono);
+    font-size: 7.5px;
+    text-anchor: end;
+    fill: var(--color-mute);
+  }
+  .c {
+    fill: none;
+    stroke-width: 1.3;
+    stroke-linejoin: round;
+  }
+  .c0 {
+    stroke: var(--color-obs-b);
+  }
+  .c1 {
+    stroke: var(--color-bowl);
+  }
+  .c3 {
+    stroke: var(--color-light);
+  }
+  .cursor {
+    stroke: rgb(255 255 255 / 0.5);
+    stroke-width: 1;
+  }
+  table {
+    width: 100%;
+    margin-top: 0.5rem;
+    border-collapse: collapse;
+    font-family: var(--font-mono);
+    font-size: 0.64rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-fog);
+  }
+  th {
+    font-weight: 400;
+    text-align: right;
+    font-size: 0.56rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-mute);
+    padding-bottom: 0.2rem;
+  }
+  td {
+    text-align: right;
+    padding: 0.12rem 0 0.12rem 0.4rem;
+  }
+  td.name {
+    text-align: left;
+    padding-left: 0;
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    color: var(--color-paper);
+    white-space: nowrap;
+  }
+  td.name i {
+    display: inline-block;
+    width: 0.6rem;
+    height: 2px;
+    margin: 0 0.4rem 0.2rem 0;
+    vertical-align: middle;
+    background: rgb(255 255 255 / 0.2);
+  }
+  .r0 td.name i {
+    background: var(--color-obs-b);
+  }
+  .r1 td.name i {
+    background: var(--color-bowl);
+  }
+  .r3 td.name i {
+    background: var(--color-light);
+  }
+  td.x {
+    color: var(--color-mute);
+  }
+</style>

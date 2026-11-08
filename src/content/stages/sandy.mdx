@@ -1,13 +1,43 @@
 ---
 id: sandy
-title: "When the sea disagrees"
-kicker: "Hurricane Sandy, 2012"
-summary: "The machine knows the Moon and the Sun, not the weather. On 29 October 2012 the water at the Battery rose more than two and a half meters above its prediction."
-beats: []
-howWeKnow: "To be written."
+title: 'When the sea disagrees'
+kicker: 'Hurricane Sandy, 2012'
+summary: 'The machine knows the Moon and the Sun, not the weather. On 29 October 2012 the water at the Battery rose almost three meters above its prediction.'
+beats:
+  - local: 0.15
+    text: 'New York Harbor on October 29, 2012, as the tide tables saw it. The water follows the predictions for NOAA’s harbor gauges: an ordinary day, with high water of 1.48 meters at the Battery at 8:48 p.m.'
+  - local: 0.24
+    text: 'That prediction is everything this story has built so far: the Moon and the Sun, summed, with constants measured at the Battery over many years.'
+  - local: 0.33
+    text: 'Now the water that actually came. Hurricane Sandy’s winds had been pushing the sea toward the coast for two days.'
+  - local: 0.42
+    text: 'At 7 p.m. the Battery gauge read 3.47 meters, already 2.26 meters above the prediction, and rising.'
+  - local: 0.5
+    text: 'The gold line is where the tide tables put the shore. Everything past it is water no prediction expected.'
+  - local: 0.58
+    text: 'At 9:24 p.m. the gauge read 4.28 meters, the highest since its record began in 1920. The prediction for that minute was 1.45 meters.'
+  - local: 0.66
+    text: 'Seawater poured into subway and road tunnels. Much of Lower Manhattan lost power.'
+  - local: 0.75
+    text: 'The difference, 2.84 meters at the peak, was weather: wind and low air pressure. A tide machine cannot know it. It knows the Moon and the Sun, and nothing else.'
+  - local: 0.84
+    text: 'The timing made it worse. The surge peaked 36 minutes after the predicted high tide, on the day of a full moon.'
+  - local: 0.92
+    text: 'That is why forecasters add storm-surge models to the tide tables. The tide is the part that can be known years ahead.'
+howWeKnow: 'Both curves are NOAA’s: the water level measured at the Battery (station 8518750) every six minutes, and a prediction we compute from NOAA’s harmonic constants for that gauge, which matches NOAA’s own 2012 prediction to within 1 cm. The surge is their difference. The map adds the surge measured at the Battery to the predicted water everywhere in the harbor; the real surge varied from place to place, so flooded areas away from the Battery are approximate. Terrain is from public lidar with buildings removed, and harbor depths are rebuilt from coarser soundings. Relief and water are exaggerated three times vertically; the waves are illustrative.'
 sources:
-  - label: "NOAA Tides and Currents"
-    url: "https://tidesandcurrents.noaa.gov/"
+  - label: 'Blake et al. 2013, Tropical Cyclone Report: Hurricane Sandy (AL182012), National Hurricane Center'
+    url: 'https://www.nhc.noaa.gov/data/tcr/AL182012_Sandy.pdf'
+  - label: 'NOAA CO-OPS, Hurricane Sandy 2012 Water Level and Meteorological Data Report'
+    url: 'https://tidesandcurrents.noaa.gov/publications/Hurricane_Sandy_2012_Water_Level_and_Meteorological_Data_Report.pdf'
+  - label: 'NOAA Tides and Currents, station 8518750, The Battery, NY'
+    url: 'https://tidesandcurrents.noaa.gov/stationhome.html?id=8518750'
 ---
 
-To be written.
+A tide prediction answers one question: where would the water stand if only the Moon and the Sun were acting on it? Everything else the sea does is left out. Most days the leftovers are small. Wind pushes water toward a coast or away from it, low air pressure lets the sea bulge up beneath it (about a centimeter for each hectopascal), and rivers in flood add their share. At the Battery these effects usually amount to a few tens of centimeters.
+
+Hurricane Sandy turned west into New Jersey on the evening of October 29, 2012. Its wind field was enormous, and for two days it drove water from the open Atlantic into the New York Bight, a corner of coastline where the shore turns ninety degrees and water has nowhere else to go. At the Battery the surge, measured minus predicted, grew from about 20 centimeters on the morning of the 27th to almost three meters at 9:24 p.m. on the 29th.
+
+Two pieces of bad luck stacked up. The surge peaked within an hour of the evening’s high tide, and the Moon was full that day, so the tide itself was a little higher than average. Had the same surge arrived at low tide, the peak would have been about 1.3 meters lower.
+
+The map shows Lower Manhattan, the Brooklyn and New Jersey waterfronts and the rivers between them. The gold line follows the shore at the predicted level; the water beyond it is the surge. Where the real flood went depended on seawalls, drains and tunnels the terrain model does not know about, so read the map as the shape of the problem, not a flood survey.

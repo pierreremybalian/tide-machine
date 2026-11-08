@@ -52,8 +52,8 @@ export const dayHours = track(
     [0, 0],
     [0.12, 0.5],
     [0.3, 2],
-    [0.6, 7.5],
-    [0.82, 13.5],
+    [0.65, 9],
+    [0.86, 14.5],
     [1, 17],
   ],
   linear,
@@ -140,7 +140,7 @@ export function bayState(local: number) {
     /** Ocean Beach: waves feel the bottom (HUD card). */
     beach: windowed(local, 0.13, 0.32, 0.03, 0.03),
     /** Tide-field colour and contours on the water. */
-    tint: windowed(local, 0.31, 0.7, 0.05, 0.06),
+    tint: windowed(local, 0.31, 0.72, 0.05, 0.06),
     /** Station markers with live readouts. */
     gauges: ramp(local, 0.3, 0.36),
     /** High-water times and ranges (HUD card). */
@@ -157,7 +157,7 @@ export const metres = (v: number, d = 2) => `${v < 0 ? '−' : ''}${Math.abs(v).
 export const pacificTime = (ms: number) => PST.format(ms);
 
 export const bay = registerStage('bay', {
-  note: `Water from 35 NOAA tide stations inside the bay, interpolated between them; a king tide on 23 December 2026, about 17 hours over this stage. Relief and water ×${EXAGGERATION}; waves at true scale.`,
+  note: `Water from 35 NOAA tide stations inside the bay, interpolated between them; a king tide on 23 December 2026, about 17 hours over this stage. Relief and water ×${EXAGGERATION}; waves at true scale, a 3.4 m winter swell.`,
   readouts(local) {
     const s = bayState(local);
     const rows: Readout[] = [{ label: 'Dec 23, 2026', value: `${pacificTime(s.ms)} PST`, tone: 'plain' }];

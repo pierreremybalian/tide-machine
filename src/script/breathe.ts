@@ -124,6 +124,8 @@ export function breatheState(local: number) {
     level: observedAt(ms),
     /** The gauge marker and its label. */
     gauge: ramp(local, 0.16, 0.22),
+    /** The moving waterline drawn as a thin glow (over the flats and the whole bay). */
+    shore: Math.max(windowed(local, 0.46, 0.8, 0.05, 0.05), 1.3 * ramp(local, 0.86, 0.94)),
     /** The HUD trace card. */
     card: windowed(local, 0.2, 1.01, 0.04, 0.0),
     /** The question at the end. */

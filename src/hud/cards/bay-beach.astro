@@ -1,0 +1,78 @@
+---
+// Into the bay (stage 4), at Ocean Beach: how an 11-second swell changes as the water shallows, from the dispersion
+// relation ω² = g k tanh(k h) (src/script/bay.ts). The scene's waves follow the same relation per pixel.
+import { SWELL, SWELL_PERIOD } from '../../script/bay.ts';
+const label = (h: number) => (h > 1000 ? 'open ocean' : `${h} m deep`);
+---
+
+<section class="card bay-beach" data-card="bay-beach">
+  <h3>Waves feel the bottom <span>{SWELL_PERIOD} s swell</span></h3>
+  <ul>
+    {
+      SWELL.map((s) => (
+        <li>
+          <span class="name">{label(s.depth)}</span>
+          <span class="bar">
+            <i style={`--w: ${(s.length / SWELL[0]!.length).toFixed(3)}`} />
+          </span>
+          <span class="v">
+            {Math.round(s.length)} m · {s.speed.toFixed(1)} m/s
+          </span>
+        </li>
+      ))
+    }
+  </ul>
+  <p class="foot">
+    Same period, shorter and slower in shallow water: crests crowd together, steepen and swing to face the beach. A wave breaks when its height reaches about 0.8 of the depth.
+  </p>
+</section>
+
+<script>
+  import { bayState } from '../../script/bay.ts';
+  import { onStage, showCard } from '../card.ts';
+  const card = document.querySelector<HTMLElement>('[data-card="bay-beach"]')!;
+  onStage((s) => showCard(card, s.stageId === 'bay' && bayState(s.local).beach > 0.5));
+</script>
+
+<style>
+  ul {
+    margin-top: 0.65rem;
+    display: grid;
+    gap: 0.42rem;
+  }
+  li {
+    display: grid;
+    grid-template-columns: 5.6rem 1fr 7.2rem;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .name {
+    font-size: 0.74rem;
+    color: var(--color-paper);
+  }
+  .bar {
+    height: 6px;
+    position: relative;
+  }
+  .bar i {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: calc(var(--w) * 100%);
+    border-radius: 2px;
+    background: repeating-linear-gradient(90deg, var(--color-obs-b) 0 2px, transparent 2px 7px);
+    opacity: 0.85;
+  }
+  .v {
+    text-align: right;
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-fog);
+  }
+  .foot {
+    margin-top: 0.6rem;
+    font-size: 0.68rem;
+    line-height: 1.4;
+    color: var(--color-mute);
+  }
+</style>

@@ -1,0 +1,82 @@
+---
+// The bulge is a wave (stage 3): when M2 high water reaches each West Coast gauge, from NOAA's M2 phase lags
+// (src/script/wave.ts). Rows light as the crest passes in the scene.
+import { CREST_MS, DELAY_H, WEST_COAST, fmtDelay } from '../../script/wave.ts';
+const PDT = new Intl.DateTimeFormat('en-US', { timeZone: 'America/Los_Angeles', hour: 'numeric', minute: '2-digit' });
+---
+
+<section class="card wave" data-card="wave">
+  <h3>M2 high water, northward <span>June 1, 2025</span></h3>
+  <ul>
+    {
+      WEST_COAST.map((s, i) => (
+        <li data-row={i}>
+          <span class="name">{s.name}</span>
+          <span class="t">{PDT.format(CREST_MS[i]!)}</span>
+          <span class="d">{i === 0 ? '—' : `+${fmtDelay(DELAY_H[i]!)}`}</span>
+          <span class="a">{s.amp.toFixed(2)} m</span>
+        </li>
+      ))
+    }
+  </ul>
+  <p class="foot">Time of the M2 crest (Pacific time), delay after San Diego, and M2 amplitude. From NOAA’s harmonic constants for each gauge.</p>
+</section>
+
+<script>
+  import { waveState } from '../../script/wave.ts';
+  import { onStage, showCard } from '../card.ts';
+  const card = document.querySelector<HTMLElement>('[data-card="wave"]')!;
+  const rows = [...card.querySelectorAll<HTMLElement>('[data-row]')];
+  onStage((s) => {
+    const on = s.stageId === 'wave';
+    const st = waveState(on ? s.local : 0);
+    showCard(card, on && st.card > 0.5);
+    if (!on) return;
+    rows.forEach((r, i) => {
+      r.classList.toggle('on', st.passed >= i);
+      r.style.setProperty('--f', (st.flare[i] ?? 0).toFixed(3));
+    });
+  });
+</script>
+
+<style>
+  ul {
+    margin-top: 0.6rem;
+    display: grid;
+    gap: 0.3rem;
+  }
+  li {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 4rem 5.3rem 2.9rem;
+    align-items: baseline;
+    gap: 0.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-mute);
+    transition: color 0.4s ease;
+  }
+  li .name {
+    font-family: var(--font-sans);
+    font-size: 0.76rem;
+    white-space: nowrap;
+  }
+  li .d,
+  li .a {
+    text-align: right;
+  }
+  li.on {
+    color: var(--color-paper);
+  }
+  li.on .name,
+  li.on .d {
+    color: var(--color-obs-b);
+    text-shadow: 0 0 calc(10px * var(--f, 0)) rgb(82 203 255 / 0.9);
+  }
+  .foot {
+    margin-top: 0.55rem;
+    font-size: 0.66rem;
+    line-height: 1.4;
+    color: var(--color-mute);
+  }
+</style>

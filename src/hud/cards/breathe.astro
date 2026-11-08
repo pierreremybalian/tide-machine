@@ -1,0 +1,142 @@
+---
+// The sea breathes (stage 1): the Golden Gate gauge's real week (src/script/breathe.ts), drawn up to the stage's
+// clock, with the reading now. The faint full week behind shows where the trace is going.
+---
+
+<section class="card breathe" data-card="breathe">
+  <h3>Golden Gate gauge <span>June 2025</span></h3>
+  <p class="now"><b data-reading>–</b> above mean lower low water <span data-when></span></p>
+  <svg viewBox="0 0 320 108" data-svg>
+    <g class="grid" data-grid></g>
+    <path class="ghost" data-ghost></path>
+    <path class="trace" data-trace></path>
+    <circle class="head" r="3" data-head></circle>
+  </svg>
+  <p class="foot">NOAA station 9414290, measured every six minutes since 1854. Two highs and two lows a day, of different heights.</p>
+</section>
+
+<script>
+  import { STEP_MINUTES, WEEK_HOURS, WEEK_MM, WEEK_RANGE, breatheState, pacific } from '../../script/breathe.ts';
+  import { onStage, showCard } from '../card.ts';
+
+  const NS = 'http://www.w3.org/2000/svg';
+  const card = document.querySelector<HTMLElement>('[data-card="breathe"]')!;
+  const svg = card.querySelector<SVGSVGElement>('[data-svg]')!;
+  const trace = svg.querySelector<SVGPathElement>('[data-trace]')!;
+  const head = svg.querySelector<SVGCircleElement>('[data-head]')!;
+  const reading = card.querySelector<HTMLElement>('[data-reading]')!;
+  const when = card.querySelector<HTMLElement>('[data-when]')!;
+  const lo = WEEK_RANGE.min - 0.15;
+  const hi = WEEK_RANGE.max + 0.15;
+  const X = (h: number) => 2 + (300 * h) / WEEK_HOURS;
+  const Y = (m: number) => 6 + (92 * (hi - m)) / (hi - lo);
+  const per = 60 / STEP_MINUTES;
+  const pt = (i: number) => `${X(i / per).toFixed(1)},${Y(WEEK_MM[i]! / 1000).toFixed(1)}`;
+  let ghost = `M${pt(0)}`;
+  for (let i = 2; i < WEEK_MM.length; i += 2) ghost += `L${pt(i)}`;
+  svg.querySelector<SVGPathElement>('[data-ghost]')!.setAttribute('d', ghost);
+  const grid = svg.querySelector<SVGGElement>('[data-grid]')!;
+  for (let d = 0; d <= 7; d++) {
+    const l = document.createElementNS(NS, 'line');
+    l.setAttribute('x1', X(d * 24).toFixed(1));
+    l.setAttribute('x2', X(d * 24).toFixed(1));
+    l.setAttribute('y1', '4');
+    l.setAttribute('y2', '100');
+    grid.appendChild(l);
+  }
+  for (const m of [0, 1]) {
+    const l = document.createElementNS(NS, 'line');
+    l.setAttribute('class', 'h');
+    l.setAttribute('x1', '0');
+    l.setAttribute('x2', '304');
+    l.setAttribute('y1', Y(m).toFixed(1));
+    l.setAttribute('y2', Y(m).toFixed(1));
+    grid.appendChild(l);
+    const t = document.createElementNS(NS, 'text');
+    t.setAttribute('x', '318');
+    t.setAttribute('y', (Y(m) + 2.5).toFixed(1));
+    t.textContent = `${m} m`;
+    grid.appendChild(t);
+  }
+
+  let last = -1;
+  onStage((s) => {
+    const on = s.stageId === 'breathe';
+    const st = breatheState(on ? s.local : 0);
+    showCard(card, on && st.card > 0.5);
+    if (!on || Math.abs(st.hours - last) < 0.02) return;
+    last = st.hours;
+    const n = Math.min(WEEK_MM.length - 1, Math.floor(st.hours * per));
+    let d = `M${pt(0)}`;
+    for (let i = 1; i <= n; i++) d += `L${pt(i)}`;
+    d += `L${X(st.hours).toFixed(1)},${Y(st.level).toFixed(1)}`;
+    trace.setAttribute('d', d);
+    head.setAttribute('cx', X(st.hours).toFixed(1));
+    head.setAttribute('cy', Y(st.level).toFixed(1));
+    reading.textContent = `${st.level < 0 ? '−' : ''}${Math.abs(st.level).toFixed(2)} m`;
+    const t = pacific(st.ms);
+    when.textContent = `${t.day}, ${t.time}`;
+  });
+</script>
+
+<style>
+  .now {
+    margin-top: 0.5rem;
+    font-size: 0.74rem;
+    color: var(--color-mute);
+  }
+  .now b {
+    font-family: var(--font-serif);
+    font-size: 1.15rem;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-obs-b);
+  }
+  .now span {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.04em;
+  }
+  svg {
+    display: block;
+    width: 100%;
+    margin-top: 0.4rem;
+    overflow: visible;
+  }
+  .grid :global(line) {
+    stroke: rgb(255 255 255 / 0.06);
+  }
+  .grid :global(line.h) {
+    stroke: rgb(255 255 255 / 0.1);
+    stroke-dasharray: 2 3;
+  }
+  .grid :global(text) {
+    font-family: var(--font-mono);
+    font-size: 7.5px;
+    text-anchor: end;
+    fill: var(--color-mute);
+  }
+  .ghost {
+    fill: none;
+    stroke: rgb(82 203 255 / 0.16);
+    stroke-width: 1;
+  }
+  .trace {
+    fill: none;
+    stroke: var(--color-obs-b);
+    stroke-width: 1.3;
+    stroke-linejoin: round;
+    filter: drop-shadow(0 0 3px rgb(82 203 255 / 0.55));
+  }
+  .head {
+    fill: #e6f8ff;
+    filter: drop-shadow(0 0 4px rgb(82 203 255 / 0.9));
+  }
+  .foot {
+    margin-top: 0.45rem;
+    font-size: 0.68rem;
+    line-height: 1.4;
+    color: var(--color-mute);
+  }
+</style>

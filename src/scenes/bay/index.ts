@@ -38,23 +38,23 @@ const SHOTS: ShotKey[] = [
   [0.17, { lat: 37.752, lng: -122.512, az: -1.0, el: 0.3, dist: 3.0 }],
   [0.29, { lat: 37.76, lng: -122.513, az: -1.2, el: 0.33, dist: 3.6 }],
   // Up over the whole bay: the tide arrives.
-  [0.37, { lat: 37.74, lng: -122.3, az: 0.06, el: 0.9, dist: 92 }],
-  [0.62, { lat: 37.74, lng: -122.29, az: 0.14, el: 0.92, dist: 90 }],
-  // The flats south of the Dumbarton Bridge, on the ebb.
-  [0.69, { lat: 37.5, lng: -122.09, az: 0.55, el: 0.5, dist: 16 }],
-  [0.83, { lat: 37.49, lng: -122.08, az: 0.4, el: 0.46, dist: 13 }],
-  // The whole bay again as the flood returns.
-  [0.93, { lat: 37.74, lng: -122.32, az: 0.1, el: 0.94, dist: 94 }],
-  [1.0, { lat: 37.74, lng: -122.32, az: 0.12, el: 0.95, dist: 93 }],
+  [0.36, { lat: 37.75, lng: -122.3, az: 0.06, el: 0.9, dist: 94 }],
+  [0.65, { lat: 37.75, lng: -122.29, az: 0.14, el: 0.92, dist: 92 }],
+  // The flats south of the Dumbarton Bridge, at low water and as the flood returns.
+  [0.72, { lat: 37.5, lng: -122.09, az: 0.55, el: 0.5, dist: 16 }],
+  [0.85, { lat: 37.49, lng: -122.08, az: 0.4, el: 0.46, dist: 13 }],
+  // The whole bay again.
+  [0.94, { lat: 37.75, lng: -122.32, az: 0.1, el: 0.94, dist: 95 }],
+  [1.0, { lat: 37.75, lng: -122.32, az: 0.12, el: 0.95, dist: 94 }],
 ];
 
 const PLACES = [
   { id: 'gate', text: 'Golden Gate', lat: 37.8105, lng: -122.4776, on: [0.02, 0.14], tone: 'plain' },
   { id: 'beach', text: 'Ocean Beach', lat: 37.758, lng: -122.508, on: [0.15, 0.31], tone: 'plain' },
-  { id: 'south', text: 'South Bay', lat: 37.6, lng: -122.22, on: [0.36, 0.64], tone: 'plain' },
-  { id: 'pablo', text: 'San Pablo Bay', lat: 38.075, lng: -122.39, on: [0.36, 0.64], tone: 'plain' },
-  { id: 'suisun', text: 'Suisun Bay', lat: 38.085, lng: -122.0, on: [0.36, 0.64], tone: 'plain' },
-  { id: 'flats', text: 'tidal flats', lat: 37.488, lng: -122.07, on: [0.68, 0.86], tone: 'warm' },
+  { id: 'south', text: 'South Bay', lat: 37.6, lng: -122.22, on: [0.35, 0.67], tone: 'plain' },
+  { id: 'pablo', text: 'San Pablo Bay', lat: 38.075, lng: -122.39, on: [0.35, 0.67], tone: 'plain' },
+  { id: 'suisun', text: 'Suisun Bay', lat: 38.085, lng: -122.0, on: [0.35, 0.67], tone: 'plain' },
+  { id: 'flats', text: 'tidal flats', lat: 37.488, lng: -122.07, on: [0.71, 0.89], tone: 'warm' },
 ] as const;
 
 export default function bayScene(): BlockScene {
@@ -112,7 +112,7 @@ export default function bayScene(): BlockScene {
       coast.update(s.ms, elapsed);
       const u = coast.uniforms;
       u.fieldTint.value = s.tint;
-      u.shoreLine.value = 0.14 * windowed(local, 0.66, 0.9, 0.04, 0.05);
+      u.shoreLine.value = 0.14 * windowed(local, 0.68, 0.92, 0.04, 0.05);
       applyShot(rig, coast, shotAt(SHOTS, local, shot), pose, elapsed);
       const cam = rig.camera;
 
@@ -141,7 +141,9 @@ export default function bayScene(): BlockScene {
           keyRev[k] = r;
           labels.setText(gaugeLabel[k]!, `${g.name} ${r < 0 ? '−' : ''}${Math.abs(r).toFixed(2)} m`);
         }
-        labels.place(gaugeLabel[k]!, f.x, coast!.y(lv[j]!), f.z, cam, s.gauges * windowed(local, 0.3, 0.66, 0.04, 0.04) + s.gauges * windowed(local, 0.9, 1.01, 0.04, 0));
+        // Mallard Island keeps its marker but not its label: it would crowd the corner where the readouts sit.
+        const show = g.id === '9415112' ? 0 : 1;
+        labels.place(gaugeLabel[k]!, f.x, coast!.y(lv[j]!), f.z, cam, show * s.gauges * (windowed(local, 0.3, 0.68, 0.04, 0.04) + windowed(local, 0.92, 1.01, 0.04, 0)));
       });
       const p = coast.projection;
       PLACES.forEach((pl, k) => {
