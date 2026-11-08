@@ -37,6 +37,8 @@ export interface MachineSpec {
   refSpeed: number;
   /** Documented tooth counts by constituent ([driver, driven] per stage; a driver of 1 is a single-start worm). */
   documented?: Readonly<Record<string, Pairs>>;
+  /** Row of the first pulley from the fixed end: −1 the wire goes down under it (SP-32), +1 up over it. */
+  firstRow: 1 | -1;
   note: string;
 }
 
@@ -118,6 +120,9 @@ export const MACHINES: Readonly<Record<MachineId, MachineSpec>> = {
     year: 1872,
     constituents: KELVIN_1872,
     refSpeed: DAY_SHAFT_SPEED,
+    // Thomson does not say which way the wire meets the first pulley; starting over the top leaves M2, the biggest
+    // term, in the lower row next to the pen, as the rows' spread in the photographs suggests.
+    firstRow: 1,
     note: 'Ten pulleys: the British Association machine, built by Légé. No tooth counts survive; ours are the best two-stage approximations.',
   },
   obb: {
@@ -127,6 +132,7 @@ export const MACHINES: Readonly<Record<MachineId, MachineSpec>> = {
     constituents: OBB_37,
     refSpeed: OBB_SHAFT_SPEED,
     documented: OBB_TRAINS,
+    firstRow: -1,
     note: 'US Coast and Geodetic Survey Tide Predicting Machine No. 2 (Harris and Fischer): 37 components, tooth counts from SP-32.',
   },
 };
@@ -318,8 +324,10 @@ export interface MachineOptions {
   approximate?: boolean;
   /** 'yoke' (true harmonic slide; default) or 'crank' (pulley on the crank pin, Kelvin's first machine). */
   linkage?: Linkage;
-  /** Rest height of the pen, machine units. Default: below the lower row by its full range. */
+  /** Rest height of the pen, machine units. Default: as high as its full range allows below the last node. */
   penRestY?: number;
+  /** Carry the wire this far sideways over fixed guides before it drops to the pen (machine units; default 0). */
+  penOffset?: number;
   /** Clearance between the rows beyond what the throws need, machine units. Default 4 × radius. */
   clearance?: number;
 }
@@ -352,8 +360,7 @@ export function createMachineModel(st: StationConstants, which: MachineId | Mach
       kappa,
       trueSpeed,
       train: gearTrain(trueSpeed, spec.refSpeed, limits, doc),
-      // The wire leaves its fixed end downward, so the first pulley is in the lower row.
-      row: i % 2 === 0 ? -1 : 1,
+      row: (i % 2 === 0 ? spec.firstRow : -spec.firstRow) as 1 | -1,
       x: 2 * r * i,
       restY: 0,
       radius: r,
@@ -377,21 +384,38 @@ export function createMachineModel(st: StationConstants, which: MachineId | Mach
 
   const path: WireNode[] = [];
   const first = cranks[0]!;
-  path.push({ kind: 'anchor', crank: -1, x: first.x - r, y: first.restY + first.throw0 + 3 * r + clearance, radius: 0, row: 1 });
+  // The fixed end, straight above (or below) the first pulley's tangent point.
+  path.push({ kind: 'anchor', crank: -1, x: first.x - r, y: first.restY - first.row * (first.throw0 + 3 * r), radius: 0, row: 1 });
   for (const ck of cranks) path.push({ kind: 'pulley', crank: ck.index, x: ck.x, y: ck.restY, radius: r, row: ck.row });
   const last = cranks[n - 1]!;
-  if (last.row === -1) {
-    // The wire leaves the last (lower) pulley upward: a fixed guide above turns it down to the pen.
-    path.push({ kind: 'guide', crank: -1, x: last.x + 2 * r, y: last.restY + last.throw0 + 3 * r + clearance, radius: r, row: 1 });
+  // Fixed guides above the highest a pulley can reach (and below the lowest).
+  let top = 0;
+  let bottom = 0;
+  for (const ck of cranks) {
+    top = Math.max(top, ck.restY + ck.throw0 + r);
+    bottom = Math.min(bottom, ck.restY - ck.throw0 - r);
+  }
+  const guideTop = top + 3 * r;
+  const offset = o.penOffset ?? 0;
+  let gx = last.x;
+  if (last.row === 1 && offset > 0) {
+    // Leaving the last (upper) pulley downward: under a guide and back up before running sideways.
+    gx += 2 * r;
+    path.push({ kind: 'guide', crank: -1, x: gx, y: bottom - 3 * r, radius: r, row: -1 });
+  }
+  if (last.row === -1 || offset > 0) {
+    // Over a guide at the top, then (optionally) along to a second guide, and down to the pen.
+    gx += 2 * r;
+    path.push({ kind: 'guide', crank: -1, x: gx, y: guideTop, radius: r, row: 1 });
+    if (offset > 0) path.push({ kind: 'guide', crank: -1, x: gx + offset, y: guideTop, radius: r, row: 1 });
   }
 
   let penRange = 0;
-  let lowest = 0;
-  for (const ck of cranks) {
-    penRange += 2 * ck.throw0;
-    lowest = Math.min(lowest, ck.restY - ck.throw0 - r);
-  }
-  const penRestY = o.penRestY ?? lowest - penRange - 2 * r;
+  for (const ck of cranks) penRange += 2 * ck.throw0;
+  // The pen hangs below the last node; at its highest it must stay clear of it.
+  const end = path[path.length - 1]!;
+  const ceiling = end.kind === 'pulley' ? end.y - cranks[end.crank]!.throw0 - r : end.y - r;
+  const penRestY = o.penRestY ?? ceiling - penRange - r;
 
   const model: MachineModel = {
     spec,
@@ -443,6 +467,8 @@ export interface MachineState {
   outY: Float64Array;
   arcStart: Float64Array;
   arcSweep: Float64Array;
+  /** Wire length from the fixed end to where it reaches node k (a pulley turns by Δalong / r as the wire feeds). */
+  along: Float64Array;
   /** Wire consumed from the anchor to where it leaves the last node, machine units. */
   consumed: number;
   /** The pen (free end of the wire): x, y in machine units, and displacement from rest. */
@@ -469,6 +495,7 @@ export function createMachineState(m: MachineModel): MachineState {
     outY: new Float64Array(nc),
     arcStart: new Float64Array(nc),
     arcSweep: new Float64Array(nc),
+    along: new Float64Array(nc),
     consumed: 0,
     penX: 0,
     penY: 0,
@@ -557,6 +584,7 @@ function solveWire(m: MachineModel, st: MachineState): number {
   st.inY[0] = st.outY[0] = a0[1]!;
   st.arcStart[0] = 0;
   st.arcSweep[0] = 0;
+  st.along[0] = 0;
   for (let k = 1; k < nc; k++) {
     const a = node(m, st, k - 1);
     const ax = a[0]!;
@@ -582,8 +610,9 @@ function solveWire(m: MachineModel, st: MachineState): number {
     st.outY[k - 1] = ay + as * ar * ny;
     st.inX[k] = bx + bs * br * nx;
     st.inY[k] = by + bs * br * ny;
-    total += Math.sqrt(Math.max(0, L2 - rho * rho));
     if (k > 1) total += wrap(st, k - 1, ar, as, prevPhi, phi, ax, ay);
+    total += Math.sqrt(Math.max(0, L2 - rho * rho));
+    st.along[k] = total;
     prevPhi = phi;
   }
   // The last node: wrap from the arriving run to straight down.
