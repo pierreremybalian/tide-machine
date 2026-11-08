@@ -351,7 +351,9 @@ export default function makeAddsScene(): BlockScene {
     // Portrait has no room on the right: the three stack down the left of the crank.
     const gr = rig.geo.guideTop + g.r;
     if (portrait) {
-      put('throw', v.set(m2.x - g.Rc - 0.08, u.crankY - 0.1, -0.08), lb.throw);
+      // Left of the disc, text running left (the flipped variant of the label).
+      labels.place(L.throw + LABELS.length, m2.x - g.Rc - 0.08, u.crankY - 0.1, -0.08, c, lb.throw);
+      labels.hide(L.throw);
       put('angle', v.set(m2.x - g.Rc - 0.08, u.crankY + 0.16, -0.165), lb.angle);
     } else {
       put('throw', v.set(m2.x + g.Rc + 0.08, u.crankY - 0.06, -0.08), lb.throw);
@@ -366,7 +368,7 @@ export default function makeAddsScene(): BlockScene {
     if (portrait) {
       put('wire', v, 0);
       put('pen', v, 0);
-      labels.place(P.wire, m.cranks[n - 1]!.x + 2 * g.r, gr + 0.04, 0, c, lb.wire * s.wire);
+      labels.place(P.wire, m.cranks[n - 1]!.x + 2 * g.r + 1.1, gr + 0.04, 0, c, lb.wire * s.wire);
       labels.place(P.pen, g.penX - 0.6, g.paperLo - 0.1, 0, c, lb.pen);
     } else {
       labels.hide(P.wire);
