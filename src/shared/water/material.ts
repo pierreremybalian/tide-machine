@@ -21,6 +21,7 @@ import {
   Fn,
   If,
   Loop,
+  abs,
   attribute,
   cameraPosition,
   clamp,
@@ -137,6 +138,23 @@ export function createCoastUniforms() {
     landGain: uniform(1),
     /** Debug view: 0 off, 1 wave travel times, 2 wave amplitude factors, 3 wet / depth / bathymetry. */
     debug: uniform(0),
+    /**
+     * Tide-field overlay on the water (0 off … 1): the water glows brighter the higher it stands above local mean sea
+     * level and darkens below it (full at ± fieldRange m), with contour lines of the level every fieldStep m.
+     */
+    fieldTint: uniform(0),
+    fieldRange: uniform(1),
+    fieldStep: uniform(0.1),
+    /**
+     * Surge overlay (0 off … 1): the shoreline the predicted tide alone would reach (level − levelOffset) drawn as a
+     * line, and the water beyond it tinted, so the part of the flood the tide tables did not predict stands out.
+     */
+    surgeMark: uniform(0),
+    /** Waterline glow (0 off … 1): a thin luminous line where the tide meets the land, so a moving shore reads from afar. */
+    shoreLine: uniform(0),
+    shoreColor: uniform(new Vector3(0.55, 0.9, 1.2)),
+    surgeLine: uniform(new Vector3(1.6, 1.05, 0.45)),
+    surgeTint: uniform(new Vector3(0.55, 0.12, 0.06)),
     /** Mean pixel footprint hint for AA (set from the camera, m per px). */
     resolution: uniform(new Vector2(1280, 720)),
   };
@@ -514,6 +532,36 @@ export function createCoastMaterial(inp: CoastMaterialInputs, u: CoastUniforms):
     });
 
     const surf = mix(land, water, wet).toVar();
+    // Tide-field overlay: where the water stands high or low right now, and its contours (the tide's slope).
+    If(u.fieldTint.greaterThan(0.001).and(wet.greaterThan(0.001)), () => {
+      const an = L.sub(msl);
+      const sN = clamp(an.div(u.fieldRange), -1, 1);
+      const up = max(sN, 0.0);
+      const glow = col(0.12, 0.62, 0.95).mul(up.mul(up).mul(0.05).add(up.mul(0.05)).add(0.006));
+      const q = an.div(u.fieldStep);
+      const fw = max(fwidth(q), 1e-4);
+      const dq = abs(fract(q.add(0.5)).sub(0.5));
+      const major = step(abs(fract(q.div(5).add(0.5)).sub(0.5)), float(0.5).div(5).add(0.01));
+      const line = float(1).sub(smoothstep(fw.mul(0.35), fw.mul(1.1), dq)).mul(float(1).sub(smoothstep(0.12, 0.35, fw)));
+      const lineCol = mix(col(0.3, 0.5, 0.9), col(0.6, 0.95, 1.0), step(0.0, sN)).mul(mix(float(0.08), float(0.26), major)).mul(sN.mul(0.35).add(0.75));
+      const k = u.fieldTint.mul(wet);
+      surf.assign(surf.mul(float(1).sub(k.mul(max(sN.negate(), 0.0)).mul(0.45))).add(glow.mul(k)).add(lineCol.mul(line).mul(k)));
+    });
+    // Waterline glow: the tidal shore (never the levees of diked land or ponds), about two pixels wide.
+    If(u.shoreLine.greaterThan(0.001), () => {
+      const sw = clamp(fwidth(s), 1e-4, 0.4);
+      const line = float(1).sub(smoothstep(sw.mul(0.6), sw.mul(2.0), abs(s))).mul(float(1).sub(diked)).mul(float(1).sub(pond));
+      surf.addAssign(u.shoreColor.mul(line).mul(u.shoreLine));
+    });
+    // Surge overlay: the predicted shoreline (level − levelOffset against the spill height) and the water beyond it.
+    If(u.surgeMark.greaterThan(0.001), () => {
+      const sp = s.sub(u.levelOffset);
+      const wp = clamp(fwidth(sp), 1e-4, 0.5);
+      const line = float(1).sub(smoothstep(wp.mul(0.7), wp.mul(2.0), abs(sp))).mul(float(1).sub(diked));
+      const extra = wet.mul(float(1).sub(smoothstep(wp.negate(), wp, sp)));
+      surf.assign(mix(surf, surf.mul(0.6).add(u.surgeTint.mul(0.25)), extra.mul(u.surgeMark).mul(0.85)));
+      surf.addAssign(u.surgeLine.mul(line).mul(u.surgeMark));
+    });
     If(u.debug.greaterThan(0.5), () => {
       surf.assign(select(u.debug.lessThan(2.5), mix(land.mul(0.3), dbg, wet), vec3(wet, clamp(depth.div(10), 0, 1), clamp(h.div(-30), 0, 1))));
     });
