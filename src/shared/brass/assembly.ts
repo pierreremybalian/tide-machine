@@ -644,6 +644,7 @@ export function createMachine(ctx: RenderContext, config: MachineConfig): BrassM
           if (m) m.rotation.z = tr.angle[s]!;
         }
       }
+      handWheel.rotation.z = -state.shaft * (Math.PI / 180); // the hand wheel drives the shafts directly
       penGroup.position.y = state.penY;
       const fed = feed * (ms - config.t0);
       traceGroup.position.x = penX - fed;
