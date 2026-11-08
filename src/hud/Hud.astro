@@ -90,7 +90,7 @@ const cards = Object.entries(import.meta.glob<{ default: AstroComponentFactory }
     .hud :global(.card) {
       right: 1rem;
       left: auto;
-      top: 7.4rem;
+      top: calc(var(--hud-top, 7.4rem) + 0.8rem);
       bottom: auto;
       width: min(17rem, calc(100vw - 2rem));
       padding: 0.6rem 0.7rem;

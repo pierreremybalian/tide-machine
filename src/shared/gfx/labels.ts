@@ -14,6 +14,14 @@ export interface LabelSpec {
   side?: Side;
   /** 'sm' for small annotations, 'md' for names. */
   size?: 'sm' | 'md';
+  /** Keep the text's case in uppercase styles (detected automatically for Greek letters and units). */
+  keepCase?: boolean;
+}
+
+/** Small labels are uppercased by CSS. Greek letters (ρ1 → Ρ1 reads as P1), µ and units after numbers ("2.1 m")
+ * must keep their case. */
+export function needsKeepCase(text: string): boolean {
+  return /[µμ\u03b1-\u03c9]/.test(text) || /\d\s?(?:m|cm|mm|km|s|h|min|yr|ms|µs)\b/.test(text);
 }
 
 export interface LabelState {
@@ -113,8 +121,8 @@ export class LabelLayer {
     if (!p) {
       const els = set.specs.map((sp) => {
         const el = document.createElement('div');
-        // Small labels are uppercased by CSS; µ would become Μ ("MS"), so units keep their case.
-        el.className = `lbl lbl-${sp.side ?? 'right'} lbl-${sp.size ?? 'md'}${/[µμ]/.test(sp.text) ? ' lbl-keepcase' : ''}`;
+        el.className = `lbl lbl-${sp.side ?? 'right'} lbl-${sp.size ?? 'md'}`;
+        el.classList.toggle('lbl-keepcase', sp.keepCase ?? needsKeepCase(sp.text));
         el.dataset.tone = sp.tone ?? 'plain';
         el.innerHTML = `<span>${sp.text}</span>`;
         el.style.opacity = '0';
@@ -141,6 +149,7 @@ export class LabelLayer {
       if (st.rev !== p.revs[i]) {
         p.revs[i] = st.rev;
         el.innerHTML = `<span>${set.specs[i]!.text}</span>`;
+        el.classList.toggle('lbl-keepcase', set.specs[i]!.keepCase ?? needsKeepCase(set.specs[i]!.text));
       }
       const o = st.opacity * weight;
       el.style.opacity = o > 0.001 ? o.toFixed(3) : '0';

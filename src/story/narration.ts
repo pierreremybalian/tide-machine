@@ -8,6 +8,7 @@ import { supHtml } from '../lib/sup.ts';
 import { readouts } from '../script/index.ts';
 import '../script/all.ts';
 import { HERO_END, captionAt } from './schedule.ts';
+import { $narrationTick, $statusOverride } from './live.ts';
 
 export function initNarration(root: HTMLElement): void {
   const q = <T extends Element>(sel: string) => root.querySelector<T>(sel)!;
@@ -25,6 +26,7 @@ export function initNarration(root: HTMLElement): void {
 
   let current = -1;
   let lastStage = -1;
+  let lastStatus = '';
   let lastDual = '';
   let pending = false;
 
@@ -42,15 +44,20 @@ export function initNarration(root: HTMLElement): void {
       current = idx;
     }
 
+    // A stage may override its chip (the finale: measured or modelled, by place).
+    const st = STAGES[s.index]!;
+    const status = $statusOverride.get()[st.id] ?? st.status;
     if (s.index !== lastStage) {
       const first = lastStage === -1;
       lastStage = s.index;
-      const st = STAGES[s.index]!;
       stageNum.textContent = `${String(s.index + 1).padStart(2, '0')} / ${total}`;
       stageName.textContent = titles[s.index] ?? '';
-      chip.dataset.st = st.status;
-      chipLabel.textContent = STATUS_LABEL[st.status];
-      if (!first) live.textContent = `Stage ${s.index + 1} of ${STAGES.length}: ${titles[s.index] ?? ''}. ${STATUS_LABEL[st.status]}.`;
+      if (!first) live.textContent = `Stage ${s.index + 1} of ${STAGES.length}: ${titles[s.index] ?? ''}. ${STATUS_LABEL[status]}.`;
+    }
+    if (status !== lastStatus) {
+      lastStatus = status;
+      chip.dataset.st = status;
+      chipLabel.textContent = STATUS_LABEL[status];
     }
 
     // Dual clock: rows from the stage script (rebuilt only when the text changes).
@@ -58,6 +65,11 @@ export function initNarration(root: HTMLElement): void {
     const key = rows.map((r) => `${r.tone}|${r.label}|${r.value}`).join('¦');
     if (key !== lastDual) {
       lastDual = key;
+      // Phones stack the dual clock under the stage line; HUD cards sit below whatever height it reaches.
+      requestAnimationFrame(() => {
+        const top = root.querySelector<HTMLElement>('.top');
+        if (top) document.documentElement.style.setProperty('--hud-top', `${Math.ceil(top.getBoundingClientRect().bottom)}px`);
+      });
       dual.innerHTML = rows
         .map((r) => `<dt data-tone="${r.tone}"><i></i>${r.label}</dt><dd data-tone="${r.tone}">${supHtml(r.value)}</dd>`)
         .join('');
@@ -70,5 +82,7 @@ export function initNarration(root: HTMLElement): void {
     }
   };
   $progress.subscribe(schedule);
+  $narrationTick.subscribe(schedule);
+  $statusOverride.subscribe(schedule);
 
 }
