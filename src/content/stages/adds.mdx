@@ -1,13 +1,41 @@
 ---
 id: adds
-title: "A machine that adds"
-kicker: "Kelvin, 1872"
-summary: "William Thomson built a machine to do the sum: one pulley per rhythm, cranked at the right speed, and one wire threading them all. A pen at the end draws the tide."
-beats: []
-howWeKnow: "To be written."
+title: 'A machine that adds'
+kicker: 'Kelvin, 1872'
+summary: 'William Thomson built a machine to do the sum: one pulley per rhythm, each on a crank geared to its own speed, and one wire threading them all. A pen on the end of the wire draws the tide.'
+beats:
+  - local: 0.13
+    text: 'Start with one crank. A pin on a turning disc drives a slotted yoke up and down, and the yoke carries a pulley. Trace the pulley’s height over time and you get a sine wave.'
+  - local: 0.2
+    text: 'How far the pin sits from the center sets the height of the wave: the crank throw is the amplitude. Where the disc starts sets the timing: the crank angle is the phase.'
+  - local: 0.27
+    text: 'Gears turn the disc at one fixed speed. This crank is M2, the Moon’s half-day rhythm, so it turns once every 12 hours 25 minutes. The gear ratio is the speed.'
+  - local: 0.355
+    text: 'Add a second crank for S2, the Sun’s half-day. Then thread a wire: fixed at one end, under one pulley, over the next, up over two guides and down to a pen.'
+  - local: 0.43
+    text: 'When a pulley moves, it takes up or lets out wire on both sides of it, and the pen moves twice as far. With every pulley on the same wire, the pen moves by the sum of them all.'
+  - local: 0.51
+    text: 'M2 and S2 run at slightly different speeds, so they drift in and out of step every 14.8 days. In step, the tides are big (spring tides). Out of step, they are small (neap tides).'
+  - local: 0.6
+    text: 'Thomson’s machine had ten cranks. Here they go in his order from the pen end: M2, S2, N2, K1, O1, K2, L2, P1, M4, MS4. Each pin slides out to San Francisco’s amplitude as it joins.'
+  - local: 0.71
+    text: 'With all ten, the line on the paper is San Francisco’s tide: two highs and two lows a day, one pair much bigger than the other.'
+  - local: 0.83
+    text: 'Thomson designed the machine in 1872. A. Légé & Co. of London built it, and it was shown at the British Association’s meeting in Bradford in 1873. Turned by hand, it drew a year of tides for a port in about four hours.'
+  - local: 0.92
+    text: 'Nothing inside it knows about the Moon. The astronomy is in the gear ratios, the port is in the throws and angles, and the wire does the adding.'
+howWeKnow: 'Thomson described the machine and its ten components in a paper to the Institution of Civil Engineers (1881) and in Thomson and Tait’s Treatise on Natural Philosophy (1879), and the machine itself is in the Science Museum in London. We set our cranks from NOAA’s harmonic constants for San Francisco. With exact speeds the pen reproduces our NOAA-matched prediction to machine precision, and with the gear trains it stays within 0.6 mm over a week (both tested). Two things are ours: no tooth counts survive, so the gear trains are the closest two-stage ratios we could find, and Thomson’s first machine hung each pulley on its crank pin, where we draw the sliding yokes of later machines.'
 sources:
-  - label: "NOAA Tides and Currents"
-    url: "https://tidesandcurrents.noaa.gov/"
+  - label: 'W. Thomson, “The tide gauge, tidal harmonic analyser, and tide predicter,” Minutes of Proceedings of the Institution of Civil Engineers 65 (1881)'
+    url: 'https://archive.org/details/minutesproceedi00secrgoog'
+  - label: 'W. Thomson and P. G. Tait, Treatise on Natural Philosophy, Part I (1879), Appendix B'
+    url: 'https://archive.org/details/treatiseonnatur01darwgoog'
+  - label: 'Science Museum Group, William Thomson’s tide predicting machine, 1872 (object 1876-1129)'
+    url: 'https://collection.sciencemuseumgroup.org.uk/objects/co53901/william-thomsons-tide-predicting-machine-1872'
 ---
 
-To be written.
+By the 1860s Thomson had shown that a port’s tide could be written as a sum of simple waves, each with a speed fixed by astronomy and a height and timing measured at that port. Predicting a year meant adding a dozen sine waves for every hour of it, by hand. In 1872, following a suggestion from the engineer Beauchamp Tower to use a chain over pulleys, he designed a machine to do the adding.
+
+Each wave gets a crank. The crank turns at the wave’s speed through gears from a shaft the operator turns by hand, its pin is clamped at a distance from the center proportional to the wave’s height, and its starting angle is set from the wave’s timing at that port and the position of the Moon and Sun on the first day. The pin moves a pulley up and down. A single wire runs under and over all the pulleys, so its free end, with a pen on it, rises and falls by the sum of their motions and draws the tide on a moving sheet of paper.
+
+The first machine summed ten waves and was built by A. Légé & Co. for the British Association. Thomson reported that it could produce a year of tides for a port in about four hours. Machines on the same principle with more cranks followed, first for the India Office, and tide tables around the world were made this way until electronic computers took over in the 1960s.
