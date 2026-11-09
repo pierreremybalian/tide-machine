@@ -86,5 +86,48 @@ const analytics = import.meta.env.PROD && !noindex;
   <body class="min-h-svh bg-void text-fog antialiased">
     <a href="#story" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded focus:bg-panel focus:px-3 focus:py-2 focus:text-paper">Skip to the story</a>
     <slot />
+    {!noindex && <a class="hire" href="https://balian.dev/contact/" target="_blank" rel="noopener">Hire Me</a>}
   </body>
 </html>
+
+<style>
+  /* Corner link to balian.dev, styled like the finale's chips. Above the story layers and the finale (z 5–16);
+     the finale's place card and the phone captions leave room for it. Hidden in ?clean captures and print. */
+  .hire {
+    position: fixed;
+    right: max(14px, env(safe-area-inset-right));
+    bottom: max(14px, env(safe-area-inset-bottom));
+    z-index: 20;
+    padding: 0.3rem 0.7rem;
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    line-height: 1.2;
+    color: var(--color-fog);
+    text-decoration: none;
+    background: rgb(6 8 16 / 0.6);
+    border: 1px solid var(--color-line-strong);
+    border-radius: 999px;
+    backdrop-filter: blur(10px);
+    transition:
+      color 0.2s ease,
+      border-color 0.2s ease,
+      background-color 0.2s ease;
+  }
+  .hire:hover {
+    color: var(--color-paper);
+    border-color: rgb(255 217 160 / 0.7);
+    background: rgb(255 217 160 / 0.1);
+  }
+  .hire:focus-visible {
+    outline: 2px solid var(--color-signal);
+    outline-offset: 3px;
+  }
+  :global(html.clean) .hire {
+    display: none;
+  }
+  @media print {
+    .hire {
+      display: none;
+    }
+  }
+</style>

@@ -362,7 +362,8 @@ const pad = (n: number) => String(n).padStart(2, '0');
     }
     .caps {
       left: 1rem;
-      bottom: max(2rem, env(safe-area-inset-bottom));
+      /* Clear of the Hire Me corner link (Base.astro). */
+      bottom: max(2.75rem, calc(env(safe-area-inset-bottom) + 2rem));
       width: calc(100vw - 2rem);
     }
     .intro h2 {

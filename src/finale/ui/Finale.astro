@@ -307,7 +307,8 @@
     position: absolute;
     right: max(1.25rem, 3vw);
     top: 5.2rem;
-    bottom: 1rem;
+    /* Clear of the Hire Me corner link (Base.astro). */
+    bottom: max(3rem, calc(env(safe-area-inset-bottom) + 2.25rem));
     width: 23rem;
     display: flex;
     flex-direction: column;
@@ -600,6 +601,15 @@
       bottom: 0;
       width: auto;
       max-height: 54svh;
+    }
+    /* The sheet's footer: the Hire Me corner link (Base.astro) sits here, below the scrolling content. */
+    .card::after {
+      content: '';
+      flex: none;
+      height: calc(max(14px, env(safe-area-inset-bottom)) + 2.35rem);
+      border-top: 1px solid var(--color-line);
+      background: rgb(6 8 16 / 0.72);
+      backdrop-filter: blur(12px);
     }
     .sheet.top {
       border-radius: 1rem 1rem 0 0;
