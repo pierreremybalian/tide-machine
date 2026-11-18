@@ -65,6 +65,9 @@ export class LabelSet {
   /** Project world point (x, y, z) with `camera` into label i. Hidden when behind the camera or off panel. */
   place(i: number, x: number, y: number, z: number, camera: Camera, opacity = 1, panel: Panel = FULL_PANEL): void {
     const st = this.state[i]!;
+    // Scenes pose the camera in update(), but three only refreshes its matrices at render. Without this the label is
+    // projected with last frame's camera and trails the canvas by a frame whenever the camera moves.
+    camera.updateWorldMatrix(true, false);
     const v = this.v.set(x, y, z).project(camera);
     if (v.z > 1 || v.z < -1 || Math.abs(v.x) > 1.15 || Math.abs(v.y) > 1.15) {
       st.opacity = 0;
