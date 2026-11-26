@@ -14,4 +14,4 @@ Scroll-driven 3D explanation of how tides work and how Kelvin's tide-predicting 
 - Scenes are isolated (`src/scenes/<id>/`, auto-registered), share only `src/shared/`. Typed `params` at the top; dispose everything. No allocation in the frame loop.
 - TSL: with `positionNode` set, use `attribute('position')` (not `positionLocal`) in fragment-side math; max 8 vertex buffers per pipeline.
 - Text never goes in the canvas: `LabelSet` or HUD cards.
-- Public repo hygiene: author `Pierre Balian <967646+pierreremybalian@users.noreply.github.com>`; Cloudflare account ID only in the gitignored `.env`.
+- Public repo hygiene: author `Pierre Balian <pierre@baliandesign.com>` (the global git identity, which is the GitHub account email; never set a noreply address); Cloudflare account ID only in the gitignored `.env`.
